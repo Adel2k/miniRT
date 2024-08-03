@@ -6,7 +6,7 @@
 /*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/03 13:10:48 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/03 18:02:59 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,9 @@
 # include "../include/get_next_line.h"
 
 size_t	ft_strlen(const char *str);
+int		validation(int ac, char **av);
+int		malloc_check(char *s);
+int		err(char *str);
+
 
 #endif

@@ -14,6 +14,9 @@ OBJS_DIR = objects/
 SRCS_NAME = minirt.c \
 			get_next_line.c \
 			get_next_line_utils.c \
+			validation.c \
+			utils.c \
+			
 
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)

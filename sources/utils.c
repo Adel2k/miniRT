@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/02 20:07:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/03 13:28:05 by aeminian         ###   ########.fr       */
+/*   Created: 2024/08/03 13:30:00 by aeminian          #+#    #+#             */
+/*   Updated: 2024/08/03 13:45:04 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
 
-int main(int ac, char **av)
+int	err(char *str)
 {
-	if (!(validation(ac, av)))
-	{
-		
-	}
+	while (*str)
+		write(2, str++, 1);
+	write(2, "\n", 1);
+	return (1);
+}
+
+int	malloc_check(char *s)
+{
+	if (!s)
+		return(err("Malloc error!"));
+	return (0);
 }
