@@ -6,7 +6,7 @@
 /*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 20:07:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/02 20:41:21 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/03 12:56:49 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,5 @@ int main(int ac, char **av)
 {
 	if (ac > 1)
 		printf("%s\n", av[1]);
+		// Karai che vari tai,bayc chem ta;
 }

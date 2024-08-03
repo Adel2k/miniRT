@@ -6,7 +6,7 @@
 /*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 12:26:55 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/02 20:49:23 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/03 12:59:37 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,16 @@ int	found_new_line(char *line)
 		return (1);
 	else
 		return (0);
+}
+
+size_t	ft_strlen(const char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str || *str)
+		return (0);
+	while (str[i])
+		i++;
+	return (i);
 }
