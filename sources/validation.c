@@ -19,16 +19,16 @@ char	*get_line(char *av)
 	char	*res;
 	char	*temp;
 	char	*trim_res;
+
 	fd = open(av, O_RDONLY);
 	if (fd < 0)
-		exit(err("Error: cannot open file"));
+		exit(err("Error: cannot open the file"));
 	res = NULL;
 	temp = ft_strdup("");
 	gnl = get_next_line(fd);
 	while (gnl)
 	{
 		res = ft_strjoin(temp, gnl);
-		// printf("stacvav=%s\n", res);
 		free(temp);
 		temp = res;
 		free(gnl);
@@ -36,26 +36,43 @@ char	*get_line(char *av)
 		if (!gnl)
 			break ;
 	}
-	printf("aaaaaa=%s\n",res);
 	trim_res = ft_strtrim(res, " \n\v\f\r\t");
 	free(res);
-	// printf("hesaaaaaa=%s\n",trim_res);
 	return (trim_res);
+}
+
+int	is_rt(char *str)
+{
+	size_t	len;
+
+	if (!str || !*str)
+		return (1);
+	len = ft_strlen(str) - 1;
+	if (len > 3)
+	{
+		if (str[len--] != 't')
+			return (1);
+		if (str[len--] != 'r')
+			return (1);
+		if (str[len--] != '.')
+			return (1);
+		return (0);
+	}
+	return (1);
 }
 
 int	validation(int ac, char **av)
 {
-	int		i;
 	char	*read_line;
+
 	if (ac > 2)
-		return (err("Too much arguments!"));
+		return (err("Error: Too much arguments!"));
 	if (ac <= 1)
-		return (err("Too few arguments!"));
-	i = 0;
+		return (err("Error: Few arguments! Enter the '.rt' file name"));
 	if (ac == 2)
 	{
-		if (!strstr(av[1],".rt"))
-			return(err("Wrong argument: Try this way: ./rt filename.rt"));
+		if (is_rt(av[1]))
+			return(err("Error: Wrong argument: Try this way: ./rt filename.rt"));
 		read_line = get_line(av[1]);
 		printf("hesa=%s\n",read_line);
 	}

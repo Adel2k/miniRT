@@ -20,7 +20,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <math.h>
-# include <../include/mlx.h>
+# include "../include/mlx.h"
 # include "../include/get_next_line.h"
 
 size_t	ft_strlen(const char *str);
@@ -32,4 +32,5 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strtrim(char *s1, char *set);
 char	*ft_strchr(const char *str, int c);
+int		is_rt(char *str);
 #endif
