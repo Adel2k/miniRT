@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/03 21:49:28 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/04 16:20:31 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <math.h>
-# include <../include/mlx.h>
+# include "../include/mlx.h"
 # include "../include/get_next_line.h"
 
 ///////
@@ -111,4 +111,5 @@ char	*ft_strchr(const char *str, int c);
 void    exit_and_free_str(char *str_free, char *str_err);
 char	**split(char const *s, char c);
 
+int		is_rt(char *str);
 #endif

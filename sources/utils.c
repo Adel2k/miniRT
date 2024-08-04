@@ -27,8 +27,6 @@ int	malloc_check(char *s)
 	return (0);
 }
 
-
-
 int	check1(char c, char const *set)
 {
 	while (*set != '\0')
@@ -39,7 +37,6 @@ int	check1(char c, char const *set)
 	}
 	return (0);
 }
-
 
 char	*ft_strtrim(char *s1, char *set)
 {
@@ -55,7 +52,6 @@ char	*ft_strtrim(char *s1, char *set)
 	j = 0;
 	while (s1[start] != '\0' && check1(s1[start], set) == 1)
 		start++;
-	// `
 	while (check1(s1[end - 1], set) == 1 && end >= start)
 		end--;
 	arr = malloc(sizeof(char) * (end - start + 1));

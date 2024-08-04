@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:15:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/03 21:54:11 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/04 16:14:54 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,13 @@ char	*get_line(char *av)
 
 	fd = open(av, O_RDONLY);
 	if (fd < 0)
-		exit(err("Error: cannot open file"));
+		exit(err("Error: cannot open the file"));
 	res = NULL;
 	temp = ft_strdup("");
 	gnl = get_next_line(fd);
 	while (gnl)
 	{
 		res = ft_strjoin(temp, gnl);
-		// printf("stacvav=%s\n", res);
 		free(temp);
 		temp = res;
 		free(gnl);
@@ -81,21 +80,38 @@ char **get_end_trim_map(char **map)
 	trim_map[i] = NULL;
 }
 
+int	is_rt(char *str)
+{
+	size_t	len;
+
+	if (!str || !*str)
+		return (1);
+	len = ft_strlen(str) - 1;
+	if (len > 3)
+	{
+		if (str[len--] != 't')
+			return (1);
+		if (str[len--] != 'r')
+			return (1);
+		if (str[len--] != '.')
+			return (1);
+		return (0);
+	}
+	return (1);
+}
 
 int	validation(int ac, char **av)
 {
-	int		i;
 	char	*read_line;
 	char	**map;
 	if (ac > 2)
-		return (err("Too much arguments!"));
+		return (err("Error: Too much arguments!"));
 	if (ac <= 1)
-		return (err("Too few arguments!"));
-	i = 0;
+		return (err("Error: Few arguments! Enter the '.rt' file name"));
 	if (ac == 2)
 	{
-		if (!strstr(av[1],".rt"))
-			return(err("Wrong argument: Try this way: ./rt filename.rt"));
+		if (is_rt(av[1]))
+			return(err("Error: Wrong argument: Try this way: ./rt filename.rt"));
 		read_line = get_line(av[1]);
 		map = spliting(read_line);
 		printf("hesa=%s\n",read_line);

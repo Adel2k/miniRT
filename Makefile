@@ -3,7 +3,8 @@ NAME = miniRT
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -I mlx #-g3 -fsanitize=address
-LDFLAGS = -lmlx -framework OpenGL -framework AppKit
+# MLXFLAGS = -lmlx -framework OpenGL -framework AppKit
+MLXFLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
 
 HEADERS = include/get_next_line.h include/minirt.h include/mlx.h
 
@@ -25,7 +26,7 @@ OBJS_NAME = $(SRCS_NAME:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+	$(CC) $(CFLAGS) $^ -o $@ $(MLXFLAGS)
 
 $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(HEADERS) Makefile
 	@mkdir -p $(OBJS_DIR)
