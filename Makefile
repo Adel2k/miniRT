@@ -16,6 +16,7 @@ SRCS_NAME = minirt.c \
 			get_next_line_utils.c \
 			validation.c \
 			utils.c \
+			error.c
 			
 
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
