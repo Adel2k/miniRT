@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 20:58:25 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/03 20:58:49 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:17:39 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
-
-int	ft_strlen(const char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
 
 int	foo_sum_tar(char const *s, char c)
 {
@@ -67,7 +55,7 @@ int	check2(char **arr, const char *s, char c, int count)
 			free(arr);
 			return (1);
 		}
-		my_strncpy(arr[i], s, len_word);
+		ft_strncpy(arr[i], s, len_word);
 		arr[i][len_word] = '\0';
 		s += (len_word + 1);
 		i++;

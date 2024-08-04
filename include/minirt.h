@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/04 16:20:31 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:21:33 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,13 @@ int		validation(int ac, char **av);
 int		malloc_check(char *s);
 int		err(char *str);
 char	*ft_strdup(char *s);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
+int		check1(char c, char const *set);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strtrim(char *s1, char *set);
 char	*ft_strchr(const char *str, int c);
-void    exit_and_free_str(char *str_free, char *str_err);
+void	exit_and_free_str(char *str_free, char *str_err);
 char	**split(char const *s, char c);
-
+void	exit_and_free_matrix(char **map, char *str_err);
 int		is_rt(char *str);
+char	*strtrim_end(char *str);
 #endif
