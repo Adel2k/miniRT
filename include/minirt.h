@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/05 21:11:27 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/05 22:34:28 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,5 +151,7 @@ int	ft_strlen(const char *str);
 
 int if_only_digit(char *line);
 void	parse_camera(char **matrix, t_minirt *rt);
-
+int	have_this_char_in_set(char c, char *set);
+int if_line_contain_only_digit_and_str(char *line, char *set);
+int if_line_contain_only_digit_and_char(char *line, char c);
 #endif
