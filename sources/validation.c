@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:15:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/05 14:52:31 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/05 19:53:28 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*get_line(char *av)
 	return (res);
 }
 
-char **get_end_trim_map(char **map)
+char **get_end_trim_map(char **map, t_minirt *rt)
 {
 	int		i;
 	int		row;
@@ -49,36 +49,36 @@ char **get_end_trim_map(char **map)
 		row++;
 	trim_map = malloc(sizeof(char *) * (row + 1));
 	if (!trim_map)
-		exit_and_free_matrix(map, "cannot do split");
+		exit_and_free_matrix(map, "cannot do split", rt);
 	i = 0;
 	while (map[i])
 	{
 		trim_map[i] =  ft_strtrim(map[i], " \n\v\f\r\t");
 		if(!trim_map[i])
-			exit_and_free_matrix(map, "cannot do split");
+			exit_and_free_matrix(map, "cannot do split", rt);
 		i++;
 	}
 	trim_map[i] = NULL;
 	return(trim_map);
 }
 
-char **spliting(char *read_line)
+char **spliting(char *read_line, t_minirt *rt)
 {
 	char	**map;
 	char	*trim_line;
 
 	trim_line = ft_strtrim(read_line, " \n\v\f\r\t");
 	if (!trim_line)
-		exit_and_free_str(read_line, "cannot do trim");
+		exit_and_free_str(read_line, "cannot do trim", rt);
 	free(read_line);
-	map = split(trim_line, '\n');
+	map = split_char(trim_line, '\n');
 	if (!map)
-		exit_and_free_str(trim_line, "malloc error");
+		exit_and_free_str(trim_line, "malloc error", rt);
 	free(trim_line);
-	return (get_end_trim_map(map));
+	return (get_end_trim_map(map, rt));
 }
 
-int	validation(int ac, char **av)
+int	validation(int ac, char **av, t_minirt *rt)
 {
 	char	*read_line;
 	char	**map;
@@ -92,8 +92,8 @@ int	validation(int ac, char **av)
 		if (is_rt(av[1]))
 			return(err("Error: Wrong argument: Try this way: ./rt filename.rt"));
 		read_line = get_line(av[1]);
-		map = spliting(read_line);
-		parsing(map);
+		map = spliting(read_line, rt);
+		parsing(map, rt);
 		int i = 0;
 		while (**map && map[i])
 		{

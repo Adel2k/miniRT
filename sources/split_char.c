@@ -1,45 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split.c                                            :+:      :+:    :+:   */
+/*   split_char.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/03 20:58:25 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/05 17:52:41 by vbarsegh         ###   ########.fr       */
+/*   Created: 2024/08/05 17:26:30 by vbarsegh          #+#    #+#             */
+/*   Updated: 2024/08/05 18:43:48 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
 
-char	*my_strncpy(char *dest, const char *src, unsigned int n)
+int	ft_strlen(const char *str)
 {
-	unsigned int	i;
+	int	i;
 
 	i = 0;
-	while (i < n && src[i] != '\0')
-	{
-		dest[i] = src[i];
+	if (!str)
+		return (0);
+	while (str[i] != '\0')
 		i++;
-	}
-	while (i < n)
-	{
-		dest[i] = '\0';
-		i++;
-	}
-	return (dest);
+	return (i);
 }
 
-int	foo_sum_tar(char const *s)
+int	foo_sum_tar_(char const *s, char c)
 {
 	int	sum_tar;
+	int	sum_space;
 
 	sum_tar = 0;
-	while (is_white_space(*s))
+	sum_space = 0;
+	while (*s == c)
 		s++;
 	while (*s != '\0')
 	{
-		if (is_white_space(*s))
+		if (*s == c)
 		{
 			return (sum_tar);
 		}
@@ -52,7 +48,7 @@ int	foo_sum_tar(char const *s)
 	return (sum_tar);
 }
 
-int	check_00(char **arr, const char *s, int count)
+int	check2(char **arr, const char *s, char c, int count)
 {
 	int	i;
 	int	len_word;
@@ -60,9 +56,9 @@ int	check_00(char **arr, const char *s, int count)
 	i = 0;
 	while (i < count)
 	{
-		while (is_white_space(*s))
+		while (*s == c)
 			s++;
-		len_word = foo_sum_tar(s);
+		len_word = foo_sum_tar_(s, c);
 		arr[i] = malloc(sizeof(char) * (len_word + 1));
 		if (!arr[i])
 		{
@@ -71,7 +67,7 @@ int	check_00(char **arr, const char *s, int count)
 			free(arr);
 			return (1);
 		}
-		my_strncpy(arr[i], s, len_word);
+		ft_strncpy(arr[i], s, len_word);
 		arr[i][len_word] = '\0';
 		s += (len_word + 1);
 		i++;
@@ -79,7 +75,7 @@ int	check_00(char **arr, const char *s, int count)
 	return (0);
 }
 
-int	func_count_word(const char *s)
+int	func_count_word_(const char *s, char c)
 {
 	int	i;
 	int	count;
@@ -89,12 +85,12 @@ int	func_count_word(const char *s)
 	count = 0;
 	while (s[i] != '\0')
 	{
-		while (is_white_space(s[i]) && s[i] != '\0')
+		while (s[i] == c && s[i] != '\0')
 		{
 			i++;
 			ban = 0;
 		}
-		while (!is_white_space(s[i]) && s[i] != '\0')
+		while (s[i] != c && s[i] != '\0')
 		{
 			i++;
 			ban = 1;
@@ -105,19 +101,19 @@ int	func_count_word(const char *s)
 	return (count);
 }
 
-char	**split(char const *s)
+char	**split_char(char const *s, char c)
 {
 	int		count_word;
 	char	**arr;
 
 	if (s == NULL)
 		return (NULL);
-	count_word = func_count_word(s);
+	count_word = func_count_word_(s, c);
 	arr = malloc(sizeof(char *) * (count_word + 1));
 	if (!arr)
 		return (NULL);
 	arr[count_word] = NULL;
-	if (check_00(arr, s, count_word))
+	if (check2(arr, s, c, count_word))
 		return (NULL);
 	return (arr);
 }

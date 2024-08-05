@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:46:38 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/05 17:55:51 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/05 18:44:00 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ double	ft_atof(const char *str)
 	return (sign * num);
 }
 
-int main ()
-{
-	printf("%f\n", ft_atof("5.j8"));
-}
+// int main ()
+// {
+// 	printf("%f\n", ft_atof("5.j8"));
+// }
