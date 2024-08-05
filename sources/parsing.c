@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/05 21:10:51 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:21:06 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	found_what_scene_is_it(char **matrix, t_minirt *rt)
 		printf(":%d\n", rt->color.green);
 		printf(":%d\n", rt->color.blue);
 	}
-	if (!ft_strcmp(matrix[0], "C"))
+	else if (!ft_strcmp(matrix[0], "C"))
 		parse_camera(matrix, rt);
 	if (!ft_strcmp(matrix[0], "L"))
 	return ;
@@ -54,31 +54,32 @@ void	parse_camera(char **matrix, t_minirt *rt)
 {
 	char	**split_2_line;
 
-	if (matrix_row(matrix) != 4)
-		exit_and_free_matrix(matrix, "Error: bad arguments for ambient", rt);
 	
-
+	if (matrix_row(matrix) != 4)
+		exit_and_free_matrix(matrix, "Error: bad arguments for camera", rt);
+	
+	printf("aa%d\n",matrix_row(matrix) );
 //
 	if (if_line_contain_only_digit_and_char(matrix[1], ',') == -1)
-		exit_and_free_matrix(matrix,"Error: bad arguments for ambient", rt);
+		exit_and_free_matrix(matrix,"Error: bad arguments for camera", rt);
 	split_2_line = split_char(matrix[1], ',');
 	if (!split_2_line)
 		exit_and_free_matrix(matrix, "Error: malloc" ,rt);
 	if (matrix_row(split_2_line) != 3)
-		exit_and_free(matrix, "Error: bad arguments for ambient", rt, split_2_line);
+		exit_and_free(matrix, "Error: bad arguments for camera", rt, split_2_line);
 	rt->camera.coordinates.x = ft_atoi(split_2_line[0]);
 	rt->camera.coordinates.y = ft_atoi(split_2_line[1]);
 	rt->camera.coordinates.z = ft_atoi(split_2_line[2]);
 //
-	free_matrix(split_2_line);
+	// free_matrix(split_2_line);
 //
 	if (if_line_contain_only_digit_and_char(matrix[2], ',') == -1)
-		exit_and_free_matrix(matrix,"Error: bad arguments for ambient", rt);
+		exit_and_free_matrix(matrix,"Error: bad arguments for camera", rt);
 	split_2_line = split_char(matrix[2], ',');
 	if (!split_2_line)
 		exit_and_free_matrix(matrix, "Error: malloc" ,rt);
 	if (matrix_row(split_2_line) != 3)
-		exit_and_free(matrix, "Error: bad arguments for ambient", rt, split_2_line);
+		exit_and_free(matrix, "Error: bad arguments for camera", rt, split_2_line);
 	rt->camera.orient.x = ft_atof(split_2_line[0]);
 	rt->camera.orient.y = ft_atof(split_2_line[1]);
 	rt->camera.orient.z = ft_atof(split_2_line[2]);
@@ -90,7 +91,7 @@ void	parse_camera(char **matrix, t_minirt *rt)
 	free_matrix(split_2_line);//erevi
 //	
 	if (if_only_digit(matrix[3]) == -1)
-		exit_and_free_matrix(matrix,"Error: bad arguments for ambient", rt);
+		exit_and_free_matrix(matrix,"Error: bad arguments for camera", rt);
 	rt->camera.fov = ft_atoi(split_2_line[0]);
 	if (!(rt->color.red >= 0 && rt->color.red <= 180))
 		exit_and_free(matrix, "Error: bad value", rt, split_2_line);
