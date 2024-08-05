@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/05 19:57:22 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:11:27 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_camera
 {
 	t_vector    coordinates;
     int			fov;//size_t
-	// t_vector	orient;//3d normalized orientation vector. In range [-1,1] for each x,y,z axis:0.0,0.0,1.0
+	t_vector	orient;//3d normalized orientation vector. In range [-1,1] for each x,y,z axis:0.0,0.0,1.0
 }	t_camera;
 /// //////
 
@@ -149,7 +149,7 @@ double	ft_atof(const char *str);
 
 int	ft_strlen(const char *str);
 
-
-
+int if_only_digit(char *line);
+void	parse_camera(char **matrix, t_minirt *rt);
 
 #endif

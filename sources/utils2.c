@@ -6,7 +6,7 @@
 /*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:46:38 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/05 20:14:15 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/05 21:15:00 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,3 +73,8 @@ double	ft_atof(const char *str)
 	}
 	return (sign * num);
 }
+
+// int main ()
+// {
+// 	printf("%f\n", ft_atof("5.j8"));
+// }
