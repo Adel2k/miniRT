@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:15:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/04 17:57:43 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/05 14:52:31 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char **get_end_trim_map(char **map)
 	i = 0;
 	while (map[i])
 	{
-		trim_map[i] =  strtrim_end(map[i]);
+		trim_map[i] =  ft_strtrim(map[i], " \n\v\f\r\t");
 		if(!trim_map[i])
 			exit_and_free_matrix(map, "cannot do split");
 		i++;
@@ -68,8 +68,8 @@ char **spliting(char *read_line)
 	char	*trim_line;
 
 	trim_line = ft_strtrim(read_line, " \n\v\f\r\t");
-	// if (!trim_line)
-	// 	exit_and_free_str(read_line, "cannot do trim"); //demic exit_and_free a exel
+	if (!trim_line)
+		exit_and_free_str(read_line, "cannot do trim");
 	free(read_line);
 	map = split(trim_line, '\n');
 	if (!map)
@@ -78,6 +78,31 @@ char **spliting(char *read_line)
 	return (get_end_trim_map(map));
 }
 
+int	validation(int ac, char **av)
+{
+	char	*read_line;
+	char	**map;
+
+	if (ac > 2)
+		return (err("Error: Too much arguments!"));
+	if (ac <= 1)
+		return (err("Error: Few arguments! Enter the '.rt' file name"));
+	if (ac == 2)
+	{
+		if (is_rt(av[1]))
+			return(err("Error: Wrong argument: Try this way: ./rt filename.rt"));
+		read_line = get_line(av[1]);
+		map = spliting(read_line);
+		parsing(map);
+		int i = 0;
+		while (**map && map[i])
+		{
+			printf("%s\n", map[i]);
+			i++;
+		}
+	}
+	return (0);
+}
 
 int	is_rt(char *str)
 {
@@ -97,28 +122,4 @@ int	is_rt(char *str)
 		return (0);
 	}
 	return (1);
-}
-
-int	validation(int ac, char **av)
-{
-	char	*read_line;
-	char	**map;
-	if (ac > 2)
-		return (err("Error: Too much arguments!"));
-	if (ac <= 1)
-		return (err("Error: Few arguments! Enter the '.rt' file name"));
-	if (ac == 2)
-	{
-		if (is_rt(av[1]))
-			return(err("Error: Wrong argument: Try this way: ./rt filename.rt"));
-		read_line = get_line(av[1]);
-		map = spliting(read_line);
-		int i = 0;
-		while (**map && map[i])
-		{
-			printf("hesa=%s\n", map[i]);
-			i++;
-		}
-	}
-	return (0);
 }

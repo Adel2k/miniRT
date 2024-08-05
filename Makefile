@@ -3,8 +3,8 @@ NAME = miniRT
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -I mlx -g3 -fsanitize=address
-# MLXFLAGS = -lmlx -framework OpenGL -framework AppKit
-MLXFLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
+MLXFLAGS = -lmlx -framework OpenGL -framework AppKit
+# MLXFLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
 
 HEADERS = include/get_next_line.h include/minirt.h include/mlx.h
 
