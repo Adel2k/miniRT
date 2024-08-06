@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:46:38 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/05 22:36:05 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/06 20:54:26 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,4 +167,26 @@ int if_only_digit(char *line)
 			return (-1);
 	}
 	return (1);
+}
+
+char	*ft_strstr_alt(char *str, char *to_find)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	if (*to_find == '\0')
+		return (str);
+	while (str[i] != '\0')
+	{
+		j = 0;
+		while (to_find[j] != '\0' && str[i + j] == to_find[j])
+		{
+			if (to_find[j + 1] == 0)
+				return (&str[i]);
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }

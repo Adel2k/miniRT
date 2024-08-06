@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 17:26:30 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/05 18:43:48 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/06 19:53:53 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	check2(char **arr, const char *s, char c, int count)
 			free(arr);
 			return (1);
 		}
+		if (len_word == 0)
+			exit(err("error"));
 		ft_strncpy(arr[i], s, len_word);
 		arr[i][len_word] = '\0';
 		s += (len_word + 1);

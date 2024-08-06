@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/06 18:46:16 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/06 20:01:20 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void	init_color(t_color *color, char **matrix, t_minirt *rt, int i);
 void	init_orient(t_vector *orient, char **matrix, t_minirt *rt, int i);
 void	parse_light(char **matrix, t_minirt *rt);
 void	parse_sphere(char **matrix, t_minirt *rt);
-
+char	*ft_strstr_alt(char *str, char *to_find);
 void	parse_cylinder(char **matrix, t_minirt *rt);
 void	parse_plane(char **matrix, t_minirt *rt);
 

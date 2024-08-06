@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/06 19:18:12 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/06 20:58:52 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,16 @@ void	found_what_scene_is_it(char **matrix, t_minirt *rt)
 
 void	parse_cylinder(char **matrix, t_minirt *rt)
 {
+	int	i;
+
+	i = 0;
 	if (matrix_row(matrix) != 6)
 		exit_and_free_matrix(matrix, "Error: bad arguments for cylinder", rt);
+	while (matrix[++i])
+	{
+		if ((ft_strstr_alt(matrix[i], ",,")))
+			exit_and_free_matrix(matrix,"Error: bad arguments", rt);
+	}
 	init_coords(&rt->objects.cylinder.coords, matrix, rt, 1);
 
 	init_orient(&rt->objects.cylinder.orient, matrix, rt, 2);
@@ -102,8 +110,16 @@ void	parse_cylinder(char **matrix, t_minirt *rt)
 
 void	parse_plane(char **matrix, t_minirt *rt)
 {
+	int	i;
+
+	i = 0;
 	if (matrix_row(matrix) != 4)
 		exit_and_free_matrix(matrix, "Error: bad arguments for plane", rt);
+	while (matrix[++i])
+	{
+		if ((ft_strstr_alt(matrix[i], ",,")))
+			exit_and_free_matrix(matrix,"Error: bad arguments", rt);
+	}
 	init_coords(&rt->objects.plane.coords, matrix, rt, 1);
 
 	init_orient(&rt->objects.plane.orient, matrix, rt, 2);
@@ -113,8 +129,16 @@ void	parse_plane(char **matrix, t_minirt *rt)
 
 void	parse_sphere(char **matrix, t_minirt *rt)
 {
+	int	i;
+
+	i = 0;
 	if (matrix_row(matrix) != 4)
 		exit_and_free_matrix(matrix, "Error: bad arguments for sphere", rt);
+	while (matrix[++i])
+	{
+		if ((ft_strstr_alt(matrix[i], ",,")))
+			exit_and_free_matrix(matrix,"Error: bad arguments", rt);
+	}
 	init_coords(&rt->objects.sphere.coords, matrix, rt, 1);
 
 	if (if_line_contain_only_digit_and_char(matrix[2], '.') == -1)
@@ -126,8 +150,16 @@ void	parse_sphere(char **matrix, t_minirt *rt)
 
 void	parse_light(char **matrix, t_minirt *rt)
 {
+	int	i;
+
+	i = 0;
 	if (matrix_row(matrix) != 4)
 		exit_and_free_matrix(matrix, "Error: bad arguments for light coordinates", rt);
+	while (matrix[++i])
+	{
+		if ((ft_strstr_alt(matrix[i], ",,")))
+			exit_and_free_matrix(matrix,"Error: bad arguments", rt);
+	}
 	init_coords(&rt->light.coords, matrix, rt, 1);
 
 	if (if_line_contain_only_digit_and_char(matrix[2], '.') == -1)
@@ -142,9 +174,19 @@ void	parse_light(char **matrix, t_minirt *rt)
 void	parse_camera(char **matrix, t_minirt *rt)
 {
 	char	**split_2_line = NULL;
+	int		i;
+
+	i = 0;
 
 	if (matrix_row(matrix) != 4)
 		exit_and_free_matrix(matrix, "Error: bad arguments for camera", rt);
+	while (matrix[++i])
+	{
+		if ((ft_strstr_alt(matrix[i], ",,")))
+			exit_and_free_matrix(matrix,"Error: bad arguments", rt);
+	}
+	
+	
 //
 	init_coords(&rt->camera.coords ,matrix, rt, 1);
 	// if (if_line_contain_only_digit_and_str(matrix[1], ".,") == -1)
@@ -196,9 +238,9 @@ void	parse_ambient(char **matrix, t_minirt *rt)
 	// char	**split_2_line=NULL;
 
 	if (matrix_row(matrix) != 3)
-		exit_and_free_matrix(matrix, "Error: bad arguments for ambient", rt);
+		exit_and_free_matrix(matrix, "Error: bad arguments for ambient3", rt);
 	if (if_line_contain_only_digit_and_char(matrix[1], '.') == -1)
-		exit_and_free_matrix(matrix, "Error: bad arguments for ambient", rt);
+		exit_and_free_matrix(matrix, "Error: bad arguments for ambient4", rt);
 	if (ft_atof(matrix[1]) >= 0.0 && ft_atof(matrix[1]) <= 1.0)
 		rt->ambient.ratio_lighting = ft_atof(matrix[1]);
 
