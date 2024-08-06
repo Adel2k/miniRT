@@ -20,7 +20,7 @@ SRCS_NAME = minirt.c \
 			error.c \
 			split.c split_char.c\
 			trim.c free.c\
-			parsing.c \
+			parsing.c init_func.c\
 			
 
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))

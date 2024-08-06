@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 20:07:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/05 19:16:12 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:49:49 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ int main(int ac, char **av)
 		return (1);
 	if (!(validation(ac, av, rt)))
 	{
+		// system("leaks miniRT");
+
 		return 0;
 	}
-	return 1;
 	// system("leaks miniRT");
+	return 1;
 }

@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/05 22:34:28 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:46:16 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_vector
 
 typedef struct s_camera
 {
-	t_vector    coordinates;
+	t_vector    coords;
     int			fov;//size_t
 	t_vector	orient;//3d normalized orientation vector. In range [-1,1] for each x,y,z axis:0.0,0.0,1.0
 }	t_camera;
@@ -154,4 +154,15 @@ void	parse_camera(char **matrix, t_minirt *rt);
 int	have_this_char_in_set(char c, char *set);
 int if_line_contain_only_digit_and_str(char *line, char *set);
 int if_line_contain_only_digit_and_char(char *line, char c);
+
+void	init_coords(t_vector *coords, char **matrix, t_minirt *rt, int i);
+void	init_color(t_color *color, char **matrix, t_minirt *rt, int i);
+void	init_orient(t_vector *orient, char **matrix, t_minirt *rt, int i);
+void	parse_light(char **matrix, t_minirt *rt);
+void	parse_sphere(char **matrix, t_minirt *rt);
+
+void	parse_cylinder(char **matrix, t_minirt *rt);
+void	parse_plane(char **matrix, t_minirt *rt);
+
+
 #endif

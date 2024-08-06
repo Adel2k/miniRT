@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:15:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/05 19:53:28 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:11:54 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int	validation(int ac, char **av, t_minirt *rt)
 			printf("%s\n", map[i]);
 			i++;
 		}
+	free_matrix(map);//////
 	}
 	return (0);
 }
