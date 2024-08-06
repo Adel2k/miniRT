@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/06 20:58:52 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/06 22:07:15 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	found_what_scene_is_it(char **matrix, t_minirt *rt)
 	{
 		parse_sphere(matrix, rt);
 		printf("sphere=%f\n", rt->objects.sphere.coords.x);
-		printf("sphere=%f\n", rt->objects.sphere.coords.x);
-		printf("sphere=%f\n", rt->objects.sphere.coords.x);
+		printf("sphere=%f\n", rt->objects.sphere.coords.y);
+		printf("sphere=%f\n", rt->objects.sphere.coords.z);
 		printf("sphere=%f\n", rt->objects.sphere.diameter);
 		printf("sphere=%d\n", rt->objects.sphere.color.red);
 		printf("sphere=%d\n", rt->objects.sphere.color.green);
@@ -136,6 +136,8 @@ void	parse_sphere(char **matrix, t_minirt *rt)
 		exit_and_free_matrix(matrix, "Error: bad arguments for sphere", rt);
 	while (matrix[++i])
 	{
+		if (matrix[i][0] == ',' || matrix[i][ft_strlen(matrix[i]) - 1] == ',')
+			exit_and_free_matrix(matrix,"Error: bad arguments", rt);
 		if ((ft_strstr_alt(matrix[i], ",,")))
 			exit_and_free_matrix(matrix,"Error: bad arguments", rt);
 	}

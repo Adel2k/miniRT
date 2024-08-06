@@ -6,11 +6,30 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:22:00 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/06 20:42:40 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/06 22:07:26 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
+
+
+// void	vb(char *str, char **matrix)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		while(str[i] && ((str[i] >= '0' && str[i] <= '9') || str[i] == '.'))
+// 		{
+// 			comma_count++;
+// 			if (comma_count > 2)
+// 				exit_and_free_matrix(matrix,"Error: bad arguments for vb", rt);
+// 			i++;
+// 		}
+// 	}
+// }
+
 
 void	init_coords(t_vector *coords, char **matrix, t_minirt *rt, int i)
 {
