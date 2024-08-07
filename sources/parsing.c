@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/06 22:18:08 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:34:47 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,40 +50,45 @@ void	found_what_scene_is_it(char **matrix, t_minirt *rt)
 	else if (!ft_strcmp(matrix[0], "L"))
 	{
 		parse_light(matrix, rt);
-		printf("light=%f\n", rt->light.coords.x);
-		printf("light=%f\n", rt->light.coords.y);
-		printf("light=%f\n", rt->light.coords.z);
-		printf("light=%f\n", rt->light.brightness);
-		printf("light=%d\n", rt->light.color.red);
-		printf("light=%d\n", rt->light.color.green);
-		printf("light=%d\n", rt->light.color.blue);
+		printf("light=%f\n", rt->light->coords.x);
+		printf("light=%f\n", rt->light->coords.y);
+		printf("light=%f\n", rt->light->coords.z);
+		printf("light=%f\n", rt->light->brightness);
+		printf("light=%d\n", rt->light->color.red);
+		printf("light=%d\n", rt->light->color.green);
+		printf("light=%d\n", rt->light->color.blue);
 	}
 	else if (!ft_strcmp(matrix[0], "sp"))
 	{
 		parse_sphere(matrix, rt);
-		printf("sphere=%f\n", rt->objects.sphere.coords.x);
-		printf("sphere=%f\n", rt->objects.sphere.coords.y);
-		printf("sphere=%f\n", rt->objects.sphere.coords.z);
-		printf("sphere=%f\n", rt->objects.sphere.diameter);
-		printf("sphere=%d\n", rt->objects.sphere.color.red);
-		printf("sphere=%d\n", rt->objects.sphere.color.green);
-		printf("sphere=%d\n", rt->objects.sphere.color.blue);	
+		printf("sphere=%f\n", rt->objects.sphere->coords.x);
+		printf("sphere=%f\n", rt->objects.sphere->coords.y);
+		printf("sphere=%f\n", rt->objects.sphere->coords.z);
+		printf("sphere=%f\n", rt->objects.sphere->diameter);
+		printf("sphere=%d\n", rt->objects.sphere->color.red);
+		printf("sphere=%d\n", rt->objects.sphere->color.green);
+		printf("sphere=%d\n", rt->objects.sphere->color.blue);	
 	}
-	if (!ft_strcmp(matrix[0], "pl"))
+	else if (!ft_strcmp(matrix[0], "pl"))
 	{
 		parse_plane(matrix, rt);
 	}
-	if (!ft_strcmp(matrix[0], "cy"))
+	else if (!ft_strcmp(matrix[0], "cy"))
 	{
+		
 		parse_cylinder(matrix, rt);
 	}
+	else
+		exit_and_free_matrix(matrix, "Error: wrong shape", rt);
 }
 
 
 void	parse_cylinder(char **matrix, t_minirt *rt)
 {
+	t_cylinder	*cylinder;
 	int	i;
 
+	cylinder = malloc(sizeof(t_cylinder) * (count_shape(matrix, "L")));
 	i = 0;
 	if (matrix_row(matrix) != 6)
 		exit_and_free_matrix(matrix, "Error: bad arguments for cylinder", rt);
@@ -93,26 +98,28 @@ void	parse_cylinder(char **matrix, t_minirt *rt)
 			|| (ft_strstr_alt(matrix[i], ",,")))
 			exit_and_free_matrix(matrix,"Error: bad arguments", rt);
 	}
-	init_coords(&rt->objects.cylinder.coords, matrix, rt, 1);
+	init_coords(&rt->objects.cylinder->coords, matrix, rt, 1);
 
-	init_orient(&rt->objects.cylinder.orient, matrix, rt, 2);
+	init_orient(&rt->objects.cylinder->orient, matrix, rt, 2);
 
 	if (if_line_contain_only_digit_and_char(matrix[3], '.') == -1)
 		exit_and_free_matrix(matrix, "Error: bad arguments for cylinder", rt);
-	rt->objects.cylinder.diameter = ft_atof(matrix[3]);
+	rt->objects.cylinder->diameter = ft_atof(matrix[3]);
 
 	if (if_line_contain_only_digit_and_char(matrix[4], '.') == -1)
 		exit_and_free_matrix(matrix, "Error: bad arguments for cylinder", rt);
-	rt->objects.cylinder.height = ft_atof(matrix[4]);
+	rt->objects.cylinder->height = ft_atof(matrix[4]);
 
-	init_color(&rt->objects.cylinder.color, matrix, rt, 5);
+	init_color(&rt->objects.cylinder->color, matrix, rt, 5);
 }
 
 
 void	parse_plane(char **matrix, t_minirt *rt)
 {
+	t_plane	*plane;
 	int	i;
 
+	plane = malloc(sizeof(t_plane) * count_shape(matrix, "L"));
 	i = 0;
 	if (matrix_row(matrix) != 4)
 		exit_and_free_matrix(matrix, "Error: bad arguments for plane", rt);
@@ -122,17 +129,19 @@ void	parse_plane(char **matrix, t_minirt *rt)
 			|| (ft_strstr_alt(matrix[i], ",,")))
 			exit_and_free_matrix(matrix,"Error: bad arguments", rt);
 	}
-	init_coords(&rt->objects.plane.coords, matrix, rt, 1);
+	init_coords(&rt->objects.plane->coords, matrix, rt, 1);
 
-	init_orient(&rt->objects.plane.orient, matrix, rt, 2);
+	init_orient(&rt->objects.plane->orient, matrix, rt, 2);
 	
-	init_color(&rt->objects.plane.color, matrix, rt, 3);
+	init_color(&rt->objects.plane->color, matrix, rt, 3);
 }
 
 void	parse_sphere(char **matrix, t_minirt *rt)
 {
+	t_sphere	*sphere;
 	int	i;
 
+	sphere = malloc(sizeof(t_sphere) * count_shape(matrix, "L"));
 	i = 0;
 	if (matrix_row(matrix) != 4)
 		exit_and_free_matrix(matrix, "Error: bad arguments for sphere", rt);
@@ -144,19 +153,21 @@ void	parse_sphere(char **matrix, t_minirt *rt)
 	}
 		// if ()
 		// 	exit_and_free_matrix(matrix,"Error: bad arguments", rt);
-	init_coords(&rt->objects.sphere.coords, matrix, rt, 1);
+	init_coords(&rt->objects.sphere->coords, matrix, rt, 1);
 
 	if (if_line_contain_only_digit_and_char(matrix[2], '.') == -1)
 		exit_and_free_matrix(matrix, "Error: bad arguments for sphere", rt);
-	rt->objects.sphere.diameter = ft_atof(matrix[2]);
+	rt->objects.sphere->diameter = ft_atof(matrix[2]);
 
-	init_color(&rt->objects.sphere.color, matrix, rt, 3);
+	init_color(&rt->objects.sphere->color, matrix, rt, 3);
 }
 
 void	parse_light(char **matrix, t_minirt *rt)
 {
+	t_light	*light;
 	int	i;
 
+	light = malloc(sizeof(t_light) * count_shape(matrix, "L"));
 	i = 0;
 	if (matrix_row(matrix) != 4)
 		exit_and_free_matrix(matrix, "Error: bad arguments for light coordinates", rt);
@@ -166,14 +177,14 @@ void	parse_light(char **matrix, t_minirt *rt)
 			|| (ft_strstr_alt(matrix[i], ",,")))
 			exit_and_free_matrix(matrix,"Error: bad arguments", rt);
 	}
-	init_coords(&rt->light.coords, matrix, rt, 1);
+	init_coords(&rt->light->coords, matrix, rt, 1);
 
 	if (if_line_contain_only_digit_and_char(matrix[2], '.') == -1)
 		exit_and_free_matrix(matrix, "Error: bad arguments for light brightness", rt);
 	if (ft_atof(matrix[2]) >= 0.0 && ft_atof(matrix[2]) <= 1.0)
-		rt->light.brightness = ft_atof(matrix[2]);
+		rt->light->brightness = ft_atof(matrix[2]);
 
-	init_color(&rt->light.color, matrix, rt, 3);
+	init_color(&rt->light->color, matrix, rt, 3);
 }
 
 
@@ -239,10 +250,11 @@ void	parse_camera(char **matrix, t_minirt *rt)
 }
 
 
+
+
 void	parse_ambient(char **matrix, t_minirt *rt)
 {
 	// char	**split_2_line=NULL;
-
 	if (matrix_row(matrix) != 3)
 		exit_and_free_matrix(matrix, "Error: bad arguments for ambient3", rt);
 	if (if_line_contain_only_digit_and_char(matrix[1], '.') == -1)
@@ -266,4 +278,22 @@ void	parse_ambient(char **matrix, t_minirt *rt)
 	// 	|| !(rt->color.blue >= 0 && rt->color.blue <= 255))
 	// 	exit_and_free(matrix, "Error: bad value", rt, split_2_line);
 	// free_matrix(split_2_line);//erevi
+}
+
+int	count_shape(char **matrix, char *shape)
+{
+	int	i;
+	int	count;
+
+	count = 0;
+	i = 0;
+	while (matrix[i])
+	{
+		if (!ft_strcmp(matrix[i], shape))
+		{
+			count++;
+		}
+		i++;
+	}
+	return (count);
 }

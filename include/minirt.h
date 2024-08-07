@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/06 20:01:20 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:32:51 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_sphere
 	float		diameter;
 	// float		r2;
 	t_color		color;
+	
 }	t_sphere;
 
 
@@ -99,9 +100,9 @@ typedef struct s_cylinder
 
 typedef struct s_objects
 {
-	t_plane		plane;
-	t_sphere 	sphere;
-	t_cylinder	cylinder;	
+	t_plane		*plane;
+	t_sphere 	*sphere;
+	t_cylinder	*cylinder;	
 }	t_objects;
 
 typedef struct s_minirt
@@ -111,7 +112,7 @@ typedef struct s_minirt
 	t_objects	objects;
 	t_vector	vector;
 	t_camera	camera;
-	t_light		light;
+	t_light		*light;
 }	t_minirt;
 
 
@@ -163,6 +164,6 @@ void	parse_sphere(char **matrix, t_minirt *rt);
 char	*ft_strstr_alt(char *str, char *to_find);
 void	parse_cylinder(char **matrix, t_minirt *rt);
 void	parse_plane(char **matrix, t_minirt *rt);
-
+int		count_shape(char **matrix, char *shape);
 
 #endif
