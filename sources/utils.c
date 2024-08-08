@@ -12,13 +12,6 @@
 
 #include "../include/minirt.h"
 
-int	err(char *str)
-{
-	while (*str)
-		write(2, str++, 1);
-	write(2, "\n", 1);
-	return (1);
-}
 
 int	malloc_check(char *s)
 {
@@ -58,6 +51,28 @@ int	ft_strcmp(const char *s1, const char *s2)
 			return (1);
 		if ((unsigned char)s1[i] < (unsigned char)s2[i])
 			return (-1);
+		i++;
+	}
+	return (0);
+}
+
+char	*ft_strstr_alt(char *str, char *to_find)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	if (*to_find == '\0')
+		return (str);
+	while (str[i] != '\0')
+	{
+		j = 0;
+		while (to_find[j] != '\0' && str[i + j] == to_find[j])
+		{
+			if (to_find[j + 1] == 0)
+				return (&str[i]);
+			j++;
+		}
 		i++;
 	}
 	return (0);

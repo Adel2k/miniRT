@@ -27,18 +27,15 @@ int	ft_strlen(const char *str)
 int	foo_sum_tar_(char const *s, char c)
 {
 	int	sum_tar;
-	int	sum_space;
 
 	sum_tar = 0;
-	sum_space = 0;
+
 	while (*s == c)
 		s++;
 	while (*s != '\0')
 	{
 		if (*s == c)
-		{
 			return (sum_tar);
-		}
 		else
 		{
 			s++;

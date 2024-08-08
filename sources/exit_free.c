@@ -12,6 +12,14 @@
 
 #include "../include/minirt.h"
 
+int	err(char *str)
+{
+	while (*str)
+		write(2, str++, 1);
+	write(2, "\n", 1);
+	return (1);
+}
+
 void	exit_and_free_str(char *str_free, char *str_err ,t_minirt *rt)
 {
 	err(str_err);
@@ -32,4 +40,14 @@ void	exit_and_free(char **map, char *str_err, t_minirt *rt, char **matrix)
 {
 	exit_and_free_matrix(map, str_err, rt);
 	free_matrix(matrix);
+}
+
+void	free_matrix(char **matrix)
+{
+	int	i;
+
+	i = 0;
+	while (matrix[i])
+		free(matrix[i++]);
+	free(matrix);
 }

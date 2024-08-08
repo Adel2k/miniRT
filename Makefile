@@ -3,8 +3,8 @@ NAME = miniRT
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -I mlx -g3 -fsanitize=address
-MLXFLAGS = -lmlx -framework OpenGL -framework AppKit
-# MLXFLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
+# MLXFLAGS = -lmlx -framework OpenGL -framework AppKit
+MLXFLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
 
 HEADERS = include/get_next_line.h include/minirt.h include/mlx.h
 
@@ -17,12 +17,13 @@ SRCS_NAME = minirt.c \
 			get_next_line_utils.c \
 			validation.c \
 			utils.c utils2.c\
-			error.c \
+			exit_free.c \
 			split.c split_char.c\
 			trim.c free.c\
 			parsing.c init_func.c\
 			init_mlx.c \
-			parsing_utils.c 
+			parsing_utils.c \
+			atof.c \
 
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)

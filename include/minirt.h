@@ -132,11 +132,13 @@ typedef struct s_minirt
 	t_light		*light;
 }	t_minirt;
 
-/////////////////free////////////////////////
-/////////////////error////////////////////////
+/////////////////exit_free////////////////////////
+int		err(char *str);
+void	exit_and_free_str(char *str_free, char *str_err, t_minirt *rt);
 void	exit_and_free_matrix(char **map, char *str_err, t_minirt *rt);
 void	exit_and_free(char **map, char *str_err, t_minirt *rt, char **matrix);
-/////////////////parsing////////////////////////
+void	free_matrix(char **matrix);
+/////////////////parsing//////////////////////////////
 void	parsing(char **map, t_minirt *rt);
 void	parse_light(char **matrix, t_minirt *rt);
 void	parse_sphere(char **matrix, t_minirt *rt);
@@ -149,15 +151,17 @@ void	parse_camera(char **matrix, t_minirt *rt);
 void	parse_ambient(char **matrix, t_minirt *rt);
 int		count_shape(char **matrix, char *shape);
 
-/////////////////init_mlx////////////////////////
+/////////////////init_mlx////////////////////////////
 void	init_mlx(t_mlx_vars *vars);
-/////////////////utils////////////////////////
+
+/////////////////utils///////////////////////////////
 int		malloc_check(char *s);
-int		err(char *str);
 int		check1(char c, char const *set);
 int		is_white_space(char c);
 int		ft_strcmp(const char *s1, const char *s2);
-/////////////////utils2////////////////////////
+char	*ft_strstr_alt(char *str, char *to_find);
+
+/////////////////utils2/////////////////////////////
 int		ft_atoi(const char *str);
 int 	if_char_and_digit(char *line, char c);
 int		matrix_row(char **matrix);
@@ -165,33 +169,34 @@ double	ft_atof(const char *str);
 int		if_only_digit(char *line);
 int		if_str_and_digit(char *line, char *set);
 int		have_this_char_in_set(char c, char *set);
-char	*ft_strstr_alt(char *str, char *to_find);
+
 /////////////////validation////////////////////////
 int		validation(int ac, char **av, t_minirt *rt);
 int		is_rt(char *str);
 
-
-
-
-
-
-char	*ft_strdup(char *s);
-char	*ft_strjoin(const char *s1, const char *s2);
-char	*ft_strtrim(char *s1, char *set);
-char	*ft_strchr(const char *str, int c);
-void	exit_and_free_str(char *str_free, char *str_err, t_minirt *rt);
-char	**split_char(char const *s, char c);
-char	*strtrim_end(char *str);
-int		check_00(char **arr, const char *s, int count);
-char	**split(char const *s);
-int		foo_sum_tar_(char const *s, char c);
-int		func_count_word_(const char *s, char c);
-void	free_matrix(char **matrix);
-int		ft_strlen(const char *str);
-int		if_char_and_digit(char *line, char c);
+/////////////////init_func////////////////////////////
 void	init_coords(t_vector *coords, char **matrix, t_minirt *rt, int i);
 void	init_color(t_color *color, char **matrix, t_minirt *rt, int i);
 void	init_orient(t_vector *orient, char **matrix, t_minirt *rt, int i);
+
+/////////////////split_char////////////////////////////
+int		foo_sum_tar_(char const *s, char c);
+int		func_count_word_(const char *s, char c);
+char	**split_char(char const *s, char c);
+int		ft_strlen(const char *str);
+
+/////////////////split////////////////////////////
+int		check_00(char **arr, const char *s, int count);
+char	**split(char const *s);
+
+/////////////////trim////////////////////////////
+char	*strtrim_end(char *str);
+char	*ft_strtrim(char *s1, char *set);
+
+/////////////////gnl////////////////////////////
+char	*ft_strdup(char *s);
+char	*ft_strjoin(const char *s1, const char *s2);
+char	*ft_strchr(const char *str, int c);
 
 
 #endif
