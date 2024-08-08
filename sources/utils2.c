@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:46:38 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/07 21:09:02 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:02:06 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
+
 double	ft_atof(const char *str)
 {
 	int		i;
@@ -57,14 +58,6 @@ double	ft_atof(const char *str)
 	return (sign * num);
 }
 
-// int main ()
-// {
-// 	printf("%f\n", ft_atof("5.j8"));
-// }
-
-
-
-
 int	ft_atoi(const char *str)
 {
 	int	i;
@@ -89,10 +82,10 @@ int	ft_atoi(const char *str)
 		num = (num * 10) + (str[i] - 48);
 		i++;
 	}
-	//  printf("num=%d\n",num);
 	return (sign * num);
 }
-int if_line_contain_only_digit_and_char(char *line, char c)
+
+int if_char_and_digit(char *line, char c)
 {
 	int	i;
 
@@ -108,7 +101,7 @@ int if_line_contain_only_digit_and_char(char *line, char c)
 	return (1);
 }
 
-int if_line_contain_only_digit_and_str(char *line, char *set)
+int	if_str_and_digit(char *line, char *set)
 {
 	int	i;
 
@@ -139,16 +132,9 @@ int	have_this_char_in_set(char c, char *set)
 	return (-1);
 }
 
-int	check_is_white_space(char c)
-{
-	if ((c >= 9 && c <= 12) || c == 32)
-		return (1);
-	return (-1);
-}
-
 int	matrix_row(char **matrix)
 {
-	int		row;
+	int	row;
 
 	row = 0;
 	while (matrix[row])

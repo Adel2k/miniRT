@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/07 21:11:47 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:11:03 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,55 +132,66 @@ typedef struct s_minirt
 	t_light		*light;
 }	t_minirt;
 
+/////////////////free////////////////////////
+/////////////////error////////////////////////
+void	exit_and_free_matrix(char **map, char *str_err, t_minirt *rt);
+void	exit_and_free(char **map, char *str_err, t_minirt *rt, char **matrix);
+/////////////////parsing////////////////////////
+void	parsing(char **map, t_minirt *rt);
+void	parse_light(char **matrix, t_minirt *rt);
+void	parse_sphere(char **matrix, t_minirt *rt);
+void	parse_cylinder(char **matrix, t_minirt *rt);
+void	parse_plane(char **matrix, t_minirt *rt);
 
-// size_t	ft_strlen(const char *str);
-int		validation(int ac, char **av, t_minirt *rt);
+/////////////////parsing_utils////////////////////////
+void	found_what_scene_is_it(char **matrix, t_minirt *rt);
+void	parse_camera(char **matrix, t_minirt *rt);
+void	parse_ambient(char **matrix, t_minirt *rt);
+int		count_shape(char **matrix, char *shape);
+
+/////////////////init_mlx////////////////////////
+void	init_mlx(t_mlx_vars *vars);
+/////////////////utils////////////////////////
 int		malloc_check(char *s);
 int		err(char *str);
-char	*ft_strdup(char *s);
 int		check1(char c, char const *set);
+int		is_white_space(char c);
+int		ft_strcmp(const char *s1, const char *s2);
+/////////////////utils2////////////////////////
+int		ft_atoi(const char *str);
+int 	if_char_and_digit(char *line, char c);
+int		matrix_row(char **matrix);
+double	ft_atof(const char *str);
+int		if_only_digit(char *line);
+int		if_str_and_digit(char *line, char *set);
+int		have_this_char_in_set(char c, char *set);
+char	*ft_strstr_alt(char *str, char *to_find);
+/////////////////validation////////////////////////
+int		validation(int ac, char **av, t_minirt *rt);
+int		is_rt(char *str);
+
+
+
+
+
+
+char	*ft_strdup(char *s);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strtrim(char *s1, char *set);
 char	*ft_strchr(const char *str, int c);
 void	exit_and_free_str(char *str_free, char *str_err, t_minirt *rt);
 char	**split_char(char const *s, char c);
-void	exit_and_free_matrix(char **map, char *str_err, t_minirt *rt);
-void	exit_and_free(char **map, char *str_err, t_minirt *rt, char **matrix);
-int		is_rt(char *str);
 char	*strtrim_end(char *str);
-void	parsing(char **map, t_minirt *rt);
-int	is_white_space(char c);
-int	check_00(char **arr, const char *s, int count);
-int	ft_strcmp(const char *s1, const char *s2);
-//es spliti hamafr
+int		check_00(char **arr, const char *s, int count);
 char	**split(char const *s);
-int	foo_sum_tar_(char const *s, char c);
-int	func_count_word_(const char *s, char c);
-void	found_what_scene_is_it(char **matrix, t_minirt *rt);
+int		foo_sum_tar_(char const *s, char c);
+int		func_count_word_(const char *s, char c);
 void	free_matrix(char **matrix);
-void	parse_ambient(char **matrix, t_minirt *rt);
-int if_line_contain_only_digit_and_char(char *line, char c);
-int	ft_atoi(const char *str);
-int	matrix_row(char **matrix);
-
-double	ft_atof(const char *str);
-
-int	ft_strlen(const char *str);
-
-int if_only_digit(char *line);
-void	parse_camera(char **matrix, t_minirt *rt);
-int	have_this_char_in_set(char c, char *set);
-int if_line_contain_only_digit_and_str(char *line, char *set);
-int if_line_contain_only_digit_and_char(char *line, char c);
-
+int		ft_strlen(const char *str);
+int		if_char_and_digit(char *line, char c);
 void	init_coords(t_vector *coords, char **matrix, t_minirt *rt, int i);
 void	init_color(t_color *color, char **matrix, t_minirt *rt, int i);
 void	init_orient(t_vector *orient, char **matrix, t_minirt *rt, int i);
-void	parse_light(char **matrix, t_minirt *rt);
-void	parse_sphere(char **matrix, t_minirt *rt);
-char	*ft_strstr_alt(char *str, char *to_find);
-void	parse_cylinder(char **matrix, t_minirt *rt);
-void	parse_plane(char **matrix, t_minirt *rt);
-int		count_shape(char **matrix, char *shape);
+
 
 #endif
