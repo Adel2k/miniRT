@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:22:00 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/06 22:07:26 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/07 20:12:09 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	init_coords(t_vector *coords, char **matrix, t_minirt *rt, int i)
 		exit_and_free_matrix(matrix, "Error: malloc" ,rt);
 	if (matrix_row(split_2_line) != 3)
 		exit_and_free(matrix, "Error: bad arguments for camera", rt, split_2_line);
-	coords->x = atof(split_2_line[0]);
-	coords->y = atof(split_2_line[1]);
+	coords->x = ft_atof(split_2_line[0]);
+	coords->y = ft_atof(split_2_line[1]);
 	coords->z = ft_atof(split_2_line[2]);
 	free_matrix(split_2_line);
 }

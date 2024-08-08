@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/07 17:34:47 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/07 20:22:30 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,43 +31,43 @@ void	found_what_scene_is_it(char **matrix, t_minirt *rt)
 	if (!ft_strcmp(matrix[0], "A"))
 	{
 		parse_ambient(matrix, rt);
-		printf("ambient=%f\n", rt->ambient.ratio_lighting);
-		printf("ambient=%d\n", rt->color.red);
-		printf("ambient=%d\n", rt->color.green);
-		printf("ambient=%d\n", rt->color.blue);
+		// printf("ambient=%f\n", rt->ambient.ratio_lighting);
+		// printf("ambient=%d\n", rt->color.red);
+		// printf("ambient=%d\n", rt->color.green);
+		// printf("ambient=%d\n", rt->color.blue);
 	}
 	else if (!ft_strcmp(matrix[0], "C"))
 	{
 		parse_camera(matrix, rt);
-		printf("camera=%f\n", rt->camera.coords.x);
-		printf("camera=%f\n", rt->camera.coords.y);
-		printf("camera=%f\n", rt->camera.coords.z);
-		printf("camera=%f\n", rt->camera.orient.x);
-		printf("camera=%f\n", rt->camera.orient.y);
-		printf("camera=%f\n", rt->camera.orient.z);
-		printf("camera=%d\n", rt->camera.fov);
+		// printf("camera=%f\n", rt->camera.coords.x);
+		// printf("camera=%f\n", rt->camera.coords.y);
+		// printf("camera=%f\n", rt->camera.coords.z);
+		// printf("camera=%f\n", rt->camera.orient.x);
+		// printf("camera=%f\n", rt->camera.orient.y);
+		// printf("camera=%f\n", rt->camera.orient.z);
+		// printf("camera=%d\n", rt->camera.fov);
 	}
 	else if (!ft_strcmp(matrix[0], "L"))
 	{
 		parse_light(matrix, rt);
-		printf("light=%f\n", rt->light->coords.x);
-		printf("light=%f\n", rt->light->coords.y);
-		printf("light=%f\n", rt->light->coords.z);
-		printf("light=%f\n", rt->light->brightness);
-		printf("light=%d\n", rt->light->color.red);
-		printf("light=%d\n", rt->light->color.green);
-		printf("light=%d\n", rt->light->color.blue);
+		// printf("light=%f\n", rt->light->coords.x);
+		// printf("light=%f\n", rt->light->coords.y);
+		// printf("light=%f\n", rt->light->coords.z);
+		// printf("light=%f\n", rt->light->brightness);
+		// printf("light=%d\n", rt->light->color.red);
+		// printf("light=%d\n", rt->light->color.green);
+		// printf("light=%d\n", rt->light->color.blue);
 	}
 	else if (!ft_strcmp(matrix[0], "sp"))
 	{
 		parse_sphere(matrix, rt);
-		printf("sphere=%f\n", rt->objects.sphere->coords.x);
-		printf("sphere=%f\n", rt->objects.sphere->coords.y);
-		printf("sphere=%f\n", rt->objects.sphere->coords.z);
-		printf("sphere=%f\n", rt->objects.sphere->diameter);
-		printf("sphere=%d\n", rt->objects.sphere->color.red);
-		printf("sphere=%d\n", rt->objects.sphere->color.green);
-		printf("sphere=%d\n", rt->objects.sphere->color.blue);	
+		// printf("sphere=%f\n", rt->objects.sphere->coords.x);
+		// printf("sphere=%f\n", rt->objects.sphere->coords.y);
+		// printf("sphere=%f\n", rt->objects.sphere->coords.z);
+		// printf("sphere=%f\n", rt->objects.sphere->diameter);
+		// printf("sphere=%d\n", rt->objects.sphere->color.red);
+		// printf("sphere=%d\n", rt->objects.sphere->color.green);
+		// printf("sphere=%d\n", rt->objects.sphere->color.blue);	
 	}
 	else if (!ft_strcmp(matrix[0], "pl"))
 	{
@@ -85,10 +85,9 @@ void	found_what_scene_is_it(char **matrix, t_minirt *rt)
 
 void	parse_cylinder(char **matrix, t_minirt *rt)
 {
-	t_cylinder	*cylinder;
 	int	i;
 
-	cylinder = malloc(sizeof(t_cylinder) * (count_shape(matrix, "L")));
+	rt->objects.cylinder = malloc(sizeof(t_cylinder) * (count_shape(matrix, "cy")));
 	i = 0;
 	if (matrix_row(matrix) != 6)
 		exit_and_free_matrix(matrix, "Error: bad arguments for cylinder", rt);
@@ -116,10 +115,9 @@ void	parse_cylinder(char **matrix, t_minirt *rt)
 
 void	parse_plane(char **matrix, t_minirt *rt)
 {
-	t_plane	*plane;
 	int	i;
 
-	plane = malloc(sizeof(t_plane) * count_shape(matrix, "L"));
+	rt->objects.plane = malloc(sizeof(t_plane) * count_shape(matrix, "pl"));
 	i = 0;
 	if (matrix_row(matrix) != 4)
 		exit_and_free_matrix(matrix, "Error: bad arguments for plane", rt);
@@ -138,10 +136,9 @@ void	parse_plane(char **matrix, t_minirt *rt)
 
 void	parse_sphere(char **matrix, t_minirt *rt)
 {
-	t_sphere	*sphere;
 	int	i;
 
-	sphere = malloc(sizeof(t_sphere) * count_shape(matrix, "L"));
+	rt->objects.sphere = malloc(sizeof(t_sphere) * count_shape(matrix, "sp"));
 	i = 0;
 	if (matrix_row(matrix) != 4)
 		exit_and_free_matrix(matrix, "Error: bad arguments for sphere", rt);
@@ -164,10 +161,9 @@ void	parse_sphere(char **matrix, t_minirt *rt)
 
 void	parse_light(char **matrix, t_minirt *rt)
 {
-	t_light	*light;
 	int	i;
 
-	light = malloc(sizeof(t_light) * count_shape(matrix, "L"));
+	rt->light = malloc(sizeof(t_light) * count_shape(matrix, "L"));
 	i = 0;
 	if (matrix_row(matrix) != 4)
 		exit_and_free_matrix(matrix, "Error: bad arguments for light coordinates", rt);
@@ -245,7 +241,7 @@ void	parse_camera(char **matrix, t_minirt *rt)
 	rt->camera.fov = ft_atoi(matrix[3]);
 	if (!(rt->camera.fov >= 0 && rt->camera.fov <= 180))
 		exit_and_free(matrix, "Error: bad value", rt, split_2_line);
-	printf(":=%d\n",rt->camera.fov);
+
 //
 }
 

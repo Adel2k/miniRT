@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/07 17:32:51 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/07 21:11:47 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,23 @@
 # include "../include/get_next_line.h"
 
 ///////
+typedef struct n_img
+{
+	void	*img_ptr;
+	char	*img_pixels_ptr;
+	int		bits_per_pixel;
+	int		endian;
+	int		line_len;
+}	t_img;
+
+
+typedef struct s_mlx_vars
+{
+	void			*mlx;
+	void			*win;
+	t_img			img;
+}	t_mlx_vars;
+
 typedef struct s_color
 {
 	int red;

@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:46:38 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/06 20:54:26 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/07 21:09:02 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ double	ft_atof(const char *str)
 // {
 // 	printf("%f\n", ft_atof("5.j8"));
 // }
+
+
 
 
 int	ft_atoi(const char *str)
