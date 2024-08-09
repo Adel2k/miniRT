@@ -25,6 +25,7 @@ SRCS_NAME = minirt.c \
 			parsing_utils.c \
 			atof.c \
 			key_hooks.c \
+			ft_lst_func.c \
 
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)

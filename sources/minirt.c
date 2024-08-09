@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT.c                                           :+:      :+:    :+:   */
+/*   minirt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 20:07:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/08 15:21:07 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/09 17:38:39 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ int main(int ac, char **av)
 
 	rt = malloc(sizeof(t_minirt));
 	vars = malloc(sizeof(t_mlx_vars));
-	if (!rt)
+	if (!rt || !vars)
 		return (1);
+	init_rt(rt);
 	if (!(validation(ac, av, rt)))
 	{
 		init_mlx(vars);
@@ -29,4 +30,13 @@ int main(int ac, char **av)
 	}
 	// system("leaks miniRT");
 	return 1;
+}
+
+
+void	init_rt(t_minirt *rt)
+{
+	rt->light = NULL;
+	rt->objects.cylinder = NULL;
+	rt->objects.plane = NULL;
+	rt->objects.sphere = NULL;
 }

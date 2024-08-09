@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/09 14:26:58 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/09 17:13:38 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@
 ///////
 typedef struct n_img
 {
-	void	*img_ptr;
-	char	*img_pixels_ptr;
-	int		bits_per_pixel;
+	void	*img_ptr;//pixelnerov stacvac yndhanur nkari hascena
+	char	*img_pixels_ptr;//pixeli hascena
+	int		bits_per_pixel;//mi piqselyb te qani bita zbaxecnum
 	int		endian;
-	int		line_len;
+	int		line_len;//plangi erkarutyan vra qani pixela texavorvum
 }	t_img;
 
 
@@ -78,18 +78,18 @@ typedef struct s_light
 	t_vector		coords;
 	float			brightness;
 	t_color			color;
-	// struct s_light	*next;
+	struct s_light	*next;
 }	t_light;
 
 
 typedef struct s_sphere
 {
 	// t_obj_id	id;
-	t_vector	coords;
+	t_vector	center;
 	float		diameter;
 	// float		r2;
 	t_color		color;
-	
+	struct s_sphere	*next;
 }	t_sphere;
 
 
@@ -99,6 +99,7 @@ typedef struct s_plane
 	t_vector	coords;
 	t_color		color;
 	t_vector	orient;
+	struct s_plane	*next;
 }	t_plane;
 
 typedef struct s_cylinder
@@ -113,6 +114,7 @@ typedef struct s_cylinder
 	// t_vect		p2;
 	// t_vect		delta_p;
 	t_color		color;
+	struct s_cylinder	*next;
 }	t_cylinder;
 
 typedef struct s_objects
@@ -142,10 +144,10 @@ void	free_vars(t_mlx_vars *vars);
 
 /////////////////parsing//////////////////////////////
 void	parsing(char **map, t_minirt *rt);
-void	parse_light(char **matrix, t_minirt *rt);
-void	parse_sphere(char **matrix, t_minirt *rt);
-void	parse_cylinder(char **matrix, t_minirt *rt);
-void	parse_plane(char **matrix, t_minirt *rt);
+t_light	*parse_light(char **matrix, t_minirt *rt);
+t_sphere	*parse_sphere(char **matrix, t_minirt *rt);
+t_cylinder	*parse_cylinder(char **matrix, t_minirt *rt);
+t_plane	*parse_plane(char **matrix, t_minirt *rt);
 
 /////////////////parsing_utils////////////////////////
 void	found_what_scene_is_it(char **matrix, t_minirt *rt);
@@ -155,7 +157,7 @@ int		count_shape(char **matrix, char *shape);
 
 /////////////////init_mlx////////////////////////////
 void	init_mlx(t_mlx_vars *vars);
-
+void	init_rt(t_minirt *rt);
 /////////////////utils///////////////////////////////
 int		malloc_check(char *s);
 int		check1(char c, char const *set);
@@ -204,6 +206,14 @@ char	*ft_strchr(const char *str, int c);
 int		handler(int keysym, t_mlx_vars *vars);
 int		mouse_close(t_mlx_vars *vars);
 
-
+/////////////////list_functions////////////////////////////
+void	ft_lstadd_back_cy(t_cylinder **lst, t_cylinder *new);
+t_cylinder	*ft_lstlast_cy(t_cylinder *lst);
+void	ft_lstadd_back_pl(t_plane **lst, t_plane *new);
+t_plane	*ft_lstlast_pl(t_plane *lst);
+void	ft_lstadd_back_sp(t_sphere **lst, t_sphere *new);
+t_sphere	*ft_lstlast_sp(t_sphere *lst);
+void	ft_lstadd_back_l(t_light **lst, t_light *new);
+t_light	*ft_lstlast_l(t_light *lst);
 
 #endif
