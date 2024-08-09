@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   exit_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 20:56:26 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/05 21:10:06 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:42:18 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,3 +51,16 @@ void	free_matrix(char **matrix)
 		free(matrix[i++]);
 	free(matrix);
 }
+
+// void	free_vars(t_mlx_vars *vars)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < vars->height_size)
+// 	{
+// 		free(vars->coordinates[i]);
+// 		i++;
+// 	}
+// 	free(vars->coordinates);
+// }

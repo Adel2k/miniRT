@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   atof.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adel <adel@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 23:42:27 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/09 00:01:11 by adel             ###   ########.fr       */
+/*   Updated: 2024/08/09 14:10:56 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,30 @@ double	to_num(char c, int is_float)
 	fraction = 0.1;
 	if (is_float)
 	{
-		num += (str[i] - '0') * fraction;
+		num += (c - '0') * fraction;
 		fraction *= 0.1;
 	}
 	else
-		num = num * 10.0 + (str[i] - '0');
+		num = num * 10.0 + (c - '0');
 	return (num);
 	
 }
 
-double	ft_atof(const char *str)
+int	choose_sign(char *str, int *i)
+{
+	int	sign;
+
+	sign = 1;
+	if (str[*i] == '-' || str[*i] == '+')
+	{
+		if (str[*i] == '-')
+			sign *= -1;
+		(*i)++;
+	}
+	return (sign);
+}
+
+double	ft_atof(char *str)
 {
 	int		i;
 	double	num;
@@ -43,16 +57,11 @@ double	ft_atof(const char *str)
 	i = 0;
 	while (is_white_space(str[i]))
 		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign *= -1;
-		i++;
-	}
+	sign = choose_sign(str, &i);
 	while (str[i])
 	{
 		if (str[i] >= '0' && str[i] <= '9')
-			num = to_num(str[i]);
+			num = to_num(str[i], is_float);
 		else if(str[i] == '.')
 		{
 			if (is_float)

@@ -6,7 +6,7 @@
 /*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/08 18:11:03 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:26:58 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ void	exit_and_free_str(char *str_free, char *str_err, t_minirt *rt);
 void	exit_and_free_matrix(char **map, char *str_err, t_minirt *rt);
 void	exit_and_free(char **map, char *str_err, t_minirt *rt, char **matrix);
 void	free_matrix(char **matrix);
+void	free_vars(t_mlx_vars *vars);
+
 /////////////////parsing//////////////////////////////
 void	parsing(char **map, t_minirt *rt);
 void	parse_light(char **matrix, t_minirt *rt);
@@ -165,7 +167,7 @@ char	*ft_strstr_alt(char *str, char *to_find);
 int		ft_atoi(const char *str);
 int 	if_char_and_digit(char *line, char c);
 int		matrix_row(char **matrix);
-double	ft_atof(const char *str);
+double	ft_atof(char *str);
 int		if_only_digit(char *line);
 int		if_str_and_digit(char *line, char *set);
 int		have_this_char_in_set(char c, char *set);
@@ -197,6 +199,11 @@ char	*ft_strtrim(char *s1, char *set);
 char	*ft_strdup(char *s);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strchr(const char *str, int c);
+
+/////////////////key_hooks////////////////////////////
+int		handler(int keysym, t_mlx_vars *vars);
+int		mouse_close(t_mlx_vars *vars);
+
 
 
 #endif
