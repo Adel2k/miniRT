@@ -6,7 +6,7 @@
 /*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/09 19:39:44 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/09 20:01:51 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,4 +217,11 @@ t_light	*ft_lstlast_l(t_light *lst);
 
 /////////////////atof////////////////////////////
 double	ft_atof(char *str);
+
+/////////////////vector////////////////////////////
+t_vector	*new_vector(float x, float y, float z);
+t_vector	*vec_subtract(t_vector *vec1, t_vector *vec2);
+float		vec_normalize(t_vector *vec);
+float		vec_dot_product(t_vector *vec1, t_vector *vec2);
+
 #endif
