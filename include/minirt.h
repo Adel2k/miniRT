@@ -6,7 +6,7 @@
 /*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/09 14:26:58 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:45:41 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,6 @@ char	*ft_strstr_alt(char *str, char *to_find);
 int		ft_atoi(const char *str);
 int 	if_char_and_digit(char *line, char c);
 int		matrix_row(char **matrix);
-double	ft_atof(char *str);
 int		if_only_digit(char *line);
 int		if_str_and_digit(char *line, char *set);
 int		have_this_char_in_set(char c, char *set);
@@ -204,6 +203,8 @@ char	*ft_strchr(const char *str, int c);
 int		handler(int keysym, t_mlx_vars *vars);
 int		mouse_close(t_mlx_vars *vars);
 
+/////////////////atof////////////////////////////
+double	ft_atof(char *str);
 
 
 #endif

@@ -6,12 +6,11 @@
 /*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 23:42:27 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/09 14:10:56 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/09 14:45:01 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
-
 
 double	to_num(char c, int is_float)
 {
@@ -52,7 +51,6 @@ double	ft_atof(char *str)
 	int		sign;
 	int		is_float;
 
-	sign = 1;
 	is_float = 0;
 	i = 0;
 	while (is_white_space(str[i]))
