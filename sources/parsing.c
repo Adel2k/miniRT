@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/09 17:28:33 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:27:05 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ t_sphere	*parse_sphere(char **matrix, t_minirt *rt)
 
 	sphere = malloc(sizeof(t_sphere));
 	i = 0;
-	if (matrix_row(matrix) != 4)
+	if (matrix_row(matrix) != 3)//4pti sarqenq,zut banem porcunm
 		exit_and_free_matrix(matrix, "Error: bad arguments for sphere", rt);
 	while (matrix[++i])
 	{
@@ -118,7 +118,7 @@ t_sphere	*parse_sphere(char **matrix, t_minirt *rt)
 		exit_and_free_matrix(matrix, "Error: bad arguments for sphere", rt);
 	sphere->diameter = ft_atof(matrix[2]);
 
-	init_color(&sphere->color, matrix, rt, 3);
+	// init_color(&sphere->color, matrix, rt, 3);
 	sphere->next = NULL;
 	return (sphere);
 }

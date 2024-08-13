@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:08:21 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/09 17:51:44 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/11 14:55:11 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ void	parse_camera(char **matrix, t_minirt *rt)
 			exit_and_free_matrix(matrix,"Error: bad arguments", rt);
 	}
 
-	init_coords(&rt->camera.coords ,matrix, rt, 1);
+	init_coords(&rt->camera.center ,matrix, rt, 1);
 
-	init_orient(&rt->camera.orient, matrix, rt, 2);
+	init_orient(&rt->camera.direction, matrix, rt, 2);
 
 	if (if_only_digit(matrix[3]) == -1)
 		exit_and_free_matrix(matrix,"Error: bad arguments for camera", rt);

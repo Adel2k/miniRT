@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   atof.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 23:42:27 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/09 14:45:01 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:43:46 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,3 +72,5 @@ double	ft_atof(char *str)
 	}
 	return (sign * num);
 }
+
+

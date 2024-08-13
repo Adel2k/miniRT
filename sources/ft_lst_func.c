@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 16:27:57 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/09 17:52:02 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/09 19:31:53 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ t_cylinder	*ft_lstlast_cy(t_cylinder *lst)
 {
 	if (lst == NULL)
 		return (NULL);
-	while (lst && lst->next)
+	while
+	 (lst && lst->next)
 		lst = lst->next;
 	return (lst);
 }
@@ -69,7 +70,6 @@ void	ft_lstadd_back_sp(t_sphere **lst, t_sphere *new)
 		*lst = new;
 		return ;
 	}
-	// printf("aaaa\n");
 	ptr = ft_lstlast_sp(*lst);
 	ptr -> next = new;
 	// new->prev = ptr;

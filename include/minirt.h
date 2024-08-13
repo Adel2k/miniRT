@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/09 20:01:51 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:36:00 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
+# define WIDTH 800
+# define HIGHT 400
 # include <stdio.h>
 # include <string.h>
 # include <limits.h>
@@ -65,9 +67,9 @@ typedef struct s_vector
 
 typedef struct s_camera
 {
-	t_vector    coords;
-    int			fov;//size_t
-	t_vector	orient;//3d normalized orientation vector. In range [-1,1] for each x,y,z axis:0.0,0.0,1.0
+	t_vector    center;
+    int			fov;//size_t,կհաշվարկի տեսադաշտի լայնությունը
+	t_vector	direction;//uxxutyun
 }	t_camera;
 /// //////
 
@@ -134,6 +136,23 @@ typedef struct s_minirt
 	t_light		*light;
 }	t_minirt;
 
+typedef struct s_scene
+{
+	t_objects	objects;
+	t_camera	camera;
+	float		width;
+	float		hight;
+}	t_scene;
+
+typedef struct s_vplane//okna prasmotra
+{
+	float	width;
+	float	hight;
+	float	x_pixel;//piksel akna prasmotra
+	float	y_pixel;
+}	t_vplane;
+
+
 /////////////////exit_free////////////////////////
 int		err(char *str);
 void	exit_and_free_str(char *str_free, char *str_err, t_minirt *rt);
@@ -156,7 +175,7 @@ void	parse_ambient(char **matrix, t_minirt *rt);
 int		count_shape(char **matrix, char *shape);
 
 /////////////////init_mlx////////////////////////////
-void	init_mlx(t_mlx_vars *vars);
+void	init_mlx(t_mlx_vars *vars, t_minirt *rt);
 void	init_rt(t_minirt *rt);
 /////////////////utils///////////////////////////////
 int		malloc_check(char *s);
@@ -169,6 +188,7 @@ char	*ft_strstr_alt(char *str, char *to_find);
 int		ft_atoi(const char *str);
 int 	if_char_and_digit(char *line, char c);
 int		matrix_row(char **matrix);
+double	ft_atof(char *str);
 int		if_only_digit(char *line);
 int		if_str_and_digit(char *line, char *set);
 int		have_this_char_in_set(char c, char *set);
@@ -215,13 +235,24 @@ t_sphere	*ft_lstlast_sp(t_sphere *lst);
 void	ft_lstadd_back_l(t_light **lst, t_light *new);
 t_light	*ft_lstlast_l(t_light *lst);
 
-/////////////////atof////////////////////////////
-double	ft_atof(char *str);
 
-/////////////////vector////////////////////////////
+
+
+t_scene	*new_scene(t_camera *camera, t_objects *object, int width, int hight);
+t_vplane	*get_view_plane(float width, float hight, int fov);
+void	ray_tracing(void *mlx, void *win, t_scene *scene);
+
+/////////////////vector.c////////////////////////////
 t_vector	*new_vector(float x, float y, float z);
 t_vector	*vec_subtract(t_vector *vec1, t_vector *vec2);
-float		vec_normalize(t_vector *vec);
-float		vec_dot_product(t_vector *vec1, t_vector *vec2);
+float	vec_length(t_vector *vec);
+float	vec_dot_product(t_vector *vec1, t_vector *vec2);
+void	vec_normalize(t_vector *vec);
+float	vec_dot_product(t_vector *vec1, t_vector *vec2);
+
+/////////////////ray_tracing.c////////////////////////////
+void	ray_tracing(void *mlx, void *win, t_scene *scene);
+t_vplane	*get_view_plane(float width, float hight, int fov);
+int	sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere); 
 
 #endif

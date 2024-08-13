@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 19:35:32 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/09 20:28:16 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/11 15:24:01 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/miniRT.h"
+#include "../include/minirt.h"
 
 t_vector	*new_vector(float x, float y, float z)
 {
@@ -33,7 +33,15 @@ t_vector	*vec_subtract(t_vector *vec1, t_vector *vec2)
 	return (result);
 }
 
-float	vec_normalize(t_vector *vec)
+float	vec_length(t_vector *vec)
+{
+	float	res;
+	
+	res = (vec->x * vec->x) + (vec->y * vec->y) + (vec->z * vec->z);
+	return (res);
+}
+
+void	vec_normalize(t_vector *vec)
 {
 	float	length;
 	
@@ -47,6 +55,6 @@ float	vec_dot_product(t_vector *vec1, t_vector *vec2)
 {
 	float	result;
 
-	result = ((vec1->x * vec2->x) = (vec1->y * vec2->y) + (vec1->z * vec2->z));
+	result = ((vec1->x * vec2->x) + (vec1->y * vec2->y) + (vec1->z * vec2->z));
 	return (result);
 }
