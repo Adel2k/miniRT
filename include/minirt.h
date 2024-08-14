@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/13 12:36:00 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:45:35 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_vector
 typedef struct s_camera
 {
 	t_vector    center;
-    int			fov;//size_t,կհաշվարկի տեսադաշտի լայնությունը
+    float		fov;//size_t,կհաշվարկի տեսադաշտի լայնությունը
 	t_vector	direction;//uxxutyun
 }	t_camera;
 /// //////
@@ -239,8 +239,6 @@ t_light	*ft_lstlast_l(t_light *lst);
 
 
 t_scene	*new_scene(t_camera *camera, t_objects *object, int width, int hight);
-t_vplane	*get_view_plane(float width, float hight, int fov);
-void	ray_tracing(void *mlx, void *win, t_scene *scene);
 
 /////////////////vector.c////////////////////////////
 t_vector	*new_vector(float x, float y, float z);
@@ -252,7 +250,7 @@ float	vec_dot_product(t_vector *vec1, t_vector *vec2);
 
 /////////////////ray_tracing.c////////////////////////////
 void	ray_tracing(void *mlx, void *win, t_scene *scene);
-t_vplane	*get_view_plane(float width, float hight, int fov);
+t_vplane	*get_view_plane(float width, float hight, float fov);
 int	sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere); 
 
 #endif

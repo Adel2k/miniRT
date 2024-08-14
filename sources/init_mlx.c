@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:31:32 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/13 11:47:36 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:26:29 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	init_mlx(t_mlx_vars *vars, t_minirt *rt)
 	if (vars->mlx == NULL)
 		err("MLX initialization failed!\n");
 	scene = new_scene(&rt->camera, &rt->objects, WIDTH, HIGHT);	
+	scene->camera = rt->camera;
 	vars->win = mlx_new_window(vars->mlx, scene->width, scene->hight, "miniRT");
 	if (vars->win == NULL)
 		err("MLX connection failed!\n");

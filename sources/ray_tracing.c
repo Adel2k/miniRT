@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/13 12:37:09 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/14 20:29:35 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ray_tracing(void *mlx, void *win, t_scene *scene)
 	
 
 	
-	
+	printf("fov=%f\n",scene->camera.fov);
 	//mez ayjm petqa stananq akno prasmotra-n,vor mez shat kogni,aranc dra menq vochmi dzev chenq kara ispravitsya
 	vplane = get_view_plane(scene->width, scene->hight, scene->camera.fov);//minch es sheshtvela vor vorpisi kap hastatvi pikselya akno prasmotra s pikselyam akno katorim mi risuyem ,petqa shirinu akno prasmotran bajanel shirinu u okna ,dra hamar es funkcian kstana scenai erk. u lenqy 
 	//ays funckain kveradardzni այն ամենը, ինչ ձեզ անհրաժեշտ է charagayty uxarkelu(krakelu,bac toxelu) hamar
@@ -59,7 +59,7 @@ void	ray_tracing(void *mlx, void *win, t_scene *scene)
 			}
 			else
 			{
-	// printf("sev\n");
+	printf("sev\n");
 				
 				color = 0;
 			}
@@ -78,28 +78,38 @@ void	ray_tracing(void *mlx, void *win, t_scene *scene)
 }
 
 
-t_vplane	*get_view_plane(float width, float hight, int fov)
+t_vplane	*get_view_plane(float width, float hight, float fov)
 {
 	t_vplane	*vplane;
-	float	aspect_ratio;
-	(void)fov;//
+	float	aspect_ratio = 0.0;
+
 	// printf("ste=%f\n", width);
 	// printf("stex=%f\n",hight);
-
-
-	aspect_ratio = width / hight;
+	float w;
+	w = 2.0 * tan((fov / 2.0) * (M_PI / 180.0));
+	// h = w / aspect_ratio;
+	printf("fov=%f\n", fov);
+	printf("fooooooo=%f\n", w);
+	// printf("hiiiiiii=%f\n", h);
+	
+	printf("stex=%f\n",fov);
 	vplane = malloc(sizeof(t_vplane));
 	if (!vplane)
-		//err
+		exit(7777777); // ErRRRRRRRRRrrOR
 	//sovorabar nenca linumm,vor aknoi erkarutyuny aveli meca kinum qan laynutyuny,fdra hamar petqa unenanq mihat popoxakan vori mej kunenanq te erkariutyuny qani angama mec 
-	vplane->width = 1;//skzbi hamar chenq ogtagorcum fov-@ dra hamar 1 enq veragrum,heto yst fov-i veragrummy kanenq
+	// printf("WIDTH=%f: HEIGHT: %f\n", width, hight);
+	aspect_ratio = (float)(width / hight);
+	vplane->width = 2.0 * tan((fov / 2.0) * (M_PI / 180));//skzbi hamar chenq ogtagorcum fov-@ dra hamar 1 enq veragrum,heto yst fov-i veragrummy kanenq
+	// vplane->width *= 2.0;
 	vplane->hight = vplane->width / aspect_ratio;
+	printf("vplanei weeeeight=%f\n",vplane->width);
+	printf("vplanei hight=%f\n",vplane->hight);
 	//arden karanq stananq mer pikselnery v akne prasmotra
 	vplane->x_pixel = vplane->width / width;//chem jokum te xien x u y nuyn arjeqnery unenum??????????????????????????
 	vplane->y_pixel = vplane->hight / hight;//ayjm menq unenq pikselnery poqr patuhani voroncov ancneluya charagaytnery
-	// printf("funkciayi mej vplane-x=%f\n",vplane->x_pixel);
-	// printf("funkciayi mej vplane-y=%f\n",vplane->y_pixel);
-	
+	printf("funkciayi mej vplane-x=%f\n",vplane->x_pixel);
+	printf("funkciayi mej vplane-y=%f\n",vplane->y_pixel);
+	//(M_PI / 180)=1radiani arjeqna
 	return (vplane);
 }
 
@@ -117,7 +127,7 @@ int	sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere)
 	dist_2 = 0;
 	cam_sphere = vec_subtract(&cam->center, &sphere->center);
 	b = 2 * (vec_dot_product(cam_sphere, ray));
-	c = vec_dot_product(cam_sphere, cam_sphere) - ((sphere->diameter * sphere->diameter));
+	c = vec_dot_product(cam_sphere, cam_sphere) - ((sphere->diameter / 2 * sphere->diameter / 2));
 	// printf("cam_sphere->x=%f\n", cam_sphere->x);
 	// printf("cam_sphere->y=%f\n", cam_sphere->y);
 	// printf("cam_sphere->z=%f\n", cam_sphere->z);

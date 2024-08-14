@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:08:21 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/11 14:55:11 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:42:08 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,10 @@ void	parse_camera(char **matrix, t_minirt *rt)
 
 	if (if_only_digit(matrix[3]) == -1)
 		exit_and_free_matrix(matrix,"Error: bad arguments for camera", rt);
-	rt->camera.fov = ft_atoi(matrix[3]);
+	rt->camera.fov = ft_atof(matrix[3]);
 	if (!(rt->camera.fov >= 0 && rt->camera.fov <= 180))
 		exit_and_free(matrix, "Error: bad value", rt, split_2_line);
-
+	printf("func=%f\n", rt->camera.fov);
 }
 
 void	parse_ambient(char **matrix, t_minirt *rt)
