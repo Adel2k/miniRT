@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:08:21 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/14 15:42:08 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:29:22 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	parse_camera(char **matrix, t_minirt *rt)
 
 	if (if_only_digit(matrix[3]) == -1)
 		exit_and_free_matrix(matrix,"Error: bad arguments for camera", rt);
-	rt->camera.fov = ft_atof(matrix[3]);
+	rt->camera.fov = atof(matrix[3]);
 	if (!(rt->camera.fov >= 0 && rt->camera.fov <= 180))
 		exit_and_free(matrix, "Error: bad value", rt, split_2_line);
 	printf("func=%f\n", rt->camera.fov);
@@ -119,8 +119,8 @@ void	parse_ambient(char **matrix, t_minirt *rt)
 		exit_and_free_matrix(matrix, "Error: bad arguments for ambient3", rt);
 	if (if_char_and_digit(matrix[1], '.') == -1)
 		exit_and_free_matrix(matrix, "Error: bad arguments for ambient4", rt);
-	if (ft_atof(matrix[1]) >= 0.0 && ft_atof(matrix[1]) <= 1.0)
-		rt->ambient.ratio_lighting = ft_atof(matrix[1]);
+	if (atof(matrix[1]) >= 0.0 && atof(matrix[1]) <= 1.0)
+		rt->ambient.ratio_lighting = atof(matrix[1]);
 
 	init_color(&rt->color, matrix, rt, 2);	
 }

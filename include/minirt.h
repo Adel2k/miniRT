@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/14 15:45:35 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/17 13:21:22 by aeminian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,13 @@ typedef struct n_img
 	int		line_len;//plangi erkarutyan vra qani pixela texavorvum
 }	t_img;
 
-
+typedef struct s_atof
+{
+	double	num;
+	int		sign;
+	int		is_float;
+	double	fraction;
+}	t_atof;
 typedef struct s_mlx_vars
 {
 	void			*mlx;
