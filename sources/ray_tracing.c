@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/14 20:29:35 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/15 18:31:04 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	ray_tracing(void *mlx, void *win, t_scene *scene)
 		while (x_ankyan_value <= (scene->width) / 2)
 		{
 			x_ray = x_ankyan_value * vplane->x_pixel;
+				// printf("VRDS=%f\n", x_ray);
 			//hima erb menq arden gitenq te amen angam vortexa gtnvum mer charagayti ancnelu kety
 			ray = new_vector(x_ray, y_ray, -1);//-1 vortev uxxutyun es pahin anelu en -1ov(z-eri arancqi masina xosqy)////x_ray-@ u y_ray-@ meke -1y unenalov menq karanq arden stexcenq charagayt vory petqa zapuskat anenq depi taracutyun
 			vec_normalize(ray );//menq stanum enq vectori normaly vorpisi inqy sharjvi tochni uxxutyunov 
@@ -55,11 +56,11 @@ void	ray_tracing(void *mlx, void *win, t_scene *scene)
 			if (sphere_intersect(&scene->camera, ray, scene->objects.sphere))
 			{
 				color = 16777215;//spitak guyna
-				printf("ekanq\n");
+				// printf("ekanq\n");
 			}
 			else
 			{
-	printf("sev\n");
+	// printf("sev\n");
 				
 				color = 0;
 			}
@@ -72,7 +73,6 @@ void	ray_tracing(void *mlx, void *win, t_scene *scene)
 		mlx_y++;
 	}
 	printf("x_ray=%f\n",x_ray);
-	printf("y_ray=%f\n",y_ray);
 
 
 }
@@ -83,16 +83,7 @@ t_vplane	*get_view_plane(float width, float hight, float fov)
 	t_vplane	*vplane;
 	float	aspect_ratio = 0.0;
 
-	// printf("ste=%f\n", width);
-	// printf("stex=%f\n",hight);
-	float w;
-	w = 2.0 * tan((fov / 2.0) * (M_PI / 180.0));
-	// h = w / aspect_ratio;
-	printf("fov=%f\n", fov);
-	printf("fooooooo=%f\n", w);
-	// printf("hiiiiiii=%f\n", h);
-	
-	printf("stex=%f\n",fov);
+	// printf("stex=%f\n",fov);
 	vplane = malloc(sizeof(t_vplane));
 	if (!vplane)
 		exit(7777777); // ErRRRRRRRRRrrOR

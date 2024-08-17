@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/14 15:45:35 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/15 16:18:49 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINIRT_H
 
 # define WIDTH 800
-# define HIGHT 400
+# define HIGHT 600
 # include <stdio.h>
 # include <string.h>
 # include <limits.h>
