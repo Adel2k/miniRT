@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/15 16:18:49 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:56:27 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,13 @@ typedef struct n_img
 	int		line_len;//plangi erkarutyan vra qani pixela texavorvum
 }	t_img;
 
-
+typedef struct s_atof
+{
+	double	num;
+	int		sign;
+	int		is_float;
+	double	fraction;
+}	t_atof;
 typedef struct s_mlx_vars
 {
 	void			*mlx;

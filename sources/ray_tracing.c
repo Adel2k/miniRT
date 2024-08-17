@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/15 18:31:04 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:56:45 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ void	ray_tracing(void *mlx, void *win, t_scene *scene)
 			ray = new_vector(x_ray, y_ray, -1);//-1 vortev uxxutyun es pahin anelu en -1ov(z-eri arancqi masina xosqy)////x_ray-@ u y_ray-@ meke -1y unenalov menq karanq arden stexcenq charagayt vory petqa zapuskat anenq depi taracutyun
 			vec_normalize(ray );//menq stanum enq vectori normaly vorpisi inqy sharjvi tochni uxxutyunov 
 			//hasanq en ketin vor petqa arden krakenq luchy vorpisi tesnenq et charagayty ancav objekti mijov te che
+			// printf("%f\n", ray->x);
+			// printf("%f\n", ray->y);
+			// printf("%f\n", ray->z);
 			if (sphere_intersect(&scene->camera, ray, scene->objects.sphere))
 			{
 				color = 16777215;//spitak guyna
@@ -132,9 +135,11 @@ int	sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere)
 	discr = (b * b) - (4 * 1 * c);//a = 1;
 	if (discr < 0)
 	{
+	printf("alo ==== %f\n", discr);
 	// {printf("hmm\n");
 		return (0);//nshanakuma charagayty chi hatel gundy
 	}
+	printf("ste4\n");
 	dist_1 = ((b * (-1)) - sqrt(discr)) / (2 * 1 );//a=1
 	dist_2 = ((b * (-1)) + sqrt(discr)) / (2 * 1);//a=1
 	if (dist_1 > 0)//ete gundy gtnvuma kamerayi hetevy,apa distancian klini bacasakan,isk et depqum bnakanabar gundy chi ereva dra hamar en taki if-@ grum enq > 0 
