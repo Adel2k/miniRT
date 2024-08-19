@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:08:21 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/19 13:09:28 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/19 18:39:22 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	found_what_scene_is_it(char **matrix, t_minirt *rt)
 	{
 		obj = parse_ambient(matrix, rt);
 		ft_lstadd_back_amb(&rt->ambient, obj);
-		printf("ambient=%f\n", rt->ambient->ratio_lighting);
-		printf("ambient=%d\n", rt->color.red);
-		printf("ambient=%d\n", rt->color.green);
-		printf("ambient=%d\n", rt->color.blue);
+		// printf("ambient=%f\n", rt->ambient->ratio_lighting);
+		// printf("ambient=%d\n", rt->ambient->color.red);
+		// printf("ambient=%d\n", rt->ambient->color.green);
+		// printf("ambient=%d\n", rt->ambient->color.blue);
 	}
 	else if (!ft_strcmp(matrix[0], "C"))
 	{
@@ -42,13 +42,13 @@ void	found_what_scene_is_it(char **matrix, t_minirt *rt)
 	{
 		obj = parse_light(matrix, rt);
 		ft_lstadd_back_l(&rt->light, obj);
-		printf("light=%f\n", rt->light->coords.x);
-		printf("light=%f\n", rt->light->coords.y);
-		printf("light=%f\n", rt->light->coords.z);
-		printf("light=%f\n", rt->light->brightness);
-		printf("light=%d\n", rt->light->color.red);
-		printf("light=%d\n", rt->light->color.green);
-		printf("light=%d\n", rt->light->color.blue);
+		// printf("light=%f\n", rt->light->coords.x);
+		// printf("light=%f\n", rt->light->coords.y);
+		// printf("light=%f\n", rt->light->coords.z);
+		// printf("light=%f\n", rt->light->brightness);
+		// printf("light=%d\n", rt->light->color.red);
+		// printf("light=%d\n", rt->light->color.green);
+		// printf("light=%d\n", rt->light->color.blue);
 	}
 	else if (!ft_strcmp(matrix[0], "sp"))
 	{
@@ -122,19 +122,26 @@ void	*parse_camera(char **matrix, t_minirt *rt)
 
 void	*parse_ambient(char **matrix, t_minirt *rt)
 {
-	// char	**split_2_line=NULL;
+	int	i;
 	t_ambient	*ambient;
 
+	i = -1;
 	ambient = malloc(sizeof (t_ambient));
 	if (matrix_row(matrix) != 3)
 		exit_and_free_matrix(matrix, "Error: wrong qanaki arguments for ambient", rt);
+	while (matrix[++i])
+	{
+		if (matrix[i][0] == ',' || matrix[i][ft_strlen(matrix[i]) - 1] == ','
+			|| (ft_strstr_alt(matrix[i], ",,")))
+			exit_and_free_matrix(matrix,"Error: bad arguments", rt);
+	}
 	if (if_char_and_digit(matrix[1], '.') == -1)
 		exit_and_free_matrix(matrix, "Error: bad simbols for ambient ratio_lighting", rt);
 	ambient->ratio_lighting = ft_atof(matrix[1]);
-	printf("hres=%f\n",ambient->ratio_lighting);
 	if (!(ambient->ratio_lighting >= 0.0 && ambient->ratio_lighting <= 1.0))
 		exit_and_free_matrix(matrix, "Error: bad value ambient ratio_lighting", rt);
 
+	printf("hres=%f\n",ambient->ratio_lighting);
 	init_color(&ambient->color, matrix, rt, 2);
 	ambient->next = NULL;
 	return (ambient);
@@ -155,6 +162,7 @@ void	check_cam_count(t_camera *cam, char **map, t_minirt *rt)
 	int	count;
 	count = 0;
 	printf("hn\n");
+	printf("hasce=%p\n", cam);
 	while (cam)
 	{
 		count++;

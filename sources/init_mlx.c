@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:31:32 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/18 18:25:43 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/19 18:55:53 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,25 @@ void	init_mlx(t_mlx_vars *vars, t_minirt *rt)
 	if (vars->win == NULL)
 		err("MLX connection failed!\n");
 	ray_tracing(vars->mlx, vars->win, scene);
-	// free_scene(scene);
+	// free_scene(scene);/////
 	vars->img.img_ptr = mlx_new_image(vars->mlx, 1000 - 150, 1000);
 	vars->img.img_pixels_ptr = mlx_get_data_addr(vars->img.img_ptr, \
 	&vars->img.bits_per_pixel, &vars->img.line_len, &vars->img.endian);
 	mlx_hook(vars->win, 2, 0, handler, vars);
 	mlx_hook(vars->win, 17, 0, mouse_close, vars);
+	system("leaks miniRT");	
 	mlx_loop(vars->mlx);
+	free(vars->img.img_ptr);
+	free(vars->img.img_pixels_ptr);
+	printf("axpper\n");
+	
+}
+
+void	free_scene(t_scene *scene)
+{
+	// free(scene->camera);
+	free(scene->objects.cylinder);
+	free(scene->objects.sphere);
+	free(scene->objects.plane);
+	free(scene);
 }

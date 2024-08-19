@@ -6,13 +6,22 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/18 20:22:18 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:19:49 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
+# define W 		13
+# define A 		0
+# define S 		1
+# define D 		2
+# define UP		126
+# define DOWN	125
+# define LEFT	123
+# define RIGHT	124
+# define ESC	53
 # define WIDTH 800
 # define HIGHT 600
 # include <stdio.h>
@@ -140,6 +149,13 @@ typedef struct s_objects
 	t_sphere 	*sphere;
 	t_cylinder	*cylinder;	
 }	t_objects;
+typedef struct s_scene
+{
+	t_objects	objects;
+	t_camera	camera;
+	float		width;
+	float		hight;
+}	t_scene;
 
 typedef struct s_minirt
 {
@@ -149,15 +165,11 @@ typedef struct s_minirt
 	t_vector	vector;
 	t_camera	*camera;
 	t_light		*light;
+	t_mlx_vars	vars;
+	t_scene		scene;
+	
 }	t_minirt;
 
-typedef struct s_scene
-{
-	t_objects	objects;
-	t_camera	camera;
-	float		width;
-	float		hight;
-}	t_scene;
 
 typedef struct s_vplane//okna prasmotra
 {
@@ -207,7 +219,8 @@ double	ft_atof(char *str);
 int		if_only_digit(char *line);
 int		if_str_and_digit(char *line, char *set);
 int		have_this_char_in_set(char c, char *set);
-
+char	*ft_strchr(const char *s, int c);
+int	only_new_line_or_spaces(char *res);
 /////////////////validation////////////////////////
 int		validation(int ac, char **av, t_minirt *rt);
 int		is_rt(char *str);
@@ -234,7 +247,7 @@ char	*ft_strtrim(char *s1, char *set);
 /////////////////gnl////////////////////////////
 char	*ft_strdup(char *s);
 char	*ft_strjoin(const char *s1, const char *s2);
-char	*ft_strchr(const char *str, int c);
+char	*ft_strchr_gnl(const char *str, int c);
 
 /////////////////key_hooks////////////////////////////
 int		handler(int keysym, t_mlx_vars *vars);
@@ -276,4 +289,7 @@ int	sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere);
 void	count_check(t_minirt *rt, char **matrix);
 void	check_cam_count(t_camera *cam, char **matrix, t_minirt *rt);
 void	check_ambient_count(t_ambient *ambient, char **map, t_minirt *rt);
+
+
+void	free_scene(t_scene *scene);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:03:40 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/03 19:16:38 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/19 15:08:12 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*check(int fd, char **arr, char *buffer)
 	len = 1;
 	i = 0;
 	j = 0;
-	while (!ft_strchr(*arr, '\n') && len != 0)
+	while (!ft_strchr_gnl(*arr, '\n') && len != 0)
 	{
 		len = read(fd, buffer, BUFFER_SIZE);
 		if ((len == 0 && (*arr)[0] == '\0') || len < 0)

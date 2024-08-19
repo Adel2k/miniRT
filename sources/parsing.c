@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/19 13:02:40 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:08:51 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,18 @@ void	parsing(char **map, t_minirt *rt)
 		i++;
 	}
 	count_check(rt, map);
-	t_sphere *temp = rt->objects.sphere;
-	while (temp)
-	{
-		printf("sphere=%f\n", temp->center.x);
-		printf("sphere=%f\n", temp->center.y);
-		printf("sphere=%f\n", temp->center.z);
-		printf("sphere=%f\n", temp->diameter);
-		printf("sphere=%d\n", temp->color.red);
-		printf("sphere=%d\n", temp->color.green);
-		printf("sphere=%d\n", temp->color.blue);
-		temp = temp->next;
-	}
+	// t_sphere *temp = rt->objects.sphere;
+	// while (temp)
+	// {
+	// 	printf("sphere=%f\n", temp->center.x);
+	// 	printf("sphere=%f\n", temp->center.y);
+	// 	printf("sphere=%f\n", temp->center.z);
+	// 	printf("sphere=%f\n", temp->diameter);
+	// 	printf("sphere=%d\n", temp->color.red);
+	// 	printf("sphere=%d\n", temp->color.green);
+	// 	printf("sphere=%d\n", temp->color.blue);
+	// 	temp = temp->next;
+	// }
 }
 
 t_cylinder	*parse_cylinder(char **matrix, t_minirt *rt)
@@ -126,8 +126,6 @@ t_sphere	*parse_sphere(char **matrix, t_minirt *rt)
 	printf("aaaaa\n");
 
 	// init_color(&sphere->color, matrix, rt, 3);
-	// sphere->count++;
-	// count_check(rt, 's', matrix, NULL);
 	sphere->next = NULL;
 	return (sphere);
 }
@@ -150,9 +148,9 @@ t_light		*parse_light(char **matrix, t_minirt *rt)
 	init_coords(&light->coords, matrix, rt, 1);
 	if (if_char_and_digit(matrix[2], '.') == -1)
 		exit_and_free_matrix(matrix, "Error: bad simbols for light brightness", rt);
-	if (ft_atof(matrix[2]) >= 0.0 && ft_atof(matrix[2]) <= 1.0)
-		light->brightness = ft_atof(matrix[2]);
-
+	light->brightness = ft_atof(matrix[2]);
+	if (!(light->brightness >= 0.0 && light->brightness <= 1.0))
+		exit_and_free_matrix(matrix,"Error: bad value for light brightness", rt);
 	init_color(&light->color, matrix, rt, 3);
 	light->next = NULL;
 	// rt->light->count++;

@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:15:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/06 16:11:54 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:02:48 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,11 @@ char	*get_line(char *av)
 		if (!gnl)
 			break ;
 	}
+	if (!res || *res == '\0' || ft_strchr(res, '\t') != NULL || only_new_line_or_spaces(res) == 1)
+	{
+		free(temp);
+		return (NULL);
+	}
 	return (res);
 }
 
@@ -59,6 +64,7 @@ char **get_end_trim_map(char **map, t_minirt *rt)
 		i++;
 	}
 	trim_map[i] = NULL;
+	free_matrix(map);////////////////
 	return(trim_map);
 }
 
@@ -92,7 +98,11 @@ int	validation(int ac, char **av, t_minirt *rt)
 		if (is_rt(av[1]))
 			return(err("Error: Wrong argument: Try this way: ./rt filename.rt"));
 		read_line = get_line(av[1]);
-		map = spliting(read_line, rt);
+		printf("asenq te\n");
+		printf("read_line=%s\n",read_line);
+		if (!read_line)
+			return (1);
+		map = spliting(read_line, rt);//minchev ste leak chka
 		parsing(map, rt);
 		int i = 0;
 		while (**map && map[i])
@@ -100,8 +110,9 @@ int	validation(int ac, char **av, t_minirt *rt)
 			printf("%s\n", map[i]);
 			i++;
 		}
-	free_matrix(map);//////
+		free_matrix(map);//////
 	}
+		// system("leaks miniRT");
 	return (0);
 }
 

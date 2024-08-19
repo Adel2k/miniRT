@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:22:00 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/19 13:05:15 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/19 18:29:48 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	init_color(t_color *color, char **matrix, t_minirt *rt, int i)
 	if (!(color->red >= 0 && color->red <= 255)
 		|| !(color->green >= 0 && color->green <= 255)
 		|| !(color->blue >= 0 && color->blue <= 255))
-		exit_and_free(matrix, "Error: bad value", rt, split_2_line);
+		exit_and_free(matrix, "Error: value of color out is range", rt, split_2_line);
 	free_matrix(split_2_line);//erevi
 }
 

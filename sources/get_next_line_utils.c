@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 12:26:55 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/03 19:17:46 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/19 15:07:51 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/get_next_line.h"
 #include "../include/minirt.h"
 
-char	*ft_strchr(const char *str, int c)
+char	*ft_strchr_gnl(const char *str, int c)
 {
 	int	i;
 

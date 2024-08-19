@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:30:00 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/05 20:24:38 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/19 15:05:03 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,19 @@ char	*ft_strstr_alt(char *str, char *to_find)
 		i++;
 	}
 	return (0);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	if (c < 0)
+		return ((char *)s);
+	while (*s)
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+	}
+	if (c == '\0')
+		return ((char *)s);
+	return (NULL);
 }

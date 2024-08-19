@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:46:38 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/08 18:02:06 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/19 15:22:21 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,21 @@ int if_only_digit(char *line)
 	while (line[i])
 	{
 		if (line[i] >= 48 && line[i] <= 57)
+			i++;
+		else
+			return (-1);
+	}
+	return (1);
+}
+
+int	only_new_line_or_spaces(char *res)
+{
+	int	i;
+
+	i = 0;
+	while(res[i])
+	{
+		if (res[i] == '\n' || res[i] == 32)
 			i++;
 		else
 			return (-1);
