@@ -2,7 +2,7 @@ NAME = miniRT
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -I mlx #-g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I mlx -g3 -fsanitize=address
 MLXFLAGS = -lmlx -framework OpenGL -framework AppKit
 # MLXFLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
 
@@ -26,7 +26,8 @@ SRCS_NAME = minirt.c \
 			atof.c \
 			key_hooks.c \
 			ft_lst_func.c \
-			scene.c vector.c ray_tracing.c init_mlx.c
+			scene.c vector.c ray_tracing.c init_mlx.c \
+			goxcac.c
 
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/19 19:19:49 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/19 22:02:58 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,8 +153,11 @@ typedef struct s_scene
 {
 	t_objects	objects;
 	t_camera	camera;
+	t_light		light;
+	t_ambient	ambient;
 	float		width;
 	float		hight;
+	t_img		img;
 }	t_scene;
 
 typedef struct s_minirt
@@ -204,6 +207,7 @@ int		count_shape(char **matrix, char *shape);
 /////////////////init_mlx////////////////////////////
 void	init_mlx(t_mlx_vars *vars, t_minirt *rt);
 void	init_rt(t_minirt *rt);
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 /////////////////utils///////////////////////////////
 int		malloc_check(char *s);
 int		check1(char c, char const *set);
@@ -277,13 +281,16 @@ float	vec_length(t_vector *vec);
 float	vec_dot_product(t_vector *vec1, t_vector *vec2);
 void	vec_normalize(t_vector *vec);
 float	vec_dot_product(t_vector *vec1, t_vector *vec2);
+t_vector	*num_product_vect(t_vector *vec, float num);
+t_vector	*sum_vect(t_vector *v1, t_vector *v2);
+
 
 /////////////////ray_tracing.c////////////////////////////
 void	ray_tracing(void *mlx, void *win, t_scene *scene);
 t_vplane	*get_view_plane(float width, float hight, float fov);
-int	sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere); 
+float		sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere); 
 
-
+int	get_color(int red, int green, int blue, float bright);
 
 
 void	count_check(t_minirt *rt, char **matrix);
@@ -292,4 +299,7 @@ void	check_ambient_count(t_ambient *ambient, char **map, t_minirt *rt);
 
 
 void	free_scene(t_scene *scene);
+
+//////goxcac.c/////
+float	compute_light(float dot, t_scene *scene, t_vector *ray);
 #endif

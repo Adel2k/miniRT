@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 20:07:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/19 18:57:37 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:56:15 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int main(int ac, char **av)
 	init_rt(rt);
 	if (validation(ac, av, rt) == 0)
 	{
-		// init_mlx(vars, rt);
+		init_mlx(vars, rt);
 		printf("chjoka\n");
 		system("leaks miniRT");
 		return 0;

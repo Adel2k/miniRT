@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:31:32 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/19 18:55:53 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/19 22:00:49 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ void	init_mlx(t_mlx_vars *vars, t_minirt *rt)
 	free(vars->img.img_pixels_ptr);
 	printf("axpper\n");
 	
+}
+
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = img->img_ptr + (x * img->line_len + y * (img->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
 }
 
 void	free_scene(t_scene *scene)

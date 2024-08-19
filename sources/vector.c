@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 19:35:32 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/11 15:24:01 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:38:03 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ float	vec_length(t_vector *vec)
 {
 	float	res;
 	
-	res = (vec->x * vec->x) + (vec->y * vec->y) + (vec->z * vec->z);
+	res = sqrt((vec->x * vec->x) + (vec->y * vec->y) + (vec->z * vec->z));
 	return (res);
 }
 
@@ -51,6 +51,14 @@ void	vec_normalize(t_vector *vec)
 	vec->z /= length;
 }
 
+t_vector	*num_product_vect(t_vector *vec, float num)
+{
+	t_vector	*new;
+
+	new = new_vector(vec->x * num, vec->y * num, vec->z * num);
+	return (new);
+}
+
 float	vec_dot_product(t_vector *vec1, t_vector *vec2)
 {
 	float	result;
@@ -58,3 +66,12 @@ float	vec_dot_product(t_vector *vec1, t_vector *vec2)
 	result = ((vec1->x * vec2->x) + (vec1->y * vec2->y) + (vec1->z * vec2->z));
 	return (result);
 }
+
+t_vector	*sum_vect(t_vector *v1, t_vector *v2)
+{
+	t_vector	*new;
+	
+	new = new_vector(v1->x + v2->x, v1->y + v2->y, v1->z + v2->z);
+	return (new);
+}
+

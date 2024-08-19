@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/19 13:08:39 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/19 22:03:18 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ray_tracing(void *mlx, void *win, t_scene *scene)
 {
+	(void)mlx;
+		(void)win;
 	int	mlx_x;
 	int	mlx_y;//ay erkusy mlx_put_piexl()funklciayi hamar en,ev dranc arjeqnery popoxvelu en 0-800 ev 0-600,qani vor //mlx_put_pixel()-@ stanuma miayn drakan tver
 
@@ -24,7 +26,7 @@ void	ray_tracing(void *mlx, void *win, t_scene *scene)
 	float	y_ray;//sranq koordinatner mer charagayti
 	t_vector	*ray;//vory menq uxarkelu enq kamerayic.դիտման պատուհանների միջով կա մի տարածություն, որտեղ գտնվում են պատկերները
 	t_vplane	*vplane;//i vot sama akno prasmotra
-	
+	float		dot;
 
 	
 	printf("fov=%f\n",scene->camera.fov);
@@ -56,18 +58,24 @@ void	ray_tracing(void *mlx, void *win, t_scene *scene)
 			// printf("%f\n", ray->x);
 			// printf("%f\n", ray->y);
 			// printf("%f\n", ray->z);
-			if (sphere_intersect(&scene->camera, ray, scene->objects.sphere))
+			dot = sphere_intersect(&scene->camera, ray, scene->objects.sphere);
+			if (dot)
 			{
-				color = 16777215;//spitak guyna
-				// printf("ekanq\n");
+				// color = 16777215;//spitak guyna
+				color = get_color(scene->objects.sphere->color.red, scene->objects.sphere->color.green, scene->objects.sphere->color.blue, compute_light(dot, scene, ray));//es 1y chgitem xia mek
 			}
 			else
 			{
+			// printf("xosli\n");
 	// printf("sev\n");
 				
-				color = 0;
+				// color = 0;
+				color = get_color(0 ,0, 0, 1);
 			}
-			mlx_pixel_put(mlx, win, mlx_x, mlx_y, color);
+			printf("bebe=%p\n",&scene->img);
+			my_mlx_pixel_put(&scene->img, mlx_x, mlx_y, color);
+			// mlx_pixel_put(mlx, win, mlx_x, mlx_y, color);
+
 			free(ray);
 			x_ankyan_value++;
 			mlx_x++;
@@ -107,7 +115,7 @@ t_vplane	*get_view_plane(float width, float hight, float fov)
 	return (vplane);
 }
 
-int	sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere)
+float	sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere)
 {
 	//a-n misht = 1 vortev nashi rastayanii do akna prasmotra edinica(erachap hartutyan mej)
 	float	b;
@@ -129,6 +137,7 @@ int	sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere)
 	// printf("ray->y=%f\n", ray->y);
 	// printf("ray->z=%f\n", ray->z);
 
+	printf("for what\n");
 	free(cam_sphere);
 	// printf("b=%f\n", b);
 	// printf("c=%f\n", c);
@@ -143,8 +152,28 @@ int	sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere)
 	dist_1 = ((b * (-1)) - sqrt(discr)) / (2 * 1);//a=1
 	dist_2 = ((b * (-1)) + sqrt(discr)) / (2 * 1);//a=1
 	if (dist_1 > 0)//ete gundy gtnvuma kamerayi hetevy,apa distancian klini bacasakan,isk et depqum bnakanabar gundy chi ereva dra hamar en taki if-@ grum enq > 0 
-		return (1);//menq heto pti 1i texy veradardznenq et distancian,tipne poxelu enq float funkciayi,heto et sax distancianery hamematelu enq u vory amena moty exav dra guynov nerkenq
+		return (dist_1);//menq heto pti 1i texy veradardznenq et distancian,tipne poxelu enq float funkciayi,heto et sax distancianery hamematelu enq u vory amena moty exav dra guynov nerkenq
 	// printf("hmm\n");
 	return (0);
 	//karoxa mez funkciaye petq ga vor vectory kbajani inchvor trvac tvi vra
 }
+
+
+int	get_color(int red, int green, int blue, float bright)
+{
+	int	r;
+	int	g;
+	int	b;
+
+	r = red * bright;
+	g = green * bright;
+	b = blue * bright;
+	if (r > 255)
+		r = 255;
+	if (g > 255)
+		g = 255;
+	if (b > 255)
+		b = 255;
+	return (r << 16 | g << 8 | b);//mekel es masy harcnel
+}
+
