@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 20:07:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/11 15:11:36 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/18 18:25:18 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int main(int ac, char **av)
 
 void	init_rt(t_minirt *rt)
 {
+	rt->camera = NULL;
+	rt->ambient = NULL;
 	rt->light = NULL;
 	rt->objects.cylinder = NULL;
 	rt->objects.plane = NULL;

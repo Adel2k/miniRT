@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/17 15:56:45 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/19 13:08:39 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,12 +135,12 @@ int	sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere)
 	discr = (b * b) - (4 * 1 * c);//a = 1;
 	if (discr < 0)
 	{
-	printf("alo ==== %f\n", discr);
+	// printf("alo ==== %f\n", discr);
 	// {printf("hmm\n");
 		return (0);//nshanakuma charagayty chi hatel gundy
 	}
-	printf("ste4\n");
-	dist_1 = ((b * (-1)) - sqrt(discr)) / (2 * 1 );//a=1
+	// printf("ste4\n");
+	dist_1 = ((b * (-1)) - sqrt(discr)) / (2 * 1);//a=1
 	dist_2 = ((b * (-1)) + sqrt(discr)) / (2 * 1);//a=1
 	if (dist_1 > 0)//ete gundy gtnvuma kamerayi hetevy,apa distancian klini bacasakan,isk et depqum bnakanabar gundy chi ereva dra hamar en taki if-@ grum enq > 0 
 		return (1);//menq heto pti 1i texy veradardznenq et distancian,tipne poxelu enq float funkciayi,heto et sax distancianery hamematelu enq u vory amena moty exav dra guynov nerkenq

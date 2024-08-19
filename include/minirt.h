@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/17 15:56:27 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/18 20:22:18 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_atof
 	int		is_float;
 	double	fraction;
 }	t_atof;
+
 typedef struct s_mlx_vars
 {
 	void			*mlx;
@@ -60,6 +61,8 @@ typedef struct s_ambient
 {
 	float   ratio_lighting;
     t_color color;
+	int		count;
+	struct s_ambient	*next;
 }	t_ambient;
 //////
 
@@ -76,6 +79,8 @@ typedef struct s_camera
 	t_vector    center;
     float		fov;//size_t,կհաշվարկի տեսադաշտի լայնությունը
 	t_vector	direction;//uxxutyun
+	int		count;
+	struct s_camera	*next;
 }	t_camera;
 /// //////
 
@@ -86,6 +91,7 @@ typedef struct s_light
 	t_vector		coords;
 	float			brightness;
 	t_color			color;
+	// int				count;
 	struct s_light	*next;
 }	t_light;
 
@@ -97,6 +103,7 @@ typedef struct s_sphere
 	float		diameter;
 	// float		r2;
 	t_color		color;
+	// int			count;
 	struct s_sphere	*next;
 }	t_sphere;
 
@@ -107,6 +114,7 @@ typedef struct s_plane
 	t_vector	coords;
 	t_color		color;
 	t_vector	orient;
+	// int			count;
 	struct s_plane	*next;
 }	t_plane;
 
@@ -122,6 +130,7 @@ typedef struct s_cylinder
 	// t_vect		p2;
 	// t_vect		delta_p;
 	t_color		color;
+	// int			count;
 	struct s_cylinder	*next;
 }	t_cylinder;
 
@@ -135,10 +144,10 @@ typedef struct s_objects
 typedef struct s_minirt
 {
 	t_color		color;
-	t_ambient	ambient;
+	t_ambient	*ambient;
 	t_objects	objects;
 	t_vector	vector;
-	t_camera	camera;
+	t_camera	*camera;
 	t_light		*light;
 }	t_minirt;
 
@@ -176,8 +185,8 @@ t_plane	*parse_plane(char **matrix, t_minirt *rt);
 
 /////////////////parsing_utils////////////////////////
 void	found_what_scene_is_it(char **matrix, t_minirt *rt);
-void	parse_camera(char **matrix, t_minirt *rt);
-void	parse_ambient(char **matrix, t_minirt *rt);
+void	*parse_camera(char **matrix, t_minirt *rt);
+void	*parse_ambient(char **matrix, t_minirt *rt);
 int		count_shape(char **matrix, char *shape);
 
 /////////////////init_mlx////////////////////////////
@@ -240,8 +249,10 @@ void	ft_lstadd_back_sp(t_sphere **lst, t_sphere *new);
 t_sphere	*ft_lstlast_sp(t_sphere *lst);
 void	ft_lstadd_back_l(t_light **lst, t_light *new);
 t_light	*ft_lstlast_l(t_light *lst);
-
-
+void	ft_lstadd_back_ca(t_camera **lst, t_camera *new);
+t_camera	*ft_lstlast_ca(t_camera *lst);
+void	ft_lstadd_back_amb(t_ambient **lst, t_ambient *new);
+t_ambient	*ft_lstlast_amb(t_ambient *lst);
 
 
 t_scene	*new_scene(t_camera *camera, t_objects *object, int width, int hight);
@@ -259,4 +270,10 @@ void	ray_tracing(void *mlx, void *win, t_scene *scene);
 t_vplane	*get_view_plane(float width, float hight, float fov);
 int	sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere); 
 
+
+
+
+void	count_check(t_minirt *rt, char **matrix);
+void	check_cam_count(t_camera *cam, char **matrix, t_minirt *rt);
+void	check_ambient_count(t_ambient *ambient, char **map, t_minirt *rt);
 #endif

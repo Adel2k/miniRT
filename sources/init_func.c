@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_func.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:22:00 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/16 16:32:05 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/19 13:05:15 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	init_orient(t_vector *orient, char **matrix, t_minirt *rt, int i)
 
 	if (!(orient->x >= -1.0 && orient->x <= 1.0)
 		|| !(orient->y >= -1.0 && orient->y <= 1.0)
-		|| !(orient->z >= -1.0 &&orient->z <= 1.0))
+		|| !(orient->z >= -1.0 && orient->z <= 1.0))
 		exit_and_free(matrix, "Error: bad value", rt, split_2_line);
 	free_matrix(split_2_line);//erevi	
 }

@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 16:27:57 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/09 19:31:53 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/18 18:47:54 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,53 @@ t_light	*ft_lstlast_l(t_light *lst)
 	if (lst == NULL)
 		return (NULL);
 	while (lst && lst->next)
+		lst = lst->next;
+	return (lst);
+}
+//////camera///
+void	ft_lstadd_back_ca(t_camera **lst, t_camera *new)
+{
+	t_camera	*ptr;
+
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	ptr = ft_lstlast_ca(*lst);
+	ptr -> next = new;
+	// new->prev = ptr;
+}
+t_camera	*ft_lstlast_ca(t_camera *lst)
+{
+	if (lst == NULL)
+		return (NULL);
+	while
+	 (lst && lst->next)
+		lst = lst->next;
+	return (lst);
+}
+
+////ambient////
+void	ft_lstadd_back_amb(t_ambient **lst, t_ambient *new)
+{
+	t_ambient	*ptr;
+
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	ptr = ft_lstlast_amb(*lst);
+	ptr -> next = new;
+	// new->prev = ptr;
+}
+t_ambient	*ft_lstlast_amb(t_ambient *lst)
+{
+	if (lst == NULL)
+		return (NULL);
+	while
+	 (lst && lst->next)
 		lst = lst->next;
 	return (lst);
 }

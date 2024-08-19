@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeminian <aeminian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:08:21 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/16 16:29:22 by aeminian         ###   ########.fr       */
+/*   Updated: 2024/08/19 13:09:28 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,18 @@ void	found_what_scene_is_it(char **matrix, t_minirt *rt)
 
 	if (!ft_strcmp(matrix[0], "A"))
 	{
-		parse_ambient(matrix, rt);
-		printf("ambient=%f\n", rt->ambient.ratio_lighting);
+		obj = parse_ambient(matrix, rt);
+		ft_lstadd_back_amb(&rt->ambient, obj);
+		printf("ambient=%f\n", rt->ambient->ratio_lighting);
 		printf("ambient=%d\n", rt->color.red);
 		printf("ambient=%d\n", rt->color.green);
 		printf("ambient=%d\n", rt->color.blue);
 	}
 	else if (!ft_strcmp(matrix[0], "C"))
 	{
-		parse_camera(matrix, rt);
+		
+		obj = parse_camera(matrix, rt);
+		ft_lstadd_back_ca(&rt->camera, obj);
 		// printf("camera=%f\n", rt->camera.coords.x);
 		// printf("camera=%f\n", rt->camera.coords.y);
 		// printf("camera=%f\n", rt->camera.coords.z);
@@ -85,14 +88,15 @@ void	found_what_scene_is_it(char **matrix, t_minirt *rt)
 // }el petq chi
 
 
-void	parse_camera(char **matrix, t_minirt *rt)
+void	*parse_camera(char **matrix, t_minirt *rt)
 {
 	char	**split_2_line = NULL;
 	int		i;
-
+	t_camera	*camera;
+	camera = malloc(sizeof(t_camera));
 	i = 0;
 	if (matrix_row(matrix) != 4)
-		exit_and_free_matrix(matrix, "Error: bad arguments for camera", rt);
+		exit_and_free_matrix(matrix, "Error: wrong qanaki arguments for camera", rt);
 	while (matrix[++i])
 	{
 		if (matrix[i][0] == ',' || matrix[i][ft_strlen(matrix[i]) - 1] == ','
@@ -100,27 +104,78 @@ void	parse_camera(char **matrix, t_minirt *rt)
 			exit_and_free_matrix(matrix,"Error: bad arguments", rt);
 	}
 
-	init_coords(&rt->camera.center ,matrix, rt, 1);
+	init_coords(&camera->center ,matrix, rt, 1);
 
-	init_orient(&rt->camera.direction, matrix, rt, 2);
+	init_orient(&camera->direction, matrix, rt, 2);
 
 	if (if_only_digit(matrix[3]) == -1)
 		exit_and_free_matrix(matrix,"Error: bad arguments for camera", rt);
-	rt->camera.fov = atof(matrix[3]);
-	if (!(rt->camera.fov >= 0 && rt->camera.fov <= 180))
-		exit_and_free(matrix, "Error: bad value", rt, split_2_line);
-	printf("func=%f\n", rt->camera.fov);
+	camera->fov = atof(matrix[3]);
+	if (!(camera->fov >= 0 && camera->fov <= 180))
+		exit_and_free(matrix, "Error: bad value fov", rt, split_2_line);
+	// rt->camera.count++;
+	// count_check(rt, 'C', matrix, split_2_line);
+	camera->next = NULL;
+	printf("exav\n");
+	return (camera);
 }
 
-void	parse_ambient(char **matrix, t_minirt *rt)
+void	*parse_ambient(char **matrix, t_minirt *rt)
 {
 	// char	**split_2_line=NULL;
-	if (matrix_row(matrix) != 3)
-		exit_and_free_matrix(matrix, "Error: bad arguments for ambient3", rt);
-	if (if_char_and_digit(matrix[1], '.') == -1)
-		exit_and_free_matrix(matrix, "Error: bad arguments for ambient4", rt);
-	if (atof(matrix[1]) >= 0.0 && atof(matrix[1]) <= 1.0)
-		rt->ambient.ratio_lighting = atof(matrix[1]);
+	t_ambient	*ambient;
 
-	init_color(&rt->color, matrix, rt, 2);	
+	ambient = malloc(sizeof (t_ambient));
+	if (matrix_row(matrix) != 3)
+		exit_and_free_matrix(matrix, "Error: wrong qanaki arguments for ambient", rt);
+	if (if_char_and_digit(matrix[1], '.') == -1)
+		exit_and_free_matrix(matrix, "Error: bad simbols for ambient ratio_lighting", rt);
+	ambient->ratio_lighting = ft_atof(matrix[1]);
+	printf("hres=%f\n",ambient->ratio_lighting);
+	if (!(ambient->ratio_lighting >= 0.0 && ambient->ratio_lighting <= 1.0))
+		exit_and_free_matrix(matrix, "Error: bad value ambient ratio_lighting", rt);
+
+	init_color(&ambient->color, matrix, rt, 2);
+	ambient->next = NULL;
+	return (ambient);
+	// count_check(rt, 'a', matrix, NULL);
+	// rt->ambient.count++;
+}
+
+
+void	count_check(t_minirt *rt, char **map)
+{
+	check_cam_count(rt->camera, map, rt);
+	check_ambient_count(rt->ambient, map, rt);
+
+}
+
+void	check_cam_count(t_camera *cam, char **map, t_minirt *rt)
+{
+	int	count;
+	count = 0;
+	printf("hn\n");
+	while (cam)
+	{
+		count++;
+		printf("aaaaaaaa\n");
+		cam = cam->next;
+	}
+	if (count != 1)
+		exit_and_free_matrix(map, "Error: invalid count camera", rt);
+}
+
+void	check_ambient_count(t_ambient *ambient, char **map, t_minirt *rt)
+{
+	int	count;
+	count = 0;
+	printf("hn\n");
+	while (ambient)
+	{
+		count++;
+		printf("aaaaaaaa\n");
+		ambient = ambient->next;
+	}
+	if (count != 1)
+		exit_and_free_matrix(map, "Error: invalid count ambient", rt);
 }
