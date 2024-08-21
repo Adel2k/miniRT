@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 20:26:29 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/21 18:49:37 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:17:05 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ float	compute_light(float dot, t_scene *scene, t_vector ray, t_sphere *sphere)
 	i = scene->ambient->ratio_lighting;//սահմանում ենք լուսավորության սկզբնական ինտենսիվությունը՝ հիմնվելով շրջակա միջավայրի լույսի վրա (շրջակա լուսավորություն, որը միշտ առկա է):
 	//Ցրված լուսավորության հաշվարկ
 	n_dot_l = vec_dot_product(norm, light);//մենք հաշվում ենք նորմալի և լուսային վեկտորի սկալյար արտադրյալը՝ նրանց միջև եղած անկյունը գտնելու համար։
+	// sph = NULL;
+	// if (closest_inter(p, light, scene->sphere, &sph) != INFINITY)
+	// 		return (i);
 	if (n_dot_l > 0)//ապա լույսի աղբյուրը լուսավորում է այդ կետը
 		i += scene->light->brightness * n_dot_l / (vec_length(norm) * vec_length(light));
 	if (sphere->specular > 0)

@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/21 18:49:15 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/21 21:20:52 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef struct s_ambient
 	float   ratio_lighting;
     t_color color;
 	int		count;
-	struct s_ambient	*next;
+	// struct s_ambient	*next;
 }	t_ambient;
 //////
 
@@ -98,7 +98,7 @@ typedef struct s_camera
     float		fov;//size_t,կհաշվարկի տեսադաշտի լայնությունը
 	t_vector	direction;//uxxutyun
 	int		count;
-	struct s_camera	*next;
+	// struct s_camera	*next;
 }	t_camera;
 /// //////
 
@@ -110,7 +110,7 @@ typedef struct s_light
 	float			brightness;
 	t_color			color;
 	// int				count;
-	struct s_light	*next;
+	// struct s_light	*next;
 }	t_light;
 
 
@@ -124,7 +124,7 @@ typedef struct s_sphere
 	t_color		color;
 	float		specular;
 	// int			count;
-	struct s_sphere	*next;
+	// struct s_sphere	*next;
 }	t_sphere;
 
 
@@ -135,7 +135,7 @@ typedef struct s_plane
 	t_color		color;
 	t_vector	orient;
 	// int			count;
-	struct s_plane	*next;
+	// struct s_plane	*next;
 }	t_plane;
 
 typedef struct s_cylinder
@@ -151,15 +151,17 @@ typedef struct s_cylinder
 	// t_vect		delta_p;
 	t_color		color;
 	// int			count;
-	struct s_cylinder	*next;
+	// struct s_cylinder	*next;
 }	t_cylinder;
 
-typedef struct s_objects
+typedef struct s_figure
 {
-	t_plane		*plane;
-	t_sphere 	*sphere;
-	t_cylinder	*cylinder;	
-}	t_objects;
+	t_sphere		*sphere;
+	t_plane			*plane;
+	t_cylinder		*cylinder;
+	t_type			type;
+	struct s_figure	*next;
+}				t_figure;
 
 
 typedef struct s_scene
@@ -168,10 +170,10 @@ typedef struct s_scene
 	t_camera	*camera;
 	t_ambient	*ambient;
 	t_light		*light;
-	// t_objects	objects;
-	t_plane		*plane;
-	t_sphere 	*sphere;
-	t_cylinder	*cylinder;
+	// t_plane		*plane;
+	// t_sphere 	*sphere;
+	// t_cylinder	*cylinder;
+	t_figure	*figure;
 	t_mlx_vars	*mlx;
 	t_img		*img;//data
 	t_vector	vector;
@@ -284,8 +286,11 @@ t_camera	*ft_lstlast_ca(t_camera *lst);
 void	ft_lstadd_back_amb(t_ambient **lst, t_ambient *new);
 t_ambient	*ft_lstlast_amb(t_ambient *lst);
 
+t_figure	*lst_create_figure(t_scene *scene, char **matrix, int type);
+void	ft_lstadd_back_figure(t_figure **figure, t_figure *new);
+t_figure	*ft_lstlast_figure(t_figure *figure);
 
-t_scene	*new_scene(t_camera *camera, t_objects *object, int width, int hight);
+// t_scene	*new_scene(t_camera *camera, t_objects *object, int width, int hight);
 
 /////////////////vector.c////////////////////////////
 t_vector	new_vector(float x, float y, float z);

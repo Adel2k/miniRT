@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:08:21 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/20 13:04:58 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/21 21:21:32 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 void	found_what_scene_is_it(char **matrix, t_scene *scene)
 {
-	void	*obj;
+	// void	*obj;
 
 	if (!ft_strcmp(matrix[0], "A"))
 	{
-		obj = parse_ambient(matrix, scene);
-		ft_lstadd_back_amb(&scene->ambient, obj);
+		scene->ambient = parse_ambient(matrix, scene);
+		// obj = parse_ambient(matrix, scene);
+		// ft_lstadd_back_amb(&scene->ambient, obj);
+		
 		// printf("ambient=%f\n", scene->ambient->ratio_lighting);
 		// printf("ambient=%d\n", scene->ambient->color.red);
 		// printf("ambient=%d\n", scene->ambient->color.green);
@@ -27,9 +29,10 @@ void	found_what_scene_is_it(char **matrix, t_scene *scene)
 	}
 	else if (!ft_strcmp(matrix[0], "C"))
 	{
+		scene->ambient = parse_camera(matrix, scene);
+		// obj = parse_camera(matrix, scene);
+		// ft_lstadd_back_ca(&scene->camera, obj);
 		
-		obj = parse_camera(matrix, scene);
-		ft_lstadd_back_ca(&scene->camera, obj);
 		// printf("camera=%f\n", scene->camera.coords.x);
 		// printf("camera=%f\n", scene->camera.coords.y);
 		// printf("camera=%f\n", scene->camera.coords.z);
@@ -40,8 +43,9 @@ void	found_what_scene_is_it(char **matrix, t_scene *scene)
 	}
 	else if (!ft_strcmp(matrix[0], "L"))
 	{
-		obj = parse_light(matrix, scene);
-		ft_lstadd_back_l(&scene->light, obj);
+		scene->light = parse_light(matrix, scene);
+		// ft_lstadd_back_l(&scene->light, obj);
+		
 		// printf("light=%f\n", scene->light->coords.x);
 		// printf("light=%f\n", scene->light->coords.y);
 		// printf("light=%f\n", scene->light->coords.z);
@@ -52,18 +56,22 @@ void	found_what_scene_is_it(char **matrix, t_scene *scene)
 	}
 	else if (!ft_strcmp(matrix[0], "sp"))
 	{
-		obj = parse_sphere(matrix, scene);
-		ft_lstadd_back_sp(&scene->sphere, obj);
+		// obj = parse_sphere(matrix, scene);
+		// ft_lstadd_back_sp(&scene->sphere, obj);
+		ft_lstadd_back_figure(&scene->figure, lst_create_figure(scene, matrix, SPHERE));
 	}
 	else if (!ft_strcmp(matrix[0], "pl"))
 	{
-		obj = parse_plane(matrix, scene);
-		ft_lstadd_back_pl(&scene->plane, obj);
+		// obj = parse_plane(matrix, scene);
+		// ft_lstadd_back_pl(&scene->plane, obj);
+		ft_lstadd_back_figure(&scene->figure, lst_create_figure(scene, matrix, PLANE));
 	}
 	else if (!ft_strcmp(matrix[0], "cy"))
 	{
-		obj = parse_cylinder(matrix, scene);
-		ft_lstadd_back_cy(&scene->cylinder, obj);
+		// obj = parse_cylinder(matrix, scene);
+		// ft_lstadd_back_cy(&scene->cylinder, obj);
+		ft_lstadd_back_figure(&scene->figure, lst_create_figure(scene, matrix, CYLINDER));
+
 	}
 	else
 		exit_and_free_matrix(matrix, "Error: wrong shape", scene);
@@ -115,7 +123,7 @@ void	*parse_camera(char **matrix, t_scene *scene)
 		exit_and_free(matrix, "Error: bad value fov", scene, split_2_line);
 	// scene->camera.count++;
 	// count_check(scene, 'C', matrix, split_2_line);
-	camera->next = NULL;
+	// camera->next = NULL;
 	printf("exav\n");
 	return (camera);
 }
@@ -143,7 +151,7 @@ void	*parse_ambient(char **matrix, t_scene *scene)
 
 	printf("hres=%f\n",ambient->ratio_lighting);
 	init_color(&ambient->color, matrix, scene, 2);
-	ambient->next = NULL;
+	// ambient->next = NULL;
 	return (ambient);
 	// count_check(scene, 'a', matrix, NULL);
 	// scene->ambient.count++;
@@ -157,33 +165,33 @@ void	count_check(t_scene *scene, char **map)
 
 }
 
-void	check_cam_count(t_camera *cam, char **map, t_scene *scene)
-{
-	int	count;
-	count = 0;
-	printf("hn\n");
-	printf("hasce=%p\n", cam);
-	while (cam)
-	{
-		count++;
-		printf("aaaaaaaa\n");
-		cam = cam->next;
-	}
-	if (count != 1)
-		exit_and_free_matrix(map, "Error: invalid count camera", scene);
-}
+// void	check_cam_count(t_camera *cam, char **map, t_scene *scene)
+// {
+// 	int	count;
+// 	count = 0;
+// 	printf("hn\n");
+// 	printf("hasce=%p\n", cam);
+// 	while (cam)
+// 	{
+// 		count++;
+// 		printf("aaaaaaaa\n");
+// 		cam = cam->next;
+// 	}
+// 	if (count != 1)
+// 		exit_and_free_matrix(map, "Error: invalid count camera", scene);
+// }
 
-void	check_ambient_count(t_ambient *ambient, char **map, t_scene *scene)
-{
-	int	count;
-	count = 0;
-	printf("hn\n");
-	while (ambient)
-	{
-		count++;
-		printf("aaaaaaaa\n");
-		ambient = ambient->next;
-	}
-	if (count != 1)
-		exit_and_free_matrix(map, "Error: invalid count ambient", scene);
-}
+// void	check_ambient_count(t_ambient *ambient, char **map, t_scene *scene)
+// {
+// 	int	count;
+// 	count = 0;
+// 	printf("hn\n");
+// 	while (ambient)
+// 	{
+// 		count++;
+// 		printf("aaaaaaaa\n");
+// 		ambient = ambient->next;
+// 	}
+// 	if (count != 1)
+// 		exit_and_free_matrix(map, "Error: invalid count ambient", scene);
+// }

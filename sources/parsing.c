@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/20 14:34:45 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:44:08 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_cylinder	*parse_cylinder(char **matrix, t_scene *scene)
 	cylinder->height = ft_atof(matrix[4]);
 
 	init_color(&cylinder->color, matrix, scene, 5);
-	cylinder->next = NULL;
+	// cylinder->next = NULL;
 	// scene->cylinder->count++;
 	// count_check(scene, 'c', matrix, NULL);
 	return (cylinder);
@@ -95,7 +95,7 @@ t_plane	*parse_plane(char **matrix, t_scene *scene)
 	init_orient(&plane->orient, matrix, scene, 2);
 	
 	init_color(&plane->color, matrix, scene, 3);
-	plane->next = NULL;
+	// plane->next = NULL;
 	// scene->plane->count++;
 	// count_check(scene, 'p', matrix, NULL);
 	return (plane);
@@ -126,7 +126,7 @@ t_sphere	*parse_sphere(char **matrix, t_scene *scene)
 	sphere->radius = ft_atof(matrix[2]) / 2;
 	printf("aaaaa\n");
 	init_color(&sphere->color, matrix, scene, 3);
-	sphere->next = NULL;
+	// sphere->next = NULL;
 	return (sphere);
 }
 
@@ -152,7 +152,7 @@ t_light		*parse_light(char **matrix, t_scene *scene)
 	if (!(light->brightness >= 0.0 && light->brightness <= 1.0))
 		exit_and_free_matrix(matrix,"Error: bad value for light brightness", scene);
 	init_color(&light->color, matrix, scene, 3);
-	light->next = NULL;
+	// light->next = NULL;
 	// scene->light->count++;
 	// count_check(scene, 'l', matrix, NULL);
 	return (light);

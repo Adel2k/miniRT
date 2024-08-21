@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 20:07:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/20 13:57:15 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:23:10 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,17 @@ int main(int ac, char **av)
 	return 1;
 }
 
-void	free_(t_scene *scene, t_mlx_vars *mlx)
-{
-	free(scene->ambient);
-	free(scene->camera);
-	free(scene->light);
-	free(scene->plane);
-	free(scene);
-	free(mlx);
-}
+
 
 void	init_scene(t_scene *scene)
 {
 	scene->camera = NULL;
 	scene->ambient = NULL;
 	scene->light = NULL;
-	scene->plane = NULL;
-	scene->sphere = NULL;
-	scene->cylinder = NULL;
+	// scene->plane = NULL;
+	// scene->sphere = NULL;
+	// scene->cylinder = NULL;
+	scene->figure = NULL;
 	scene->mlx = NULL;
 	scene->img = NULL;
 	scene->width = WIDTH;

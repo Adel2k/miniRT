@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:31:32 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/21 14:30:03 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:23:18 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,3 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 		*(unsigned int *)dst = color;//bacatrutyan kariq ka!
 }
 
-void	free_scene(t_scene *scene)
-{
-	// free(scene->camera);
-	free(scene->cylinder);
-	free(scene->sphere);
-	free(scene->plane);
-	free(scene);
-}
