@@ -3,7 +3,8 @@
         "string.h": "c",
         "get_next_line.h": "c",
         "minirt.h": "c",
-        "ios": "c"
+        "ios": "c",
+        "complex": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

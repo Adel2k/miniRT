@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 20:56:26 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/19 18:54:33 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/20 13:27:16 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ int	err(char *str)
 	return (1);
 }
 
-void	exit_and_free_str(char *str_free, char *str_err ,t_minirt *rt)
+void	exit_and_free_str(char *str_free, char *str_err ,t_scene *scene)
 {
 	err(str_err);
 	free (str_free);
-	free(rt);
-	system("leaks miniRT");
+	free(scene);
+	// system("leaks miniRT");
 	exit (1);
 }
 
-void	exit_and_free_matrix(char **map, char *str_err, t_minirt *rt)
+void	exit_and_free_matrix(char **map, char *str_err, t_scene *scene)
 {
 	free_matrix(map);
 	err(str_err);
@@ -40,17 +40,17 @@ void	exit_and_free_matrix(char **map, char *str_err, t_minirt *rt)
 	// 	free(tmp);
 	// }
 	// free(rt->light);
-	free(rt);
-	system("leaks miniRT");
+	free(scene);
+	// system("leaks miniRT");
 	exit(1);
 }
 
-void	exit_and_free(char **map, char *str_err, t_minirt *rt, char **matrix)
+void	exit_and_free(char **map, char *str_err, t_scene *scene, char **matrix)
 {
 	free_matrix(matrix);
 	// free(rt->vars);
 	// free(&rt->scene->camera);
-	exit_and_free_matrix(map, str_err, rt);
+	exit_and_free_matrix(map, str_err, scene);
 }
 
 void	free_matrix(char **matrix)

@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:15:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/19 19:02:48 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/20 13:05:49 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*get_line(char *av)
 	return (res);
 }
 
-char **get_end_trim_map(char **map, t_minirt *rt)
+char **get_end_trim_map(char **map, t_scene *scene)
 {
 	int		i;
 	int		row;
@@ -54,13 +54,13 @@ char **get_end_trim_map(char **map, t_minirt *rt)
 		row++;
 	trim_map = malloc(sizeof(char *) * (row + 1));
 	if (!trim_map)
-		exit_and_free_matrix(map, "cannot do split", rt);
+		exit_and_free_matrix(map, "cannot do split", scene);
 	i = 0;
 	while (map[i])
 	{
 		trim_map[i] =  ft_strtrim(map[i], " \n\v\f\r\t");
 		if(!trim_map[i])
-			exit_and_free_matrix(map, "cannot do split", rt);
+			exit_and_free_matrix(map, "cannot do split", scene);
 		i++;
 	}
 	trim_map[i] = NULL;
@@ -68,23 +68,23 @@ char **get_end_trim_map(char **map, t_minirt *rt)
 	return(trim_map);
 }
 
-char **spliting(char *read_line, t_minirt *rt)
+char **spliting(char *read_line, t_scene *scene)
 {
 	char	**map;
 	char	*trim_line;
 
 	trim_line = ft_strtrim(read_line, " \n\v\f\r\t");
 	if (!trim_line)
-		exit_and_free_str(read_line, "cannot do trim", rt);
+		exit_and_free_str(read_line, "cannot do trim", scene);
 	free(read_line);
 	map = split_char(trim_line, '\n');
 	if (!map)
-		exit_and_free_str(trim_line, "malloc error", rt);
+		exit_and_free_str(trim_line, "malloc error", scene);
 	free(trim_line);
-	return (get_end_trim_map(map, rt));
+	return (get_end_trim_map(map, scene));
 }
 
-int	validation(int ac, char **av, t_minirt *rt)
+int	validation(int ac, char **av, t_scene *scene)
 {
 	char	*read_line;
 	char	**map;
@@ -102,8 +102,8 @@ int	validation(int ac, char **av, t_minirt *rt)
 		printf("read_line=%s\n",read_line);
 		if (!read_line)
 			return (1);
-		map = spliting(read_line, rt);//minchev ste leak chka
-		parsing(map, rt);
+		map = spliting(read_line, scene);//minchev ste leak chka
+		parsing(map, scene);
 		int i = 0;
 		while (**map && map[i])
 		{

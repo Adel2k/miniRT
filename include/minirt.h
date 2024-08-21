@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/19 22:02:58 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:49:15 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define RIGHT	124
 # define ESC	53
 # define WIDTH 800
-# define HIGHT 600
+# define HEIGHT 600
 # include <stdio.h>
 # include <string.h>
 # include <limits.h>
@@ -34,6 +34,13 @@
 # include "../include/mlx.h"
 # include "../include/get_next_line.h"
 
+typedef enum e_figure_type
+{
+	CYLINDER,
+	SPHERE,
+	PLANE,
+}				t_type;
+
 ///////
 typedef struct n_img
 {
@@ -42,6 +49,8 @@ typedef struct n_img
 	int		bits_per_pixel;//mi piqselyb te qani bita zbaxecnum
 	int		endian;
 	int		line_len;//plangi erkarutyan vra qani pixela texavorvum
+	float	height;//ha vor?
+	float	width;//ha vor?
 }	t_img;
 
 typedef struct s_atof
@@ -56,7 +65,7 @@ typedef struct s_mlx_vars
 {
 	void			*mlx;
 	void			*win;
-	t_img			img;
+	// t_img			img;
 }	t_mlx_vars;
 
 typedef struct s_color
@@ -109,9 +118,11 @@ typedef struct s_sphere
 {
 	// t_obj_id	id;
 	t_vector	center;
-	float		diameter;
+	// float		diameter;
+	float		radius;;
 	// float		r2;
 	t_color		color;
+	float		specular;
 	// int			count;
 	struct s_sphere	*next;
 }	t_sphere;
@@ -149,64 +160,66 @@ typedef struct s_objects
 	t_sphere 	*sphere;
 	t_cylinder	*cylinder;	
 }	t_objects;
+
+
 typedef struct s_scene
 {
-	t_objects	objects;
-	t_camera	camera;
-	t_light		light;
-	t_ambient	ambient;
+	t_color		color;
+	t_camera	*camera;
+	t_ambient	*ambient;
+	t_light		*light;
+	// t_objects	objects;
+	t_plane		*plane;
+	t_sphere 	*sphere;
+	t_cylinder	*cylinder;
+	t_mlx_vars	*mlx;
+	t_img		*img;//data
+	t_vector	vector;
 	float		width;
-	float		hight;
-	t_img		img;
+	float		height;
 }	t_scene;
 
-typedef struct s_minirt
-{
-	t_color		color;
-	t_ambient	*ambient;
-	t_objects	objects;
-	t_vector	vector;
-	t_camera	*camera;
-	t_light		*light;
-	t_mlx_vars	vars;
-	t_scene		scene;
-	
-}	t_minirt;
 
+typedef struct s_hatum
+{
+	float	dot;
+	t_sphere	*sphere;
+}	t_hatum;
 
 typedef struct s_vplane//okna prasmotra
 {
-	float	width;
-	float	hight;
-	float	x_pixel;//piksel akna prasmotra
-	float	y_pixel;
+	t_vector	width;
+	t_vector	hight;
+	t_vector	pixel_00;
+	t_vector	x_pixel;//piksel akna prasmotra
+	t_vector	y_pixel;
 }	t_vplane;
 
 
 /////////////////exit_free////////////////////////
 int		err(char *str);
-void	exit_and_free_str(char *str_free, char *str_err, t_minirt *rt);
-void	exit_and_free_matrix(char **map, char *str_err, t_minirt *rt);
-void	exit_and_free(char **map, char *str_err, t_minirt *rt, char **matrix);
+void	exit_and_free_str(char *str_free, char *str_err, t_scene *scene);
+void	exit_and_free_matrix(char **map, char *str_err, t_scene *scene);
+void	exit_and_free(char **map, char *str_err, t_scene *scene, char **matrix);
 void	free_matrix(char **matrix);
 void	free_vars(t_mlx_vars *vars);
 
 /////////////////parsing//////////////////////////////
-void	parsing(char **map, t_minirt *rt);
-t_light	*parse_light(char **matrix, t_minirt *rt);
-t_sphere	*parse_sphere(char **matrix, t_minirt *rt);
-t_cylinder	*parse_cylinder(char **matrix, t_minirt *rt);
-t_plane	*parse_plane(char **matrix, t_minirt *rt);
+void	parsing(char **map, t_scene *scene);
+t_light	*parse_light(char **matrix, t_scene *scene);
+t_sphere	*parse_sphere(char **matrix, t_scene *scene);
+t_cylinder	*parse_cylinder(char **matrix, t_scene *scene);
+t_plane	*parse_plane(char **matrix, t_scene *scene);
 
 /////////////////parsing_utils////////////////////////
-void	found_what_scene_is_it(char **matrix, t_minirt *rt);
-void	*parse_camera(char **matrix, t_minirt *rt);
-void	*parse_ambient(char **matrix, t_minirt *rt);
+void	found_what_scene_is_it(char **matrix, t_scene *scene);
+void	*parse_camera(char **matrix, t_scene *scene);
+void	*parse_ambient(char **matrix, t_scene *scene);
 int		count_shape(char **matrix, char *shape);
 
 /////////////////init_mlx////////////////////////////
-void	init_mlx(t_mlx_vars *vars, t_minirt *rt);
-void	init_rt(t_minirt *rt);
+void	init_mlx(t_scene *scene);
+void	init_scene(t_scene *scene);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 /////////////////utils///////////////////////////////
 int		malloc_check(char *s);
@@ -226,13 +239,13 @@ int		have_this_char_in_set(char c, char *set);
 char	*ft_strchr(const char *s, int c);
 int	only_new_line_or_spaces(char *res);
 /////////////////validation////////////////////////
-int		validation(int ac, char **av, t_minirt *rt);
+int		validation(int ac, char **av, t_scene *scene);
 int		is_rt(char *str);
 
 /////////////////init_func////////////////////////////
-void	init_coords(t_vector *coords, char **matrix, t_minirt *rt, int i);
-void	init_color(t_color *color, char **matrix, t_minirt *rt, int i);
-void	init_orient(t_vector *orient, char **matrix, t_minirt *rt, int i);
+void	init_coords(t_vector *coords, char **matrix, t_scene *scene, int i);
+void	init_color(t_color *color, char **matrix, t_scene *scene, int i);
+void	init_orient(t_vector *orient, char **matrix, t_scene *scene, int i);
 
 /////////////////split_char////////////////////////////
 int		foo_sum_tar_(char const *s, char c);
@@ -254,8 +267,8 @@ char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strchr_gnl(const char *str, int c);
 
 /////////////////key_hooks////////////////////////////
-int		handler(int keysym, t_mlx_vars *vars);
-int		mouse_close(t_mlx_vars *vars);
+int		handler(int keysym, t_scene *scene);
+int		mouse_close(t_scene *scene);
 
 /////////////////list_functions////////////////////////////
 void	ft_lstadd_back_cy(t_cylinder **lst, t_cylinder *new);
@@ -275,31 +288,31 @@ t_ambient	*ft_lstlast_amb(t_ambient *lst);
 t_scene	*new_scene(t_camera *camera, t_objects *object, int width, int hight);
 
 /////////////////vector.c////////////////////////////
-t_vector	*new_vector(float x, float y, float z);
-t_vector	*vec_subtract(t_vector *vec1, t_vector *vec2);
-float	vec_length(t_vector *vec);
-float	vec_dot_product(t_vector *vec1, t_vector *vec2);
-void	vec_normalize(t_vector *vec);
-float	vec_dot_product(t_vector *vec1, t_vector *vec2);
-t_vector	*num_product_vect(t_vector *vec, float num);
-t_vector	*sum_vect(t_vector *v1, t_vector *v2);
+t_vector	new_vector(float x, float y, float z);
+t_vector	vec_subtract(t_vector vec1, t_vector vec2);
+float	vec_length(t_vector vec);
+float	vec_dot_product(t_vector vec1, t_vector vec2);
+t_vector	vec_normalize(t_vector vec);
+float	vec_dot_product(t_vector vec1, t_vector vec2);
+t_vector	num_product_vect(t_vector vec, float num);
+t_vector	sum_vect(t_vector v1, t_vector v2);
 
 
 /////////////////ray_tracing.c////////////////////////////
 void	ray_tracing(void *mlx, void *win, t_scene *scene);
 t_vplane	*get_view_plane(float width, float hight, float fov);
-float		sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere); 
-
+float		sphere_intersect(t_camera *cam, t_vector ray, t_sphere *sphere); 
+void	closest_inter(t_scene *scene, t_hatum *hatum, t_vector ray, t_sphere *tmp);
 int	get_color(int red, int green, int blue, float bright);
 
 
-void	count_check(t_minirt *rt, char **matrix);
-void	check_cam_count(t_camera *cam, char **matrix, t_minirt *rt);
-void	check_ambient_count(t_ambient *ambient, char **map, t_minirt *rt);
+void	count_check(t_scene *scene, char **matrix);
+void	check_cam_count(t_camera *cam, char **matrix, t_scene *scene);
+void	check_ambient_count(t_ambient *ambient, char **map, t_scene *scene);
 
 
 void	free_scene(t_scene *scene);
-
+void	init_scene(t_scene *scene);
 //////goxcac.c/////
-float	compute_light(float dot, t_scene *scene, t_vector *ray);
+float	compute_light(float dot, t_scene *scene, t_vector ray, t_sphere *sphere);
 #endif

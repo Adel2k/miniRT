@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 20:07:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/19 19:56:15 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/20 13:57:15 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,46 @@
 
 int main(int ac, char **av)
 {
-	t_minirt 	*rt;
-	t_mlx_vars	*vars;
+	t_scene 	*scene;
 
-	rt = malloc(sizeof(t_minirt));
-	vars = malloc(sizeof(t_mlx_vars));
-	if (!rt || !vars)
+	scene = malloc(sizeof(t_scene));
+	if (!scene)
 		return (1);
-	init_rt(rt);
-	if (validation(ac, av, rt) == 0)
+	init_scene(scene);
+	if (validation(ac, av, scene) == 0)
 	{
-		init_mlx(vars, rt);
+		init_mlx(scene);
 		printf("chjoka\n");
-		system("leaks miniRT");
+		// system("leaks miniRT");
 		return 0;
 	}
 	err("Error: Incorrect file");
 	// free_(rt, vars);
-	free(rt);
-	free(vars);
-	system("leaks miniRT");
+	free(scene);
+	// system("leaks miniRT");
 	return 1;
 }
 
-void	free_(t_minirt *rt, t_mlx_vars *vars)
+void	free_(t_scene *scene, t_mlx_vars *mlx)
 {
-	free(rt->ambient);
-	free(rt->camera);
-	free(rt->light);
-	free(rt->objects.plane);
-	free(rt);
-	free(vars);
+	free(scene->ambient);
+	free(scene->camera);
+	free(scene->light);
+	free(scene->plane);
+	free(scene);
+	free(mlx);
 }
 
-void	init_rt(t_minirt *rt)
+void	init_scene(t_scene *scene)
 {
-	rt->camera = NULL;
-	rt->ambient = NULL;
-	rt->light = NULL;
-	rt->objects.cylinder = NULL;
-	rt->objects.plane = NULL;
-	rt->objects.sphere = NULL;
+	scene->camera = NULL;
+	scene->ambient = NULL;
+	scene->light = NULL;
+	scene->plane = NULL;
+	scene->sphere = NULL;
+	scene->cylinder = NULL;
+	scene->mlx = NULL;
+	scene->img = NULL;
+	scene->width = WIDTH;
+	scene->height = HEIGHT;
 }
