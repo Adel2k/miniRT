@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/21 21:20:52 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/21 22:04:53 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ typedef struct s_scene
 	t_figure	*figure;
 	t_mlx_vars	*mlx;
 	t_img		*img;//data
+	t_vector	ray;
 	t_vector	vector;
 	float		width;
 	float		height;
@@ -307,7 +308,7 @@ t_vector	sum_vect(t_vector v1, t_vector v2);
 void	ray_tracing(void *mlx, void *win, t_scene *scene);
 t_vplane	*get_view_plane(float width, float hight, float fov);
 float		sphere_intersect(t_camera *cam, t_vector ray, t_sphere *sphere); 
-void	closest_inter(t_scene *scene, t_hatum *hatum, t_vector ray, t_sphere *tmp);
+void	closest_inter(t_figure *figure, t_scene *scene, t_hatum *hatum, t_vector ray, t_figure *tmp);
 int	get_color(int red, int green, int blue, float bright);
 
 

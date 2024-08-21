@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 16:27:57 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/21 21:21:43 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/21 22:41:25 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ t_figure	*lst_create_figure(t_scene *scene, char **matrix, int type)
 	else if (type == PLANE)
 		figure->plane = parse_plane(matrix, scene);
 	else if (type == CYLINDER)
-		figure->cylinder = parse_cylinder(matrix, scene); 
+		figure->cylinder = parse_cylinder(matrix, scene);
+	figure->type = type; 
 	figure->next = NULL;
 	return (figure);
 }

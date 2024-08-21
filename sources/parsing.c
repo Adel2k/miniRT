@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/21 19:44:08 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/21 22:33:08 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,25 @@ void	parsing(char **map, t_scene *scene)
 		free_matrix(matrix);//
 		i++;
 	}
-	count_check(scene, map);
-	// t_sphere *temp = scene->sphere;
-	// while (temp)
-	// {
-	// 	printf("sphere=%f\n", temp->center.x);
-	// 	printf("sphere=%f\n", temp->center.y);
-	// 	printf("sphere=%f\n", temp->center.z);
-	// 	printf("sphere=%f\n", temp->diameter);
-	// 	printf("sphere=%d\n", temp->color.red);
-	// 	printf("sphere=%d\n", temp->color.green);
-	// 	printf("sphere=%d\n", temp->color.blue);
-	// 	temp = temp->next;
-	// }
+	// count_check(scene, map);
+	t_figure *temp = scene->figure;
+	printf("::::%f\n",temp->next->sphere->radius);
+	while (temp)
+	{
+		printf("type=%d\n",temp->type);
+		if (temp->type == SPHERE)
+		{
+	printf("pahooo\n");
+			printf("sphere=%f\n", temp->sphere->center.x);
+			printf("sphere=%f\n", temp->sphere->center.y);
+			printf("sphere=%f\n", temp->sphere->center.z);
+			printf("sphere=%f\n", temp->sphere->radius * 2);
+			printf("sphere=%d\n", temp->sphere->color.red);
+			printf("sphere=%d\n", temp->sphere->color.green);
+			printf("sphere=%d\n", temp->sphere->color.blue);
+		}
+		temp = temp->next;
+	}
 }
 
 t_cylinder	*parse_cylinder(char **matrix, t_scene *scene)

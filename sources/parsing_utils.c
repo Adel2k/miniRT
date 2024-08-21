@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:08:21 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/21 21:21:32 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/21 22:29:29 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,15 @@ void	found_what_scene_is_it(char **matrix, t_scene *scene)
 		// obj = parse_ambient(matrix, scene);
 		// ft_lstadd_back_amb(&scene->ambient, obj);
 		
-		// printf("ambient=%f\n", scene->ambient->ratio_lighting);
-		// printf("ambient=%d\n", scene->ambient->color.red);
-		// printf("ambient=%d\n", scene->ambient->color.green);
-		// printf("ambient=%d\n", scene->ambient->color.blue);
+		printf("ambient=%f\n", scene->ambient->ratio_lighting);
+		printf("ambient=%d\n", scene->ambient->color.red);
+		printf("ambient=%d\n", scene->ambient->color.green);
+		printf("ambient=%d\n", scene->ambient->color.blue);
 	}
 	else if (!ft_strcmp(matrix[0], "C"))
 	{
-		scene->ambient = parse_camera(matrix, scene);
+		scene->camera = parse_camera(matrix, scene);
+		// printf("Agvan=%f\n",scene->)
 		// obj = parse_camera(matrix, scene);
 		// ft_lstadd_back_ca(&scene->camera, obj);
 		
@@ -125,6 +126,7 @@ void	*parse_camera(char **matrix, t_scene *scene)
 	// count_check(scene, 'C', matrix, split_2_line);
 	// camera->next = NULL;
 	printf("exav\n");
+	printf("-----%f\n",camera->fov);
 	return (camera);
 }
 
@@ -160,8 +162,10 @@ void	*parse_ambient(char **matrix, t_scene *scene)
 
 void	count_check(t_scene *scene, char **map)
 {
-	check_cam_count(scene->camera, map, scene);
-	check_ambient_count(scene->ambient, map, scene);
+	(void)scene;
+	(void)map;
+	// check_cam_count(scene->camera, map, scene);
+	// check_ambient_count(scene->ambient, map, scene);
 
 }
 
