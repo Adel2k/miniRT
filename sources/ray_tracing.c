@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/21 22:41:49 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:43:19 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,23 +128,18 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 }
 
 
-void	ray_tracing(void *mlx, void *win, t_scene *scene)
+void	ray_tracing(t_scene *scene)
 {
 	t_vplane	*vplane;
 	// t_vector	ray;
-	t_figure	*tmp;
-	t_hatum		hatum;
-	int			color;
+	// t_figure	*tmp;
+	// int			color;
 	int			i;
 	int			j;
 
-	(void)mlx;
-	(void)win;
 	i = 0;
 	j = 0;
-	hatum.dot = __FLT_MAX__;
-			printf("xiiiii\n");
-	printf("Tyom=%f\n",scene->camera->fov);
+	scene->hatum.dot = __FLT_MAX__;
 	vplane = get_view_plane(scene->width, scene->height, scene->camera->fov);
 	while (i < scene->height)
 	{
@@ -152,26 +147,18 @@ void	ray_tracing(void *mlx, void *win, t_scene *scene)
 		while (j < scene->width)
 		{
 			scene->ray = get_ray(vplane, i, j);
-			scene->ray = vec_normalize(scene->ray);//erevi
-			tmp = scene->figure;
-			closest_inter(scene->figure, scene, &hatum, scene->ray, tmp);
-			// while (tmp)
-			// {
-			// 	dot = sphere_intersect(scene->camera, ray, tmp);
-			// 	if (dot > 0.0 && dot < hatum.dot)
-			// 	{
-			// 		hatum.dot = dot;
-			// 		hatum.sphere = tmp;
-			// 	}
-			// 	tmp = tmp->next;
-			// }
-			if (hatum.dot == __FLT_MAX__)
-				color = get_color(0, 0, 0, 1);
-			else
-				color = get_color(hatum.sphere->color.red, hatum.sphere->color.green, hatum.sphere->color.blue, compute_light(hatum.dot, scene, scene->ray, hatum.sphere));
-			hatum.dot = __FLT_MAX__;
-			hatum.sphere = NULL;
-			my_mlx_pixel_put(scene->img, j, i, color);
+			scene->ray = vec_normalize(scene->ray);
+			// color_in_current_pixdel(scene);
+			
+			// tmp = scene->figure;
+			// closest_inter(scene->figure, scene, &hatum, scene->ray, tmp);
+			// if (hatum.dot == __FLT_MAX__)
+			// 	color = get_color(0, 0, 0, 1);
+			// else
+			// 	color = get_color(hatum.sphere->color.red, hatum.sphere->color.green, hatum.sphere->color.blue, compute_light(hatum.dot, scene, scene->ray, hatum.sphere));
+			// hatum.dot = __FLT_MAX__;
+			// hatum.sphere = NULL;
+			my_mlx_pixel_put(scene->img, j, i, color_in_current_pixdel(scene));
 			// free(ray);
 			j++;
 		}
@@ -180,8 +167,24 @@ void	ray_tracing(void *mlx, void *win, t_scene *scene)
 	free(vplane);
 }
 
+int	color_in_current_pixdel(t_scene *scene)
+{
+	int			color;
+	t_figure	*tmp;
 
-void	closest_inter(t_figure *figure, t_scene *scene, t_hatum *hatum, t_vector ray, t_figure *tmp)
+	tmp = scene->figure;
+	// closest_inter(scene->figure, scene, scene->ray, tmp);
+	closest_inter(scene->camera->center, scene->ray, tmp, scene);
+	if (scene->hatum.dot == __FLT_MAX__)
+		color = get_color(0, 0, 0, 1);
+	else
+		color = get_color(scene->hatum.figure->color->red, scene->hatum.figure->color->green, scene->hatum.figure->color->blue, 1);
+	scene->hatum.dot = __FLT_MAX__;
+	scene->hatum.figure = NULL;
+	return (color);
+}
+
+void	closest_inter(t_vector pos, t_vector ray, t_figure *tmp, t_scene *scene)
 {
 	float		dot;
 
@@ -189,12 +192,12 @@ void	closest_inter(t_figure *figure, t_scene *scene, t_hatum *hatum, t_vector ra
 	{
 		// printf("Vrdoi type=%d\n",tmp->type);
 		// usleep(100);
-		if (figure->type == SPHERE)
-			dot = sphere_intersect(scene->camera, ray, tmp->sphere);
-		if (dot > 0.0 && dot < hatum->dot)
+		if (tmp->type == SPHERE)
+			dot = sphere_intersect(pos, ray, tmp->sphere);
+		if (dot > 0.0 && dot < scene->hatum.dot)
 		{
-			hatum->dot = dot;
-			hatum->sphere = tmp->sphere;
+			scene->hatum.dot = dot;
+			scene->hatum.figure = tmp;
 		}
 		tmp = tmp->next;
 	}
@@ -236,7 +239,8 @@ t_vplane	*get_view_plane(float width, float hight, float fov)
 }
 
 
-float	sphere_intersect(t_camera *cam, t_vector ray, t_sphere *sphere)
+// float	sphere_intersect(t_camera *cam, t_vector ray, t_sphere *sphere)
+float	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere)
 {
 	t_vector	cam_sphere;
 	float		b;
@@ -245,7 +249,7 @@ float	sphere_intersect(t_camera *cam, t_vector ray, t_sphere *sphere)
 	float		a;////
 
 	a = vec_dot_product(ray, ray);/////
-	cam_sphere = vec_subtract(sphere->center, cam->center);
+	cam_sphere = vec_subtract(sphere->center, center);
 	b = -2.0 * vec_dot_product(ray, cam_sphere);
 	c = vec_dot_product(cam_sphere, cam_sphere) - sphere->radius * sphere->radius;
 	d = b * b - 4 * c * a;

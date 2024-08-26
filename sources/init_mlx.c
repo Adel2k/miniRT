@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:31:32 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/21 19:23:18 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/26 13:07:11 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	init_mlx(t_scene *scene)
 {
-	// t_scene	*scene;
 	scene->mlx = (t_mlx_vars *)malloc(sizeof(t_mlx_vars));
 	scene->img = (t_img *)malloc(sizeof(t_img));
 	scene->mlx->mlx = mlx_init();
@@ -29,7 +28,7 @@ void	init_mlx(t_scene *scene)
 		&scene->img->bits_per_pixel, &scene->img->line_len, &scene->img->endian);
 	scene->img->width = scene->width;
 	scene->img->height = scene->height;
-	ray_tracing(scene->mlx->mlx, scene->mlx->win, scene);
+	ray_tracing(scene);
 	mlx_put_image_to_window(scene->mlx->mlx, scene->mlx->win, scene->img->img_ptr, 0, 0);
 	mlx_hook(scene->mlx->win, 2, 0, &handler, scene);
 	mlx_hook(scene->mlx->win, 17, 0, &mouse_close, scene);

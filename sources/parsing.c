@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/21 22:33:08 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:35:25 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ t_sphere	*parse_sphere(char **matrix, t_scene *scene)
 	sphere = malloc(sizeof(t_sphere));
 	// sphere->count = 0;
 	i = 0;
-	sphere->specular = 50;///////////////////////////////////////////
+	// sphere->specular = 50;///////////////////////////////////////////
 	if (matrix_row(matrix) != 4)//4pti sarqenq,zut banem porcunm
 		exit_and_free_matrix(matrix, "Error: wrong qanaki arguments for sphere", scene);
 	while (matrix[++i])

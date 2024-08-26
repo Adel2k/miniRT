@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/21 22:04:53 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:35:15 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ typedef struct s_sphere
 	float		radius;;
 	// float		r2;
 	t_color		color;
-	float		specular;
 	// int			count;
 	// struct s_sphere	*next;
 }	t_sphere;
@@ -160,10 +159,17 @@ typedef struct s_figure
 	t_plane			*plane;
 	t_cylinder		*cylinder;
 	t_type			type;
+	t_color			*color;
+	float		specular;
 	struct s_figure	*next;
 }				t_figure;
 
 
+typedef struct s_hatum
+{
+	float		dot;
+	t_figure	*figure;
+}	t_hatum;
 typedef struct s_scene
 {
 	t_color		color;
@@ -180,14 +186,10 @@ typedef struct s_scene
 	t_vector	vector;
 	float		width;
 	float		height;
+	t_hatum		hatum;
 }	t_scene;
 
 
-typedef struct s_hatum
-{
-	float	dot;
-	t_sphere	*sphere;
-}	t_hatum;
 
 typedef struct s_vplane//okna prasmotra
 {
@@ -305,12 +307,14 @@ t_vector	sum_vect(t_vector v1, t_vector v2);
 
 
 /////////////////ray_tracing.c////////////////////////////
-void	ray_tracing(void *mlx, void *win, t_scene *scene);
+void	ray_tracing(t_scene *scene);
 t_vplane	*get_view_plane(float width, float hight, float fov);
-float		sphere_intersect(t_camera *cam, t_vector ray, t_sphere *sphere); 
-void	closest_inter(t_figure *figure, t_scene *scene, t_hatum *hatum, t_vector ray, t_figure *tmp);
+// float		sphere_intersect(t_camera *cam, t_vector ray, t_sphere *sphere);
+float	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere);
+// void	closest_inter(t_figure *figure, t_scene *scene, t_hatum *hatum, t_vector ray, t_figure *tmp);
+void	closest_inter(t_vector pos, t_vector ray, t_figure *tmp, t_scene *scene);
 int	get_color(int red, int green, int blue, float bright);
-
+int	color_in_current_pixdel(t_scene *scene);
 
 void	count_check(t_scene *scene, char **matrix);
 void	check_cam_count(t_camera *cam, char **matrix, t_scene *scene);
@@ -320,5 +324,5 @@ void	check_ambient_count(t_ambient *ambient, char **map, t_scene *scene);
 void	free_scene(t_scene *scene);
 void	init_scene(t_scene *scene);
 //////goxcac.c/////
-float	compute_light(float dot, t_scene *scene, t_vector ray, t_sphere *sphere);
+float	compute_light(float dot, t_scene *scene, t_vector ray, t_figure *figure);
 #endif
