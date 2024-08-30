@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 20:07:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/21 19:23:10 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/30 13:08:22 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	init_scene(t_scene *scene)
 	// scene->sphere = NULL;
 	// scene->cylinder = NULL;
 	scene->figure = NULL;
+	scene->vplane = NULL;
 	scene->mlx = NULL;
 	scene->img = NULL;
 	scene->width = WIDTH;

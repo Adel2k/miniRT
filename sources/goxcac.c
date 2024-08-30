@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 20:26:29 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/26 14:42:45 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:22:48 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,3 +57,53 @@
 
 // // Վերջնական արդյունքը (i) տվյալ կետում լուսավորության ինտենսիվությունն է
 
+float	compute_light(float dot, t_scene *scene, t_figure *tmp)
+{
+	t_vector		p;
+	t_vector		light;
+	t_figure	*shadow;
+	float		n_dot_l;
+	float		i;
+
+	i = scene->ambient->ratio_lighting;
+	p = sum_vect(scene->camera->center, num_product_vect(scene->ray, dot));
+	ray_norm(tmp, p);
+	light = vec_subtract(scene->light->coords, p);
+	n_dot_l = vec_dot_product(tmp->ray_norm, light);
+	shadow = NULL;
+	if (closest_inter(p, light, scene->figure, &shadow) != __FLT_MAX__)
+		return (i);
+	if (n_dot_l > 0)
+		i += scene->light->brightness * n_dot_l / \
+			(vec_length(tmp->ray_norm) * vec_length(light));
+	if (tmp->specular > 0)
+		i += compute_spec(scene, light, n_dot_l, tmp);
+	return (i);
+}
+
+
+void	ray_norm(t_figure *fig, t_vector p)
+{
+	if (fig->type == SPHERE)
+		fig->ray_norm = vec_normalize(vec_subtract(p, fig->sphere->center));
+	else if (fig->type == PLANE)
+		fig->ray_norm = fig->plane->orient;
+}
+
+float	compute_spec(t_scene *scene, t_vector light, float n_dot_l, t_figure *fig)
+{
+	t_vector	v;
+	t_vector	r;
+	float	i;
+	float	r_dot_v;
+
+	i = 0.0;
+	v = num_product_vect(scene->ray, -1);
+	r = num_product_vect(num_product_vect(fig->ray_norm, 2), n_dot_l);
+	r = vec_subtract(r, light);
+	r_dot_v = vec_dot_product(r, v);
+	if (r_dot_v > 0)
+		i += scene->light->brightness * \
+			pow(r_dot_v / (vec_length(r) * vec_length(v)), fig->specular);
+	return (i);
+}

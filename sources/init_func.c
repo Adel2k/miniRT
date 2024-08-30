@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:22:00 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/20 13:28:42 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/30 12:51:43 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	init_coords(t_vector *coords, char **matrix, t_scene *scene, int i)
 	coords->x = ft_atof(split_2_line[0]);
 	coords->y = ft_atof(split_2_line[1]);
 	coords->z = ft_atof(split_2_line[2]);
+	coords->w = 1.0;//whyy
 	free_matrix(split_2_line);
 }
 
@@ -62,9 +63,8 @@ void	init_orient(t_vector *orient, char **matrix, t_scene *scene, int i)
 	orient->x = ft_atof(split_2_line[0]);
 	orient->y = ft_atof(split_2_line[1]);
 	orient->z = ft_atof(split_2_line[2]);
+	orient->w = 1.0;//whyyy
 	// printf("aa%d\n",matrix_row(matrix));
-	
-
 	if (!(orient->x >= -1.0 && orient->x <= 1.0)
 		|| !(orient->y >= -1.0 && orient->y <= 1.0)
 		|| !(orient->z >= -1.0 && orient->z <= 1.0))

@@ -4,3 +4,27 @@ light-@ petqa kam chlni kam 1 hat lini?te kara 1hatice shat lini? Vache jan
 #my_pixelic e segyyyy
 
 x ov pakeluc sega qcum
+
+
+
+
+petqa originy ete > 0 bazmapatlkem -1-ov???
+meke petqa -1-ic 1 um pahanjem vor ylnen?
+if (tmp->n_coord.x > 0.0)
+		tmp->n_coord.x *= -1;
+	if (tmp->n_coord.y > 0.0)
+		tmp->n_coord.y *= -1;//yst Vacheenc
+if (!(orient->x >= -1.0 && orient->x <= 1.0)
+		|| !(orient->y >= -1.0 && orient->y <= 1.0)
+		|| !(orient->z >= -1.0 && orient->z <= 1.0))//yst indz
+
+
+
+
+
+u pritom z-i hamar et if-@ chka,xi??
+
+
+
+
+t_matrix	get_rotation_y(int angle)//sra marmni mejini bacatrutyuny

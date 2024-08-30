@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/26 14:35:15 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/30 13:08:47 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # define LEFT	123
 # define RIGHT	124
 # define ESC	53
-# define WIDTH 800
-# define HEIGHT 600
+# define WIDTH 1920
+# define HEIGHT 1080
 # include <stdio.h>
 # include <string.h>
 # include <limits.h>
@@ -90,6 +90,7 @@ typedef struct s_vector
 	float	x;
     float	y;
     float	z;
+	float	w;//chgitem xi,karoxa vor matricy 4*4a dra ahamar?
 }	t_vector;
 
 typedef struct s_camera
@@ -141,8 +142,8 @@ typedef struct s_cylinder
 {
 	// t_obj_id	id;
 	t_vector	coords;
-	t_vector	orient;
-	float		diameter;
+	t_vector	orient;//n_coord
+	float		radius;
 	float		height;
 	// float		r2;
 	// t_vect		p1;
@@ -153,6 +154,22 @@ typedef struct s_cylinder
 	// struct s_cylinder	*next;
 }	t_cylinder;
 
+
+typedef struct s_math
+{
+	float	a;
+	float	b;
+	float	c;
+	float	disc;
+	float	x1;
+	float	x2;
+}				t_math;
+
+typedef struct s_matrix
+{
+	float	m[4][4];
+}	t_matrix;
+
 typedef struct s_figure
 {
 	t_sphere		*sphere;
@@ -160,7 +177,8 @@ typedef struct s_figure
 	t_cylinder		*cylinder;
 	t_type			type;
 	t_color			*color;
-	float		specular;
+	float			specular;
+	t_vector		ray_norm;
 	struct s_figure	*next;
 }				t_figure;
 
@@ -170,16 +188,22 @@ typedef struct s_hatum
 	float		dot;
 	t_figure	*figure;
 }	t_hatum;
+typedef struct s_vplane//okna prasmotra
+{
+	t_vector	width;
+	t_vector	hight;
+	t_vector	pixel_00;
+	t_vector	x_pixel;//piksel akna prasmotra
+	t_vector	y_pixel;
+}	t_vplane;
 typedef struct s_scene
 {
 	t_color		color;
 	t_camera	*camera;
 	t_ambient	*ambient;
 	t_light		*light;
-	// t_plane		*plane;
-	// t_sphere 	*sphere;
-	// t_cylinder	*cylinder;
 	t_figure	*figure;
+	t_vplane	*vplane;
 	t_mlx_vars	*mlx;
 	t_img		*img;//data
 	t_vector	ray;
@@ -191,14 +215,6 @@ typedef struct s_scene
 
 
 
-typedef struct s_vplane//okna prasmotra
-{
-	t_vector	width;
-	t_vector	hight;
-	t_vector	pixel_00;
-	t_vector	x_pixel;//piksel akna prasmotra
-	t_vector	y_pixel;
-}	t_vplane;
 
 
 /////////////////exit_free////////////////////////
@@ -312,7 +328,10 @@ t_vplane	*get_view_plane(float width, float hight, float fov);
 // float		sphere_intersect(t_camera *cam, t_vector ray, t_sphere *sphere);
 float	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere);
 // void	closest_inter(t_figure *figure, t_scene *scene, t_hatum *hatum, t_vector ray, t_figure *tmp);
-void	closest_inter(t_vector pos, t_vector ray, t_figure *tmp, t_scene *scene);
+// void	closest_inter(t_vector pos, t_vector ray, t_figure *tmp, t_scene *scene);
+float	plane_intersect(t_vector pos, t_vector ray, t_plane *plane);
+float	cylinder_intersect(t_vector pos, t_vector ray, t_cylinder *cyl);
+float	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp);
 int	get_color(int red, int green, int blue, float bright);
 int	color_in_current_pixdel(t_scene *scene);
 
@@ -324,5 +343,9 @@ void	check_ambient_count(t_ambient *ambient, char **map, t_scene *scene);
 void	free_scene(t_scene *scene);
 void	init_scene(t_scene *scene);
 //////goxcac.c/////
-float	compute_light(float dot, t_scene *scene, t_vector ray, t_figure *figure);
+// float	compute_light(float dot, t_scene *scene, t_vector ray, t_figure *figure);
+float	compute_light(float dot, t_scene *scene, t_figure *tmp);
+void	ray_norm(t_figure *fig, t_vector p);
+float	compute_spec(t_scene *scene, t_vector light, float n_dot_l, t_figure *fig);
+
 #endif

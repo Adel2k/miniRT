@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 19:35:32 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/21 16:07:06 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/30 12:53:58 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_vector	new_vector(float x, float y, float z)
 	vec.x = x;
 	vec.y = y;
 	vec.z = z;
+	vec.w = 1;
 	return (vec);
 }
 

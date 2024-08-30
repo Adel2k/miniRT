@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/26 14:43:19 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/30 21:31:14 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,6 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 {
 	t_vector	v;
 
-	// v = malloc(sizeof(t_vector));
-	// if (!v)
-	// 	exit(EXIT_FAILURE);
 	v.x = vplane->pixel_00.x + (vplane->x_pixel.x * j);
 	v.y = vplane->pixel_00.y + (vplane->y_pixel.y * i);
 	v.z = -1;
@@ -130,77 +127,69 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 
 void	ray_tracing(t_scene *scene)
 {
-	t_vplane	*vplane;
-	// t_vector	ray;
-	// t_figure	*tmp;
-	// int			color;
 	int			i;
 	int			j;
 
 	i = 0;
 	j = 0;
 	scene->hatum.dot = __FLT_MAX__;
-	vplane = get_view_plane(scene->width, scene->height, scene->camera->fov);
+	scene->vplane = get_view_plane(scene->width, scene->height, scene->camera->fov);
 	while (i < scene->height)
 	{
 		j = 0;
 		while (j < scene->width)
 		{
-			scene->ray = get_ray(vplane, i, j);
+			scene->ray = get_ray(scene->vplane, i, j);
 			scene->ray = vec_normalize(scene->ray);
-			// color_in_current_pixdel(scene);
-			
-			// tmp = scene->figure;
-			// closest_inter(scene->figure, scene, &hatum, scene->ray, tmp);
-			// if (hatum.dot == __FLT_MAX__)
-			// 	color = get_color(0, 0, 0, 1);
-			// else
-			// 	color = get_color(hatum.sphere->color.red, hatum.sphere->color.green, hatum.sphere->color.blue, compute_light(hatum.dot, scene, scene->ray, hatum.sphere));
-			// hatum.dot = __FLT_MAX__;
-			// hatum.sphere = NULL;
 			my_mlx_pixel_put(scene->img, j, i, color_in_current_pixdel(scene));
-			// free(ray);
 			j++;
 		}
 		i++;
 	}
-	free(vplane);
+	free(scene->vplane);
 }
 
 int	color_in_current_pixdel(t_scene *scene)
 {
 	int			color;
 	t_figure	*tmp;
+	float		closest_dot;
 
+	closest_dot = __FLT_MAX__;
 	tmp = scene->figure;
-	// closest_inter(scene->figure, scene, scene->ray, tmp);
-	closest_inter(scene->camera->center, scene->ray, tmp, scene);
-	if (scene->hatum.dot == __FLT_MAX__)
+	closest_dot = closest_inter(scene->camera->center, scene->ray, scene->figure, &tmp);
+	if (closest_dot == __FLT_MAX__)
 		color = get_color(0, 0, 0, 1);
 	else
-		color = get_color(scene->hatum.figure->color->red, scene->hatum.figure->color->green, scene->hatum.figure->color->blue, 1);
-	scene->hatum.dot = __FLT_MAX__;
-	scene->hatum.figure = NULL;
+		color = get_color(tmp->color->red, tmp->color->green, tmp->color->blue, compute_light(closest_dot, scene, tmp));
 	return (color);
 }
 
-void	closest_inter(t_vector pos, t_vector ray, t_figure *tmp, t_scene *scene)
+float	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp)
 {
 	float		dot;
+	float		closest_dot;
 
-	while (tmp)
+	dot = __FLT_MAX__;
+	closest_dot = __FLT_MAX__;
+	while (figure)
 	{
 		// printf("Vrdoi type=%d\n",tmp->type);
 		// usleep(100);
-		if (tmp->type == SPHERE)
-			dot = sphere_intersect(pos, ray, tmp->sphere);
-		if (dot > 0.0 && dot < scene->hatum.dot)
+		if (figure->type == SPHERE)
+			dot = sphere_intersect(pos, ray, figure->sphere);
+		else if (figure->type == PLANE)
+			dot = plane_intersect(pos, ray, figure->plane);
+		else if (figure->type == PLANE)
+			dot = cylinder_intersect(pos, ray, figure->cylinder);
+		if (dot > 0.0 && dot < closest_dot)
 		{
-			scene->hatum.dot = dot;
-			scene->hatum.figure = tmp;
+			closest_dot = dot;
+			*tmp = figure;
 		}
-		tmp = tmp->next;
+		figure = figure->next;
 	}
+	return (closest_dot);
 }
 
 
@@ -221,7 +210,7 @@ t_vplane	*get_view_plane(float width, float hight, float fov)
 	float		aspect_ratio;
 	float		tmp;
 
-	printf("vates\n");
+
 	aspect_ratio = width / hight;
 	vplane = malloc(sizeof(t_vplane));
 	if (!vplane)
@@ -243,20 +232,25 @@ t_vplane	*get_view_plane(float width, float hight, float fov)
 float	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere)
 {
 	t_vector	cam_sphere;
-	float		b;
-	float		c;
-	float		d;
-	float		a;////
+	// float		b;
+	// float		c;
+	// float		d;
+	// float		a;////
+	t_math		math;
 
-	a = vec_dot_product(ray, ray);/////
+	math.a = vec_dot_product(ray, ray);/////
 	cam_sphere = vec_subtract(sphere->center, center);
-	b = -2.0 * vec_dot_product(ray, cam_sphere);
-	c = vec_dot_product(cam_sphere, cam_sphere) - sphere->radius * sphere->radius;
-	d = b * b - 4 * c * a;
-	if (d < 0)
+	math.b = -2.0 * vec_dot_product(ray, cam_sphere);
+	math.c = vec_dot_product(cam_sphere, cam_sphere) - sphere->radius * sphere->radius;
+	math.disc = math.b * math.b - 4 * math.c * math.a;
+	if (math.disc < 0)
 		return (-1.0);
-	else
-		return ((-b - sqrt(d)) / (2.0 * a));
+	// else
+	// 	return ((-(math.b) - sqrt(math.disc)) / (2.0 * math.a));
+	math.x1 = ((-math.b) - sqrt(math.disc)) / (2 * math.a);
+	if (math.x1 > 0)
+		return (math.x1);
+	return (0);
 }
 
 int	get_color(int red, int green, int blue, float bright)

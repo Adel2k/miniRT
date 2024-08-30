@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/26 14:35:25 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/26 20:59:26 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,24 @@ void	parsing(char **map, t_scene *scene)
 		i++;
 	}
 	// count_check(scene, map);
-	t_figure *temp = scene->figure;
-	printf("::::%f\n",temp->next->sphere->radius);
-	while (temp)
-	{
-		printf("type=%d\n",temp->type);
-		if (temp->type == SPHERE)
-		{
-	printf("pahooo\n");
-			printf("sphere=%f\n", temp->sphere->center.x);
-			printf("sphere=%f\n", temp->sphere->center.y);
-			printf("sphere=%f\n", temp->sphere->center.z);
-			printf("sphere=%f\n", temp->sphere->radius * 2);
-			printf("sphere=%d\n", temp->sphere->color.red);
-			printf("sphere=%d\n", temp->sphere->color.green);
-			printf("sphere=%d\n", temp->sphere->color.blue);
-		}
-		temp = temp->next;
-	}
+	// t_figure *temp = scene->figure;
+	// printf("::::%f\n",temp->next->sphere->radius);
+	// while (temp)
+	// {
+	// 	printf("type=%d\n",temp->type);
+	// 	if (temp->type == SPHERE)
+	// 	{
+	// printf("pahooo\n");
+	// 		printf("sphere=%f\n", temp->sphere->center.x);
+	// 		printf("sphere=%f\n", temp->sphere->center.y);
+	// 		printf("sphere=%f\n", temp->sphere->center.z);
+	// 		printf("sphere=%f\n", temp->sphere->radius * 2);
+	// 		printf("sphere=%d\n", temp->sphere->color.red);
+	// 		printf("sphere=%d\n", temp->sphere->color.green);
+	// 		printf("sphere=%d\n", temp->sphere->color.blue);
+	// 	}
+	// 	temp = temp->next;
+	// }
 }
 
 t_cylinder	*parse_cylinder(char **matrix, t_scene *scene)
@@ -67,7 +67,7 @@ t_cylinder	*parse_cylinder(char **matrix, t_scene *scene)
 
 	if (if_char_and_digit(matrix[3], '.') == -1)
 		exit_and_free_matrix(matrix, "Error: bad simbols for cylinder diametr", scene);
-	cylinder->diameter = ft_atof(matrix[3]);
+	cylinder->radius = ft_atof(matrix[3]) / 2;
 
 	if (if_char_and_digit(matrix[4], '.') == -1)
 		exit_and_free_matrix(matrix, "Error: bad simbols for cylinder height", scene);
