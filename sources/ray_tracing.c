@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/30 21:31:14 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/09/09 18:59:54 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,9 +159,15 @@ int	color_in_current_pixdel(t_scene *scene)
 	tmp = scene->figure;
 	closest_dot = closest_inter(scene->camera->center, scene->ray, scene->figure, &tmp);
 	if (closest_dot == __FLT_MAX__)
+	{
+		// printf("senc depqe ka");
 		color = get_color(0, 0, 0, 1);
+	}
 	else
+	{
+		// printf("ray->x=%f  ", scene->ray.x);
 		color = get_color(tmp->color->red, tmp->color->green, tmp->color->blue, compute_light(closest_dot, scene, tmp));
+	}
 	return (color);
 }
 
@@ -179,8 +185,8 @@ float	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp
 		if (figure->type == SPHERE)
 			dot = sphere_intersect(pos, ray, figure->sphere);
 		else if (figure->type == PLANE)
-			dot = plane_intersect(pos, ray, figure->plane);
-		else if (figure->type == PLANE)
+			dot = plane_inter(pos, ray, figure->plane->orient, figure->plane->coords);
+		else if (figure->type == CYLINDER)
 			dot = cylinder_intersect(pos, ray, figure->cylinder);
 		if (dot > 0.0 && dot < closest_dot)
 		{
@@ -238,7 +244,7 @@ float	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere)
 	// float		a;////
 	t_math		math;
 
-	math.a = vec_dot_product(ray, ray);/////
+	math.a = vec_dot_product(ray, ray);/////ray=ray_direction 
 	cam_sphere = vec_subtract(sphere->center, center);
 	math.b = -2.0 * vec_dot_product(ray, cam_sphere);
 	math.c = vec_dot_product(cam_sphere, cam_sphere) - sphere->radius * sphere->radius;

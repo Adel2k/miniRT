@@ -4,7 +4,8 @@
         "get_next_line.h": "c",
         "minirt.h": "c",
         "ios": "c",
-        "complex": "c"
+        "complex": "c",
+        "algorithm": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

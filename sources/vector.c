@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 19:35:32 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/30 12:53:58 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/31 18:37:32 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,3 +74,13 @@ t_vector	sum_vect(t_vector v1, t_vector v2)
 	return (new);
 }
 
+
+
+float	dist_vect(t_vector v1, t_vector v2)
+{
+	float	dist;
+
+	dist = sqrt(powf(v1.x - v2.x, 2) + powf(v1.y - v2.y, 2) \
+			+ powf(v1.z - v2.z, 2));
+	return (dist);
+}

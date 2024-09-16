@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+//* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   goxcac.c                                           :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 20:26:29 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/26 18:22:48 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/31 15:38:40 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,24 @@ float	compute_light(float dot, t_scene *scene, t_figure *tmp)
 	ray_norm(tmp, p);
 	light = vec_subtract(scene->light->coords, p);
 	n_dot_l = vec_dot_product(tmp->ray_norm, light);
-	shadow = NULL;
-	if (closest_inter(p, light, scene->figure, &shadow) != __FLT_MAX__)
+	shadow = NULL;//Կոդի այս հատվածը պատասխանատու է ստուգելու համար, թե արդյոք օբյեկտի մակերևույթի կետը գտնվում է ստվերում:
+	if (closest_inter(p, light, scene->figure, &shadow) != __FLT_MAX__)// проверяет, есть ли объекты между точкой p и источником света, которые могут создать тень.
+	{
+		// usleep(200);
+		// printf("mmmmmmmmmmm\n");
 		return (i);
+	}
 	if (n_dot_l > 0)
 		i += scene->light->brightness * n_dot_l / \
-			(vec_length(tmp->ray_norm) * vec_length(light));
-	if (tmp->specular > 0)
-		i += compute_spec(scene, light, n_dot_l, tmp);
+			(vec_length(tmp->ray_norm) * vec_length(light));//scene->light->brightness * cos(ø),nuynn esa eli
+	// if (tmp->specular > 0)
+	// {
+	// 	i += compute_spec(scene, light, n_dot_l, tmp);
+	// 	printf("puf\n");
+	// }
 	return (i);
 }
-
+	
 
 void	ray_norm(t_figure *fig, t_vector p)
 {
@@ -88,6 +95,8 @@ void	ray_norm(t_figure *fig, t_vector p)
 		fig->ray_norm = vec_normalize(vec_subtract(p, fig->sphere->center));
 	else if (fig->type == PLANE)
 		fig->ray_norm = fig->plane->orient;
+	else if (fig->type == CYLINDER)
+		fig->ray_norm = fig->cylinder->ray_norm;
 }
 
 float	compute_spec(t_scene *scene, t_vector light, float n_dot_l, t_figure *fig)

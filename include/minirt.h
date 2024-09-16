@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/30 13:08:47 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/09/09 18:58:02 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ typedef struct s_plane
 	// t_obj_id	id;
 	t_vector	coords;
 	t_color		color;
-	t_vector	orient;
+	t_vector	orient;//uxxutyun
 	// int			count;
 	// struct s_plane	*next;
 }	t_plane;
@@ -141,7 +141,9 @@ typedef struct s_plane
 typedef struct s_cylinder
 {
 	// t_obj_id	id;
-	t_vector	coords;
+	t_vector	ray_norm;//
+	float		dist[2];
+	t_vector	center;
 	t_vector	orient;//n_coord
 	float		radius;
 	float		height;
@@ -320,7 +322,7 @@ t_vector	vec_normalize(t_vector vec);
 float	vec_dot_product(t_vector vec1, t_vector vec2);
 t_vector	num_product_vect(t_vector vec, float num);
 t_vector	sum_vect(t_vector v1, t_vector v2);
-
+float	dist_vect(t_vector v1, t_vector v2);
 
 /////////////////ray_tracing.c////////////////////////////
 void	ray_tracing(t_scene *scene);
@@ -329,11 +331,22 @@ t_vplane	*get_view_plane(float width, float hight, float fov);
 float	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere);
 // void	closest_inter(t_figure *figure, t_scene *scene, t_hatum *hatum, t_vector ray, t_figure *tmp);
 // void	closest_inter(t_vector pos, t_vector ray, t_figure *tmp, t_scene *scene);
-float	plane_intersect(t_vector pos, t_vector ray, t_plane *plane);
+float	plane_inter(t_vector pos, t_vector ray, t_vector orient, t_vector coord);
 float	cylinder_intersect(t_vector pos, t_vector ray, t_cylinder *cyl);
 float	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp);
 int	get_color(int red, int green, int blue, float bright);
 int	color_in_current_pixdel(t_scene *scene);
+//////qqqq////
+float	calcul_dist(t_cylinder *cyl, float t, t_vector ray, t_vector pos);
+float	vect_proj(t_vector pos, t_vector ray, t_cylinder *cyl, t_math *math);
+float	side_inter(t_vector pos, t_vector ray, t_cylinder *cyl);
+float	caps_inter(t_vector pos, t_vector ray, t_cylinder *cyl);
+// float	cyl_inter(t_vector pos, t_vector ray, t_cylinder *cyl);
+t_vector	cylray_norm(t_math *math, t_vector ray, t_vector pos, t_cylinder *cyl);
+float	closest_dist(t_cylinder *cyl, t_math *m);
+float	plane_inter(t_vector pos, t_vector ray, t_vector orient, t_vector coord);
+
+
 
 void	count_check(t_scene *scene, char **matrix);
 void	check_cam_count(t_camera *cam, char **matrix, t_scene *scene);

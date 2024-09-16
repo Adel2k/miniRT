@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/26 20:59:26 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/08/31 18:26:52 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_cylinder	*parse_cylinder(char **matrix, t_scene *scene)
 			|| (ft_strstr_alt(matrix[i], ",,")))
 			exit_and_free_matrix(matrix,"Error: bad arguments cy", scene);
 	}
-	init_coords(&cylinder->coords, matrix, scene, 1);
+	init_coords(&cylinder->center, matrix, scene, 1);
 
 	init_orient(&cylinder->orient, matrix, scene, 2);
 
