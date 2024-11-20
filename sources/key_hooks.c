@@ -6,20 +6,35 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:13:51 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/20 16:24:56 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/09/18 16:13:55 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
 
-int	handler(int keysym, t_scene *scene)
+int	handler(int keypress, t_scene *scene)
 {
-	if (keysym == 53)
+	if (keypress == ESC)
 	{
 		mlx_destroy_image(scene->mlx->mlx, scene->img->img_ptr);
 		mlx_clear_window(scene->mlx->mlx, scene->mlx->win);
 		mlx_destroy_window(scene->mlx->mlx, scene->mlx->win);
 		exit(0);
+	}
+	if (scene->figure && scene->camera && scene->ambient)
+	{
+		if (keypress == A || keypress == S || keypress == D || keypress == W)
+			_rotate_(keypress, scene);
+		// else if (keypress == LEFT || keypress == RIGHT || \
+		// 						keypress == DECREASE || keypress == INCREASE)
+		// 	_move_(keypress, thr->scene);
+		if (keypress == ESC)
+		{
+			mlx_destroy_image(scene->mlx->mlx, scene->img->img_ptr);
+			mlx_clear_window(scene->mlx->mlx, scene->mlx->win);
+			mlx_destroy_window(scene->mlx->mlx, scene->mlx->win);
+			exit(0);
+		}
 	}
 	return (0);
 }

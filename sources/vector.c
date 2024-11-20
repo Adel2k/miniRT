@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 19:35:32 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/31 18:37:32 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:46:11 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,19 @@ float	dist_vect(t_vector v1, t_vector v2)
 	dist = sqrt(powf(v1.x - v2.x, 2) + powf(v1.y - v2.y, 2) \
 			+ powf(v1.z - v2.z, 2));
 	return (dist);
+}
+
+t_vector vec_cross_product(t_vector vec1, t_vector vec2)
+{
+    // return new_vector(
+    //     vec1.y * vec2.z - vec1.z * vec2.y,
+    //     vec1.z * vec2.x - vec1.x * vec2.z,
+    //     vec1.x * vec2.y - vec1.y * vec2.x
+    // );
+
+	return new_vector(
+        -(vec1.y * vec2.z - vec1.z * vec2.y),
+        -(vec1.z * vec2.x - vec1.x * vec2.z),
+        -(vec1.x * vec2.y - vec1.y * vec2.x)
+    );
 }

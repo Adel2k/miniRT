@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/09/09 18:58:02 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:08:49 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # define LEFT	123
 # define RIGHT	124
 # define ESC	53
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 1000
+# define HEIGHT 700
 # include <stdio.h>
 # include <string.h>
 # include <limits.h>
@@ -192,11 +192,19 @@ typedef struct s_hatum
 }	t_hatum;
 typedef struct s_vplane//okna prasmotra
 {
+	t_camera	camera;
 	t_vector	width;
 	t_vector	hight;
 	t_vector	pixel_00;
 	t_vector	x_pixel;//piksel akna prasmotra
 	t_vector	y_pixel;
+	float 		plane_half_width;
+    float 		plane_half_height;
+	t_vector up;
+    t_vector right;
+	t_vector plane_center;
+	t_vector half_width;
+    t_vector half_height;
 }	t_vplane;
 typedef struct s_scene
 {
@@ -206,6 +214,8 @@ typedef struct s_scene
 	t_light		*light;
 	t_figure	*figure;
 	t_vplane	*vplane;
+	int	i;
+	int j;
 	t_mlx_vars	*mlx;
 	t_img		*img;//data
 	t_vector	ray;
@@ -323,10 +333,11 @@ float	vec_dot_product(t_vector vec1, t_vector vec2);
 t_vector	num_product_vect(t_vector vec, float num);
 t_vector	sum_vect(t_vector v1, t_vector v2);
 float	dist_vect(t_vector v1, t_vector v2);
+t_vector vec_cross_product(t_vector vec1, t_vector vec2);
 
 /////////////////ray_tracing.c////////////////////////////
 void	ray_tracing(t_scene *scene);
-t_vplane	*get_view_plane(float width, float hight, float fov);
+t_vplane	*get_view_plane(t_camera *camera, float width, float hight, float fov);
 // float		sphere_intersect(t_camera *cam, t_vector ray, t_sphere *sphere);
 float	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere);
 // void	closest_inter(t_figure *figure, t_scene *scene, t_hatum *hatum, t_vector ray, t_figure *tmp);
@@ -334,7 +345,8 @@ float	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere);
 float	plane_inter(t_vector pos, t_vector ray, t_vector orient, t_vector coord);
 float	cylinder_intersect(t_vector pos, t_vector ray, t_cylinder *cyl);
 float	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp);
-int	get_color(int red, int green, int blue, float bright);
+// int	get_color(int red, int green, int blue, float bright);
+int	get_color(t_figure *figure, t_scene *scene, float closest_dot);
 int	color_in_current_pixdel(t_scene *scene);
 //////qqqq////
 float	calcul_dist(t_cylinder *cyl, float t, t_vector ray, t_vector pos);
@@ -346,8 +358,26 @@ t_vector	cylray_norm(t_math *math, t_vector ray, t_vector pos, t_cylinder *cyl);
 float	closest_dist(t_cylinder *cyl, t_math *m);
 float	plane_inter(t_vector pos, t_vector ray, t_vector orient, t_vector coord);
 
+void	_rotate_(int keypress, t_scene *scene);
+void		_move_(int keypress, t_scene *scene);
+void		_rotate_(int keypress, t_scene *scene);
+int	draw(t_scene *scene);
+void		rotate_scene_up(t_scene *scene);
+void		rotate_scene_left(t_scene *scene);
+void		rotate_scene_right(t_scene *scene);
+void		rotate_scene_down(t_scene *scene);
 
+void		rotate_sphere(t_sphere *sph, t_matrix matrix);
+void		rotate_plane(t_plane *plane, t_matrix matrix);
+void		rotate_light(t_light *light, t_matrix matrix);
+void		rotate_cylinder(t_cylinder *cylinder, t_matrix matrix);
 
+t_matrix	get_rotation_z(float angle);
+t_matrix	get_rotation_y(float angle);
+t_matrix	get_rotation_x(float angle);
+
+t_vector	multi_mat_vect(t_matrix m, t_vector v);
+t_matrix	new_zero_matrix(void);
 void	count_check(t_scene *scene, char **matrix);
 void	check_cam_count(t_camera *cam, char **matrix, t_scene *scene);
 void	check_ambient_count(t_ambient *ambient, char **map, t_scene *scene);

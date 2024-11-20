@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/09/09 18:59:54 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/19 19:46:04 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,35 +116,40 @@
 
 t_vector	get_ray(t_vplane *vplane, int i, int j)
 {
-	t_vector	v;
+	// t_vector	v;
 
-	v.x = vplane->pixel_00.x + (vplane->x_pixel.x * j);
-	v.y = vplane->pixel_00.y + (vplane->y_pixel.y * i);
-	v.z = -1;
-	return (v);
+	// v.x = vplane->pixel_00.x + (vplane->x_pixel.x * j);
+	// v.y = vplane->pixel_00.y + (vplane->y_pixel.y * i);
+	// v.z = -1;
+	// return (v);
+	t_vector pixel_point;
+
+	// Вычисление точки на виртуальной плоскости
+	pixel_point = sum_vect(vplane->pixel_00, sum_vect(num_product_vect(vplane->x_pixel, j),num_product_vect(vplane->y_pixel, i)));
+	// Направление луча: из центра камеры в точку на плоскости
+	return vec_normalize(vec_subtract(pixel_point, vplane->camera.center));
 }
 
 
 void	ray_tracing(t_scene *scene)
 {
-	int			i;
-	int			j;
 
-	i = 0;
-	j = 0;
+	scene->i = 0;     
 	scene->hatum.dot = __FLT_MAX__;
-	scene->vplane = get_view_plane(scene->width, scene->height, scene->camera->fov);
-	while (i < scene->height)
+	scene->vplane = get_view_plane(scene->camera, scene->width, scene->height, scene->camera->fov);
+	// printf("right-> %f %f %f",  scene->camera->direction.x, scene->camera->direction.y,  scene->camera->direction.z);
+	
+	while (scene->i < scene->height)
 	{
-		j = 0;
-		while (j < scene->width)
+		scene->j = 0;
+		while (scene->j < scene->width)
 		{
-			scene->ray = get_ray(scene->vplane, i, j);
+			scene->ray = get_ray(scene->vplane, scene->i, scene->j);
 			scene->ray = vec_normalize(scene->ray);
-			my_mlx_pixel_put(scene->img, j, i, color_in_current_pixdel(scene));
-			j++;
+			my_mlx_pixel_put(scene->img, scene->j, scene->i, color_in_current_pixdel(scene));
+			scene->j++;
 		}
-		i++;
+		scene->i++;
 	}
 	free(scene->vplane);
 }
@@ -160,13 +165,12 @@ int	color_in_current_pixdel(t_scene *scene)
 	closest_dot = closest_inter(scene->camera->center, scene->ray, scene->figure, &tmp);
 	if (closest_dot == __FLT_MAX__)
 	{
-		// printf("senc depqe ka");
-		color = get_color(0, 0, 0, 1);
+		color = 0;
 	}
 	else
 	{
 		// printf("ray->x=%f  ", scene->ray.x);
-		color = get_color(tmp->color->red, tmp->color->green, tmp->color->blue, compute_light(closest_dot, scene, tmp));
+		color = get_color(tmp, scene, closest_dot);
 	}
 	return (color);
 }
@@ -210,26 +214,78 @@ t_vector	vector(float x, float y, float z)
 	return (v);
 }
 
-t_vplane	*get_view_plane(float width, float hight, float fov)
+t_vplane	*get_view_plane(t_camera *camera, float width, float hight, float fov)
 {
 	t_vplane	*vplane;
 	float		aspect_ratio;
-	float		tmp;
 
 
 	aspect_ratio = width / hight;
+	//
+	//
 	vplane = malloc(sizeof(t_vplane));
 	if (!vplane)
 		exit(EXIT_FAILURE);
-	tmp = 2.0 * tanf((fov / 2.0) * (M_PI / 180));
-	vplane->width = vector(tmp, 0, 0);
-	tmp = tmp / aspect_ratio;
-	vplane->hight = vector(0, -tmp, 0);
-	vplane->x_pixel = vector(vplane->width.x / WIDTH, 0, 0);
-	vplane->y_pixel = vector(0, vplane->hight.y / HEIGHT, 0);
-	vplane->pixel_00 = vector((0.0 - (vplane->width.x / 2)) + vplane->x_pixel.x / 2, \
-							0.0 - (vplane->hight.y / 2) + vplane->y_pixel.y / 2, \
-							-1);
+
+	///
+	vplane->camera = *camera;
+	vplane->plane_half_width = tanf((fov / 2.0) * (M_PI / 180));
+	vplane->plane_half_height = vplane->plane_half_width / aspect_ratio;
+	vplane->up = new_vector(0, -1, 0); // Ось "вверх" — Y
+    vplane->right = vec_cross_product(vplane->camera.direction, vplane->up); // Перпендикуляр
+    // vplane->right.x *= -1;
+	// vplane->right.y *= -1;
+    // vplane->right.z *= -1;
+
+	vplane->right = vec_normalize(vplane->right); // Нормализуем
+    vplane->up = vec_cross_product(vplane->right, vplane->camera.direction); // Перпендикуляр
+    vplane->up = vec_normalize(vplane->up);//чтобы его длина стала равной 1.
+
+	printf("camera -> %f %f %f",  vplane->camera.direction.x, vplane->camera.direction.y,  vplane->camera.direction.z);
+	printf("up-> %f %f %f",  vplane->up.x, vplane->up.y,  vplane->up.z);
+	
+	///
+	// vplane->width = vector(tmp, 0, 0);
+	// vplane->hight = vector(0, -tmp, 0);
+	// vplane->x_pixel = vector(vplane->width.x / WIDTH, 0, 0);
+	// vplane->y_pixel = vector(0, vplane->hight.y / HEIGHT, 0);
+	// vplane->pixel_00 = vector((0.0 - (vplane->width.x / 2)) + vplane->x_pixel.x / 2, \
+	// 						0.0 - (vplane->hight.y / 2) + vplane->y_pixel.y / 2, \
+	// 						-1);
+
+	vplane->width = num_product_vect(vplane->right, vplane->plane_half_width * 2);
+    vplane->hight = num_product_vect(vplane->up, vplane->plane_half_height * 2);
+    vplane->x_pixel = num_product_vect(vplane->right, (vplane->plane_half_width * 2) / width);
+    vplane->y_pixel = num_product_vect(vplane->up, (vplane->plane_half_height * 2) / hight);
+
+	vplane->plane_center = sum_vect(vplane->camera.center, num_product_vect(vplane->camera.direction, 1)); // Перед камерой
+    vplane->half_width = num_product_vect(vplane->right, vplane->plane_half_width);
+    vplane->half_height = num_product_vect(vplane->up, vplane->plane_half_height);
+    vplane->pixel_00 = vec_subtract(vec_subtract(vplane->plane_center, vplane->half_width), vplane->half_height);
+    // vplane->pixel_00 = vec_subtract(vec_subtract(vplane->plane_center, vplane->half_width), num_product_vect(vplane->up, -1 * vplane->plane_half_height));
+	
+	
+	// vplane->pixel_00 = vec_subtract(vplane->half_height, vec_subtract(vplane->plane_center, vplane->half_width));
+	
+	
+	// vplane->pixel_00 = vec_subtract(vec_subtract(vplane->plane_center, vplane->half_width), num_product_vect(vplane->up, -1 * vplane->plane_half_height));
+
+	
+	// vplane->pixel_00 = sum_vect(vec_subtract(vplane->plane_center, vplane->half_width), vplane->half_height);	printf("vplane->width.x = %f\n", vplane->width.x);
+	// printf("vplane->width.y = %f\n", vplane->width.y);
+	// printf("vplane->width.z = %f\n", vplane->width.z);
+	// printf("vplane->hight.x = %f\n", vplane->hight.x);
+	// printf("vplane->hight.y = %f\n", vplane->hight.y);
+	// printf("vplane->hight.z = %f\n", vplane->hight.z);
+	// printf("vplane->x_pixel.x = %f\n", vplane->x_pixel.x);
+	// printf("vplane->x_pixel.y = %f\n", vplane->x_pixel.y);
+	// printf("vplane->x_pixel.z = %f\n", vplane->x_pixel.z);
+	// printf("vplane->y_pixel.x = %f\n", vplane->y_pixel.x);
+	// printf("vplane->y_pixel.y = %f\n", vplane->y_pixel.y);
+	// printf("vplane->y_pixel.z = %f\n", vplane->y_pixel.z);
+	// printf("vplane->pixel_00.x = %f\n", vplane->pixel_00.x);
+	// printf("vplane->pixel_00.y = %f\n", vplane->pixel_00.y);
+	// printf("vplane->pixel_00.z = %f\n", vplane->pixel_00.z);
 	return (vplane);
 }
 
@@ -259,15 +315,17 @@ float	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere)
 	return (0);
 }
 
-int	get_color(int red, int green, int blue, float bright)
+int	get_color(t_figure *figure, t_scene *scene, float closest_dot)
 {
 	int	r;
 	int	g;
 	int	b;
+	float	bright;
 //  Если bright меньше 1, цвета будут затемнены, если больше 1 — осветлены.
-	r = red * bright;
-	g = green * bright;
-	b = blue * bright;
+	bright = compute_light(closest_dot, scene, figure);
+	r = figure->color->red * bright;
+	g = figure->color->green * bright;
+	b = figure->color->blue * bright;
 	if (r > 255)
 		r = 255;
 	if (g > 255)
