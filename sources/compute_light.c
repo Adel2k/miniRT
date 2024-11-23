@@ -133,11 +133,11 @@ t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular, float cl
 	light_tmp = scene->light;
 	while (light_tmp)
 	{
-		if (compute_shadow(scene, &obj, light_tmp))
-		{
+		// if (compute_shadow(scene, &obj, light_tmp))
+		// {
 			light_in_vec = add_rgb_light(diffuse_light(scene, obj, light_tmp, closest_dot), light_in_vec);
 			*specular = specular_light(scene, light_tmp, obj, closest_dot);
-		}
+		// }
 		light_tmp = light_tmp->next;
 	}
 	return (light_in_vec);
@@ -184,6 +184,16 @@ t_color	specular_light(t_scene *scene, t_light *light_fig, t_figure *obj, float 
 		spec = light_fig->brightness * pow(vec_dot_product(reflected, vec_V), \
 			obj->specular);
 	return (calc_rgb_light(light_fig->color, spec));
+}
+
+
+t_vector	reflect_ray(t_vector ray, t_vector p_normal)
+{
+	t_vector	reflected;
+
+	reflected = num_product_vect(p_normal, 2 * vec_dot_product(ray, p_normal));
+	reflected = vec_subtract(reflected, ray);
+	return (reflected);
 }
 // void	set_hit_normal(t_figure **obj, t_vector ray)
 // {

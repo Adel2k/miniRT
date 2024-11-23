@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/23 21:39:13 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/23 21:54:09 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -415,4 +415,6 @@ void	ray_norm(t_figure *fig, t_vector p);
 // float	compute_spec(t_scene *scene, t_vector light, float n_dot_l, t_figure *fig);
 t_color	diffuse_light(t_scene *scene, t_figure *obj, t_light *light, float closest_dot);
 t_color	specular_light(t_scene *scene, t_light *light, t_figure *obj, float closest_dot);
+t_vector	reflect_ray(t_vector ray, t_vector p_normal);
+
 #endif
