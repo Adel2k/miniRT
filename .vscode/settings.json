@@ -6,7 +6,25 @@
         "ios": "c",
         "complex": "c",
         "algorithm": "c",
-        "vector": "c"
+        "vector": "c",
+        "ratio": "c",
+        "__locale": "c",
+        "__string": "c",
+        "string": "c",
+        "string_view": "c",
+        "iterator": "c",
+        "__functional_base": "c",
+        "__functional_base_03": "c",
+        "__hash_table": "c",
+        "__tuple": "c",
+        "array": "c",
+        "chrono": "c",
+        "type_traits": "c",
+        "functional": "c",
+        "limits": "c",
+        "memory": "c",
+        "tuple": "c",
+        "utility": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

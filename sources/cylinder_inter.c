@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 18:25:01 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/31 18:38:39 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/21 18:45:38 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,13 @@ t_vector	cylray_norm(t_math *math, t_vector ray, t_vector pos, t_cylinder *cyl)
 	float	dist;
 
 	dist = closest_dist(cyl, math);
-	return (vec_normalize(vec_subtract(vec_subtract(num_product_vect(ray, math->x1), \
+	t_vector foo;
+
+	foo = vec_subtract(vec_subtract(num_product_vect(ray, math->x1), \
 			num_product_vect(cyl->orient, dist)), \
-			vec_subtract(cyl->center, pos))));
+			vec_subtract(cyl->center, pos));
+	vec_normalize(&foo);
+	return (foo);
 }
 
 float	closest_dist(t_cylinder *cyl, t_math *m)

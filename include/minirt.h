@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/19 19:08:49 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/23 21:39:13 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef enum e_figure_type
 	CYLINDER,
 	SPHERE,
 	PLANE,
+	LIGHT,
 }				t_type;
 
 ///////
@@ -78,7 +79,7 @@ typedef struct s_color
 typedef struct s_ambient
 {
 	float   ratio_lighting;
-    t_color color;
+    t_color light;
 	int		count;
 	// struct s_ambient	*next;
 }	t_ambient;
@@ -111,7 +112,7 @@ typedef struct s_light
 	float			brightness;
 	t_color			color;
 	// int				count;
-	// struct s_light	*next;
+	struct s_light	*next;
 }	t_light;
 
 
@@ -177,6 +178,7 @@ typedef struct s_figure
 	t_sphere		*sphere;
 	t_plane			*plane;
 	t_cylinder		*cylinder;
+	t_light			*light;//norem avelacre
 	t_type			type;
 	t_color			*color;
 	float			specular;
@@ -190,22 +192,37 @@ typedef struct s_hatum
 	float		dot;
 	t_figure	*figure;
 }	t_hatum;
-typedef struct s_vplane//okna prasmotra
+
+// typedef struct s_vplane//okna prasmotra
+// {
+// 	t_camera	camera;
+// 	t_vector	width;
+// 	t_vector	hight;
+// 	t_vector	pixel_00;
+// 	t_vector	x_pixel;//piksel akna prasmotra
+// 	t_vector	y_pixel;
+// 	float 		plane_half_width;
+//     float 		plane_half_height;
+// 	t_vector up;
+//     t_vector right;
+// 	t_vector plane_center;
+// 	t_vector half_width;
+//     t_vector half_height;
+// }	t_vplane;
+
+typedef struct s_vplane
 {
-	t_camera	camera;
-	t_vector	width;
-	t_vector	hight;
-	t_vector	pixel_00;
-	t_vector	x_pixel;//piksel akna prasmotra
-	t_vector	y_pixel;
-	float 		plane_half_width;
-    float 		plane_half_height;
-	t_vector up;
-    t_vector right;
-	t_vector plane_center;
-	t_vector half_width;
-    t_vector half_height;
+	int	mlx_x;
+	int	mlx_y;
+	double	width;
+	double	height;
+	double	pixel_x;
+	double	pixel_y;
+	double	x_angle;
+	double	y_angle;
 }	t_vplane;
+
+
 typedef struct s_scene
 {
 	t_color		color;
@@ -328,16 +345,24 @@ t_vector	new_vector(float x, float y, float z);
 t_vector	vec_subtract(t_vector vec1, t_vector vec2);
 float	vec_length(t_vector vec);
 float	vec_dot_product(t_vector vec1, t_vector vec2);
-t_vector	vec_normalize(t_vector vec);
+void	vec_normalize(t_vector *vec);
 float	vec_dot_product(t_vector vec1, t_vector vec2);
 t_vector	num_product_vect(t_vector vec, float num);
 t_vector	sum_vect(t_vector v1, t_vector v2);
 float	dist_vect(t_vector v1, t_vector v2);
 t_vector vec_cross_product(t_vector vec1, t_vector vec2);
 
+//////////////////color_functions.c/////////////////////
+t_color	calc_rgb_light(t_color col, double ratio);
+int	rgb_color_to_hex(t_color *rgb);
+t_color	add_rgb_light(t_color a, t_color b);
+t_color	new_color(int r, int g, int b);
 /////////////////ray_tracing.c////////////////////////////
 void	ray_tracing(t_scene *scene);
-t_vplane	*get_view_plane(t_camera *camera, float width, float hight, float fov);
+void	get_pixel_color(int *color, t_figure *obj, t_scene *scene, float closest_dot);
+// t_vplane	*get_view_plane(t_camera *camera, float width, float hight, float fov);//ray_tracing.c
+t_vplane	*get_view_plane(t_scene *scene);////ray_tracing_2.c
+
 // float		sphere_intersect(t_camera *cam, t_vector ray, t_sphere *sphere);
 float	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere);
 // void	closest_inter(t_figure *figure, t_scene *scene, t_hatum *hatum, t_vector ray, t_figure *tmp);
@@ -345,9 +370,7 @@ float	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere);
 float	plane_inter(t_vector pos, t_vector ray, t_vector orient, t_vector coord);
 float	cylinder_intersect(t_vector pos, t_vector ray, t_cylinder *cyl);
 float	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp);
-// int	get_color(int red, int green, int blue, float bright);
-int	get_color(t_figure *figure, t_scene *scene, float closest_dot);
-int	color_in_current_pixdel(t_scene *scene);
+int	color_in_current_pixel(t_scene *scene);
 //////qqqq////
 float	calcul_dist(t_cylinder *cyl, float t, t_vector ray, t_vector pos);
 float	vect_proj(t_vector pos, t_vector ray, t_cylinder *cyl, t_math *math);
@@ -385,10 +408,11 @@ void	check_ambient_count(t_ambient *ambient, char **map, t_scene *scene);
 
 void	free_scene(t_scene *scene);
 void	init_scene(t_scene *scene);
-//////goxcac.c/////
-// float	compute_light(float dot, t_scene *scene, t_vector ray, t_figure *figure);
-float	compute_light(float dot, t_scene *scene, t_figure *tmp);
-void	ray_norm(t_figure *fig, t_vector p);
+/////////////////compute_light.c/////////////////
+t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular, float closest_dot);
 float	compute_spec(t_scene *scene, t_vector light, float n_dot_l, t_figure *fig);
-
+void	ray_norm(t_figure *fig, t_vector p);
+// float	compute_spec(t_scene *scene, t_vector light, float n_dot_l, t_figure *fig);
+t_color	diffuse_light(t_scene *scene, t_figure *obj, t_light *light, float closest_dot);
+t_color	specular_light(t_scene *scene, t_light *light, t_figure *obj, float closest_dot);
 #endif

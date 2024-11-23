@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/19 19:46:04 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/21 18:24:42 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,209 +131,206 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 }
 
 
-void	ray_tracing(t_scene *scene)
-{
+// void	ray_tracing(t_scene *scene)
+// {
 
-	scene->i = 0;     
-	scene->hatum.dot = __FLT_MAX__;
-	scene->vplane = get_view_plane(scene->camera, scene->width, scene->height, scene->camera->fov);
-	// printf("right-> %f %f %f",  scene->camera->direction.x, scene->camera->direction.y,  scene->camera->direction.z);
+// 	scene->i = 0;     
+// 	scene->hatum.dot = __FLT_MAX__;
+// 	scene->vplane = get_view_plane(scene->camera, scene->width, scene->height, scene->camera->fov);
+// 	// printf("right-> %f %f %f",  scene->camera->direction.x, scene->camera->direction.y,  scene->camera->direction.z);
 	
-	while (scene->i < scene->height)
-	{
-		scene->j = 0;
-		while (scene->j < scene->width)
-		{
-			scene->ray = get_ray(scene->vplane, scene->i, scene->j);
-			scene->ray = vec_normalize(scene->ray);
-			my_mlx_pixel_put(scene->img, scene->j, scene->i, color_in_current_pixdel(scene));
-			scene->j++;
-		}
-		scene->i++;
-	}
-	free(scene->vplane);
-}
+// 	while (scene->i < scene->height)
+// 	{
+// 		scene->j = 0;
+// 		while (scene->j < scene->width)
+// 		{
+// 			scene->ray = get_ray(scene->vplane, scene->i, scene->j);
+// 			scene->ray = vec_normalize(scene->ray);
+// 			my_mlx_pixel_put(scene->img, scene->j, scene->i, color_in_current_pixel(scene));
+// 			scene->j++;
+// 		}
+// 		scene->i++;
+// 	}
+// 	free(scene->vplane);
+// }
 
-int	color_in_current_pixdel(t_scene *scene)
-{
-	int			color;
-	t_figure	*tmp;
-	float		closest_dot;
+// int	color_in_current_pixel(t_scene *scene)
+// {
+// 	int			color;
+// 	t_figure	*tmp;
+// 	float		closest_dot;
 
-	closest_dot = __FLT_MAX__;
-	tmp = scene->figure;
-	closest_dot = closest_inter(scene->camera->center, scene->ray, scene->figure, &tmp);
-	if (closest_dot == __FLT_MAX__)
-	{
-		color = 0;
-	}
-	else
-	{
-		// printf("ray->x=%f  ", scene->ray.x);
-		color = get_color(tmp, scene, closest_dot);
-	}
-	return (color);
-}
+// 	closest_dot = __FLT_MAX__;
+// 	tmp = scene->figure;
+// 	closest_dot = closest_inter(scene->camera->center, scene->ray, scene->figure, &tmp);
+// 	if (closest_dot == __FLT_MAX__)
+// 	{
+// 		color = 0;
+// 	}
+// 	else
+// 	{
+// 		// printf("ray->x=%f  ", scene->ray.x);
+// 		color = get_color(tmp, scene, closest_dot);
+// 	}
+// 	return (color);
+// }
 
-float	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp)
-{
-	float		dot;
-	float		closest_dot;
+// float	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp)
+// {
+// 	float		dot;
+// 	float		closest_dot;
 
-	dot = __FLT_MAX__;
-	closest_dot = __FLT_MAX__;
-	while (figure)
-	{
-		// printf("Vrdoi type=%d\n",tmp->type);
-		// usleep(100);
-		if (figure->type == SPHERE)
-			dot = sphere_intersect(pos, ray, figure->sphere);
-		else if (figure->type == PLANE)
-			dot = plane_inter(pos, ray, figure->plane->orient, figure->plane->coords);
-		else if (figure->type == CYLINDER)
-			dot = cylinder_intersect(pos, ray, figure->cylinder);
-		if (dot > 0.0 && dot < closest_dot)
-		{
-			closest_dot = dot;
-			*tmp = figure;
-		}
-		figure = figure->next;
-	}
-	return (closest_dot);
-}
-
-
-
-t_vector	vector(float x, float y, float z)
-{
-	t_vector	v;
-
-	v.x = x;
-	v.y = y;
-	v.z = z;
-	return (v);
-}
-
-t_vplane	*get_view_plane(t_camera *camera, float width, float hight, float fov)
-{
-	t_vplane	*vplane;
-	float		aspect_ratio;
+// 	dot = __FLT_MAX__;
+// 	closest_dot = __FLT_MAX__;
+// 	while (figure)
+// 	{
+// 		// printf("Vrdoi type=%d\n",tmp->type);
+// 		// usleep(100);
+// 		if (figure->type == SPHERE)
+// 			dot = sphere_intersect(pos, ray, figure->sphere);
+// 		else if (figure->type == PLANE)
+// 			dot = plane_inter(pos, ray, figure->plane->orient, figure->plane->coords);
+// 		else if (figure->type == CYLINDER)
+// 			dot = cylinder_intersect(pos, ray, figure->cylinder);
+// 		if (dot > 0.0 && dot < closest_dot)
+// 		{
+// 			closest_dot = dot;
+// 			*tmp = figure;
+// 		}
+// 		figure = figure->next;
+// 	}
+// 	return (closest_dot);
+// }
 
 
-	aspect_ratio = width / hight;
-	//
-	//
-	vplane = malloc(sizeof(t_vplane));
-	if (!vplane)
-		exit(EXIT_FAILURE);
 
-	///
-	vplane->camera = *camera;
-	vplane->plane_half_width = tanf((fov / 2.0) * (M_PI / 180));
-	vplane->plane_half_height = vplane->plane_half_width / aspect_ratio;
-	vplane->up = new_vector(0, -1, 0); // Ось "вверх" — Y
-    vplane->right = vec_cross_product(vplane->camera.direction, vplane->up); // Перпендикуляр
-    // vplane->right.x *= -1;
-	// vplane->right.y *= -1;
-    // vplane->right.z *= -1;
+// t_vector	vector(float x, float y, float z)
+// {
+// 	t_vector	v;
 
-	vplane->right = vec_normalize(vplane->right); // Нормализуем
-    vplane->up = vec_cross_product(vplane->right, vplane->camera.direction); // Перпендикуляр
-    vplane->up = vec_normalize(vplane->up);//чтобы его длина стала равной 1.
+// 	v.x = x;
+// 	v.y = y;
+// 	v.z = z;
+// 	return (v);
+// }
 
-	printf("camera -> %f %f %f",  vplane->camera.direction.x, vplane->camera.direction.y,  vplane->camera.direction.z);
-	printf("up-> %f %f %f",  vplane->up.x, vplane->up.y,  vplane->up.z);
+// t_vplane	*get_view_plane(t_camera *camera, float width, float hight, float fov)
+// {
+// 	t_vplane	*vplane;
+// 	float		aspect_ratio;
+
+
+// 	aspect_ratio = width / hight;
+// 	//
+// 	//
+// 	vplane = malloc(sizeof(t_vplane));
+// 	if (!vplane)
+// 		exit(EXIT_FAILURE);
+
+// 	///
+// 	vplane->camera = *camera;
+// 	vplane->plane_half_width = tanf((fov / 2.0) * (M_PI / 180));
+// 	vplane->plane_half_height = vplane->plane_half_width / aspect_ratio;
+// 	vplane->up = new_vector(0, -1, 0); // Ось "вверх" — Y
+//     vplane->right = vec_cross_product(vplane->camera.direction, vplane->up); // Перпендикуляр
+
+// 	vplane->right = vec_normalize(vplane->right); // Нормализуем
+//     vplane->up = vec_cross_product(vplane->right, vplane->camera.direction); // Перпендикуляр
+//     vplane->up = vec_normalize(vplane->up);//чтобы его длина стала равной 1.
+
+// 	printf("camera direction-> %f %f %f\n",  vplane->camera.direction.x, vplane->camera.direction.y,  vplane->camera.direction.z);
+// 	printf("camera center-> %f %f %f\n",  vplane->camera.center.x, vplane->camera.center.y,  vplane->camera.center.z);
 	
-	///
-	// vplane->width = vector(tmp, 0, 0);
-	// vplane->hight = vector(0, -tmp, 0);
-	// vplane->x_pixel = vector(vplane->width.x / WIDTH, 0, 0);
-	// vplane->y_pixel = vector(0, vplane->hight.y / HEIGHT, 0);
-	// vplane->pixel_00 = vector((0.0 - (vplane->width.x / 2)) + vplane->x_pixel.x / 2, \
-	// 						0.0 - (vplane->hight.y / 2) + vplane->y_pixel.y / 2, \
-	// 						-1);
-
-	vplane->width = num_product_vect(vplane->right, vplane->plane_half_width * 2);
-    vplane->hight = num_product_vect(vplane->up, vplane->plane_half_height * 2);
-    vplane->x_pixel = num_product_vect(vplane->right, (vplane->plane_half_width * 2) / width);
-    vplane->y_pixel = num_product_vect(vplane->up, (vplane->plane_half_height * 2) / hight);
-
-	vplane->plane_center = sum_vect(vplane->camera.center, num_product_vect(vplane->camera.direction, 1)); // Перед камерой
-    vplane->half_width = num_product_vect(vplane->right, vplane->plane_half_width);
-    vplane->half_height = num_product_vect(vplane->up, vplane->plane_half_height);
-    vplane->pixel_00 = vec_subtract(vec_subtract(vplane->plane_center, vplane->half_width), vplane->half_height);
-    // vplane->pixel_00 = vec_subtract(vec_subtract(vplane->plane_center, vplane->half_width), num_product_vect(vplane->up, -1 * vplane->plane_half_height));
+	// printf("up-> %f %f %f\n",  vplane->up.x, vplane->up.y,  vplane->up.z);
+// 	printf("right-> %f %f %f\n",  vplane->right.x, vplane->right.y,  vplane->right.z);
 	
+// 	///
+// 	// vplane->width = vector(tmp, 0, 0);
+// 	// vplane->hight = vector(0, -tmp, 0);
+// 	// vplane->x_pixel = vector(vplane->width.x / WIDTH, 0, 0);
+// 	// vplane->y_pixel = vector(0, vplane->hight.y / HEIGHT, 0);
+
+// 	vplane->width = num_product_vect(vplane->right, vplane->plane_half_width * 2);
+//     vplane->hight = num_product_vect(vplane->up, vplane->plane_half_height * 2);
+//     vplane->x_pixel = num_product_vect(vplane->right, (vplane->plane_half_width * 2) / width);
+//     vplane->y_pixel = num_product_vect(vplane->up, (vplane->plane_half_height * 2) / hight);
+
+// 	vplane->plane_center = sum_vect(vplane->camera.center, num_product_vect(vplane->camera.direction, 1)); // Перед камерой
+// 	printf("plane_center-> %f %f %f\n",  vplane->plane_center.x, vplane->plane_center.y,  vplane->plane_center.z);
+    
+// 	vplane->half_width = num_product_vect(vplane->right, vplane->plane_half_width);
+//     vplane->half_height = num_product_vect(vplane->up, vplane->plane_half_height);
+// 	vplane->pixel_00 = vector((vplane->plane_center.x - (vplane->width.x / 2)) + vplane->x_pixel.x / 2, \
+// 							vplane->plane_center.y - (vplane->hight.y / 2) + vplane->y_pixel.y / 2, \
+// 							-1);
+//     // vplane->pixel_00 = vec_subtract(vec_subtract(vplane->plane_center, vplane->half_width), vplane->half_height);
+//    vplane->pixel_00 = vec_subtract(vplane->plane_center, sum_vect(vplane->half_width, vplane->half_height));
+    
 	
-	// vplane->pixel_00 = vec_subtract(vplane->half_height, vec_subtract(vplane->plane_center, vplane->half_width));
-	
-	
-	// vplane->pixel_00 = vec_subtract(vec_subtract(vplane->plane_center, vplane->half_width), num_product_vect(vplane->up, -1 * vplane->plane_half_height));
-
-	
-	// vplane->pixel_00 = sum_vect(vec_subtract(vplane->plane_center, vplane->half_width), vplane->half_height);	printf("vplane->width.x = %f\n", vplane->width.x);
-	// printf("vplane->width.y = %f\n", vplane->width.y);
-	// printf("vplane->width.z = %f\n", vplane->width.z);
-	// printf("vplane->hight.x = %f\n", vplane->hight.x);
-	// printf("vplane->hight.y = %f\n", vplane->hight.y);
-	// printf("vplane->hight.z = %f\n", vplane->hight.z);
-	// printf("vplane->x_pixel.x = %f\n", vplane->x_pixel.x);
-	// printf("vplane->x_pixel.y = %f\n", vplane->x_pixel.y);
-	// printf("vplane->x_pixel.z = %f\n", vplane->x_pixel.z);
-	// printf("vplane->y_pixel.x = %f\n", vplane->y_pixel.x);
-	// printf("vplane->y_pixel.y = %f\n", vplane->y_pixel.y);
-	// printf("vplane->y_pixel.z = %f\n", vplane->y_pixel.z);
-	// printf("vplane->pixel_00.x = %f\n", vplane->pixel_00.x);
-	// printf("vplane->pixel_00.y = %f\n", vplane->pixel_00.y);
-	// printf("vplane->pixel_00.z = %f\n", vplane->pixel_00.z);
-	return (vplane);
-}
+// 	// vplane->pixel_00 = sum_vect(vec_subtract(vplane->plane_center, vplane->half_width), vplane->half_height);	printf("vplane->width.x = %f\n", vplane->width.x);
+// 	printf("vplane->width.x = %f\n", vplane->width.x);
+// 	printf("vplane->width.y = %f\n", vplane->width.y);
+// 	printf("vplane->width.z = %f\n", vplane->width.z);
+// 	printf("vplane->hight.x = %f\n", vplane->hight.x);
+// 	printf("vplane->hight.y = %f\n", vplane->hight.y);
+// 	printf("vplane->hight.z = %f\n", vplane->hight.z);
+// 	printf("vplane->x_pixel.x = %f\n", vplane->x_pixel.x);
+// 	printf("vplane->x_pixel.y = %f\n", vplane->x_pixel.y);
+// 	printf("vplane->x_pixel.z = %f\n", vplane->x_pixel.z);
+// 	printf("vplane->y_pixel.x = %f\n", vplane->y_pixel.x);
+// 	printf("vplane->y_pixel.y = %f\n", vplane->y_pixel.y);
+// 	printf("vplane->y_pixel.z = %f\n", vplane->y_pixel.z);
+// 	printf("vplane->pixel_00.x = %f\n", vplane->pixel_00.x);
+// 	printf("vplane->pixel_00.y = %f\n", vplane->pixel_00.y);
+// 	printf("vplane->pixel_00.z = %f\n", vplane->pixel_00.z);
+// 	return (vplane);
+// }
 
 
-// float	sphere_intersect(t_camera *cam, t_vector ray, t_sphere *sphere)
-float	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere)
-{
-	t_vector	cam_sphere;
-	// float		b;
-	// float		c;
-	// float		d;
-	// float		a;////
-	t_math		math;
+// // float	sphere_intersect(t_camera *cam, t_vector ray, t_sphere *sphere)
+// float	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere)
+// {
+// 	t_vector	cam_sphere;
+// 	// float		b;
+// 	// float		c;
+// 	// float		d;
+// 	// float		a;////
+// 	t_math		math;
 
-	math.a = vec_dot_product(ray, ray);/////ray=ray_direction 
-	cam_sphere = vec_subtract(sphere->center, center);
-	math.b = -2.0 * vec_dot_product(ray, cam_sphere);
-	math.c = vec_dot_product(cam_sphere, cam_sphere) - sphere->radius * sphere->radius;
-	math.disc = math.b * math.b - 4 * math.c * math.a;
-	if (math.disc < 0)
-		return (-1.0);
-	// else
-	// 	return ((-(math.b) - sqrt(math.disc)) / (2.0 * math.a));
-	math.x1 = ((-math.b) - sqrt(math.disc)) / (2 * math.a);
-	if (math.x1 > 0)
-		return (math.x1);
-	return (0);
-}
+// 	math.a = vec_dot_product(ray, ray);/////ray=ray_direction 
+// 	cam_sphere = vec_subtract(sphere->center, center);
+// 	math.b = -2.0 * vec_dot_product(ray, cam_sphere);
+// 	math.c = vec_dot_product(cam_sphere, cam_sphere) - sphere->radius * sphere->radius;
+// 	math.disc = math.b * math.b - 4 * math.c * math.a;
+// 	if (math.disc < 0)
+// 		return (-1.0);
+// 	// else
+// 	// 	return ((-(math.b) - sqrt(math.disc)) / (2.0 * math.a));
+// 	math.x1 = ((-math.b) - sqrt(math.disc)) / (2 * math.a);
+// 	if (math.x1 > 0)
+// 		return (math.x1);
+// 	return (0);
+// }
 
-int	get_color(t_figure *figure, t_scene *scene, float closest_dot)
-{
-	int	r;
-	int	g;
-	int	b;
-	float	bright;
-//  Если bright меньше 1, цвета будут затемнены, если больше 1 — осветлены.
-	bright = compute_light(closest_dot, scene, figure);
-	r = figure->color->red * bright;
-	g = figure->color->green * bright;
-	b = figure->color->blue * bright;
-	if (r > 255)
-		r = 255;
-	if (g > 255)
-		g = 255;
-	if (b > 255)
-		b = 255;
-	return (r << 16 | g << 8 | b);//mekel es masy harcnel
-}
+// int	get_color(t_figure *figure, t_scene *scene, float closest_dot)
+// {
+// 	int	r;
+// 	int	g;
+// 	int	b;
+// 	float	bright;
+// //  Если bright меньше 1, цвета будут затемнены, если больше 1 — осветлены.
+// 	bright = compute_light(closest_dot, scene, figure);
+// 	r = figure->color->red * bright;
+// 	g = figure->color->green * bright;
+// 	b = figure->color->blue * bright;
+// 	if (r > 255)
+// 		r = 255;
+// 	if (g > 255)
+// 		g = 255;
+// 	if (b > 255)
+// 		b = 255;
+// 	return (r << 16 | g << 8 | b);//mekel es masy harcnel
+// }
 
 // t_vplane	*get_view_plane(float width, float hight, float fov)
 // {

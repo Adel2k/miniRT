@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:08:21 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/21 22:29:29 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/23 17:47:13 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	found_what_scene_is_it(char **matrix, t_scene *scene)
 		// ft_lstadd_back_amb(&scene->ambient, obj);
 		
 		printf("ambient=%f\n", scene->ambient->ratio_lighting);
-		printf("ambient=%d\n", scene->ambient->color.red);
-		printf("ambient=%d\n", scene->ambient->color.green);
-		printf("ambient=%d\n", scene->ambient->color.blue);
+		printf("ambient=%d\n", scene->ambient->light.red);
+		printf("ambient=%d\n", scene->ambient->light.green);
+		printf("ambient=%d\n", scene->ambient->light.blue);
 	}
 	else if (!ft_strcmp(matrix[0], "C"))
 	{
@@ -44,7 +44,10 @@ void	found_what_scene_is_it(char **matrix, t_scene *scene)
 	}
 	else if (!ft_strcmp(matrix[0], "L"))
 	{
-		scene->light = parse_light(matrix, scene);
+		// scene->light = parse_light(matrix, scene);//sarqel list esi 
+		
+		ft_lstadd_back_figure(&scene->figure, lst_create_figure(scene, matrix, LIGHT));
+		
 		// ft_lstadd_back_l(&scene->light, obj);
 		
 		// printf("light=%f\n", scene->light->coords.x);
@@ -152,7 +155,7 @@ void	*parse_ambient(char **matrix, t_scene *scene)
 		exit_and_free_matrix(matrix, "Error: bad value ambient ratio_lighting", scene);
 
 	printf("hres=%f\n",ambient->ratio_lighting);
-	init_color(&ambient->color, matrix, scene, 2);
+	init_color(&ambient->light, matrix, scene, 2);
 	// ambient->next = NULL;
 	return (ambient);
 	// count_check(scene, 'a', matrix, NULL);

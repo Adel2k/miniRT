@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 20:07:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/09/18 16:19:12 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/21 18:08:53 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int main(int ac, char **av)
 	if (!scene)
 		return (1);
 	init_scene(scene);
+	printf("hasav\n");
 	if (validation(ac, av, scene) == 0)
 	{
 		init_mlx(scene);
@@ -45,6 +46,7 @@ void	init_scene(t_scene *scene)
 	// scene->sphere = NULL;
 	// scene->cylinder = NULL;
 	scene->figure = NULL;
+	printf("verjy?????\n");
 	scene->vplane = NULL;
 	scene->mlx = NULL;
 	scene->img = NULL;
