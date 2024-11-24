@@ -6,11 +6,12 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 16:27:57 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/24 17:02:32 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/24 18:06:37 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
+
 t_figure	*lst_create_figure(t_scene *scene, char **matrix, int type)
 {
 	t_figure	*figure;
@@ -25,23 +26,23 @@ t_figure	*lst_create_figure(t_scene *scene, char **matrix, int type)
 	if (type == SPHERE)
 	{
 		figure->sphere = parse_sphere(matrix, scene);
-		figure->color = &figure->sphere->color;
+		figure->color = figure->sphere->color;
 	}
 	else if (type == PLANE)
 	{
 		figure->plane = parse_plane(matrix, scene);
-		figure->color = &figure->plane->color;
+		figure->color = figure->plane->color;
 	}
 	else if (type == CYLINDER)
 	{
 		figure->cylinder = parse_cylinder(matrix, scene);
-		figure->color = &figure->cylinder->color;
+		figure->color = figure->cylinder->color;
 	}
-	else if (type == LIGHT)
-	{
-		figure->light = parse_light(matrix, scene);
-		figure->color = &figure->light->color;
-	}
+	// else if (type == LIGHT)
+	// {
+	// 	scene->light = parse_light(matrix, scene);
+	// 	scene->light->color = light->color;
+	// }
 	figure->type = type; 
 	figure->next = NULL;
 	return (figure);
@@ -68,6 +69,41 @@ t_figure	*ft_lstlast_figure(t_figure *figure)
 	 (figure && figure->next)
 		figure = figure->next;
 	return (figure);
+}
+t_light	*lst_create_light(t_scene *scene, char **matrix)
+{
+	t_light	*light;
+
+	light = malloc(sizeof(light));
+	if (!light)
+		exit(EXIT_FAILURE);
+	
+	light = parse_light(matrix, scene);
+	light->next = NULL;
+	return (light);
+}
+
+void	ft_lstadd_back_light(t_light **lst, t_light *new)
+{
+	t_light	*ptr;
+
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	ptr = ft_lstlast_light(*lst);
+	ptr -> next = new;
+	// new->prev = ptr;
+}
+
+t_light	*ft_lstlast_light(t_light *lst)
+{
+	if (lst == NULL)
+		return (NULL);
+	while (lst && lst->next)
+		lst = lst->next;
+	return (lst);
 }
 // ///////cylinder//////////  
 // void	ft_lstadd_back_cy(t_cylinder **lst, t_cylinder *new)
@@ -143,28 +179,7 @@ t_figure	*ft_lstlast_figure(t_figure *figure)
 // }
 // ////////light//////
 
-// void	ft_lstadd_back_l(t_light **lst, t_light *new)
-// {
-// 	t_light	*ptr;
 
-// 	if (!*lst)
-// 	{
-// 		*lst = new;
-// 		return ;
-// 	}
-// 	ptr = ft_lstlast_l(*lst);
-// 	ptr -> next = new;
-// 	// new->prev = ptr;
-// }
-
-// t_light	*ft_lstlast_l(t_light *lst)
-// {
-// 	if (lst == NULL)
-// 		return (NULL);
-// 	while (lst && lst->next)
-// 		lst = lst->next;
-// 	return (lst);
-// }
 // //////camera///
 // void	ft_lstadd_back_ca(t_camera **lst, t_camera *new)
 // {

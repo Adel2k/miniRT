@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 17:22:32 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/24 17:11:08 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/24 22:42:03 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ t_color	new_color(int r, int g, int b)
 	return (col);
 }
 
-int	rgb_color_to_hex(t_color *rgb)
+int	rgb_color_to_hex(t_color rgb)
 {
 	// printf("xii %p\n", rgb);
-	return ((rgb->red << 16) | (rgb->green << 8) | rgb->blue);
+	return ((rgb.red << 16) | (rgb.green << 8) | rgb.blue);
 }
 
 t_color	calc_rgb_light(t_color col, double ratio)
 {
 	t_color	rgb;
-
+	// printf("ratio->%f\n", ratio);
 	rgb.red = col.red * ratio;
 	rgb.green = col.green * ratio;
 	rgb.blue = col.blue * ratio;
@@ -41,6 +41,7 @@ t_color	calc_rgb_light(t_color col, double ratio)
 		rgb.green = 255;
 	if (rgb.blue > 255)
 		rgb.blue = 255;
+	// printf("red = %d blue = %d green = %d\n", rgb.red, rgb.green, rgb.blue);
 	return (rgb);
 }
 
@@ -64,8 +65,8 @@ t_color	multiply_rgbs(t_color a, t_color b)
 {
 	t_color	color;
 
-	color.r = a.r * b.r / 255;
-	color.g = a.g * b.g / 255;
-	color.b = a.b * b.b / 255;
+	color.red = a.red * b.red / 255;
+	color.green = a.green * b.green / 255;
+	color.blue = a.blue * b.blue / 255;
 	return (color);
 }

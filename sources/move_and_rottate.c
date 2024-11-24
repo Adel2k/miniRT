@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:11:32 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/09/18 16:23:52 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:51:50 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,10 @@ void	rotate_scene_right(t_scene *scene)
 }
 
 
-t_matrix	get_rotation_x(float angle)
+t_matrix	get_rotation_x(double angle)
 {
 	t_matrix	out_m;
-	float		rad;
+	double		rad;
 
 	rad = M_PI / 180 * angle;
 	out_m = new_zero_matrix();
@@ -120,10 +120,10 @@ t_matrix	get_rotation_x(float angle)
 	return (out_m);
 }
 
-t_matrix	get_rotation_y(float angle)
+t_matrix	get_rotation_y(double angle)
 {
 	t_matrix	out_m;
-	float		rad;
+	double		rad;
 
 	rad = M_PI / 180 * angle;
 	out_m = new_zero_matrix();
@@ -136,10 +136,10 @@ t_matrix	get_rotation_y(float angle)
 	return (out_m);
 }
 
-t_matrix	get_rotation_z(float angle)
+t_matrix	get_rotation_z(double angle)
 {
 	t_matrix	out_m;
-	float		rad;
+	double		rad;
 
 	rad = M_PI / 180 * angle;
 	out_m = new_zero_matrix();

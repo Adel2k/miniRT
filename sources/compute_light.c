@@ -12,7 +12,12 @@
 
 #include "../include/minirt.h"
 
-// float	compute_light(float dot, t_scene *scene, t_vector ray, t_figure *figure)
+
+t_vector	calculate_sph_norm(t_vector p, t_figure *obj)
+{
+	return (vec_subtract(p, obj->sphere->center));
+}
+// double	compute_light(double dot, t_scene *scene, t_vector ray, t_figure *figure)
 // {
 // 	t_vector	prod;
 // 	t_vector	p;
@@ -21,9 +26,9 @@
 // 	t_vector	v;
 // 	t_vector	r;
 // 	// t_sphere	*sph;
-// 	float	n_dot_l;
-// 	float	r_dot_v;
-// 	float	i;
+// 	double	n_dot_l;
+// 	double	r_dot_v;
+// 	double	i;
 
 // 	prod = num_product_vect(ray, dot);//ray-i x,y,z-@ *um enq dot-i chapov
 // 	p = sum_vect(scene->camera->center, prod);//sranov stanum enq gndi ev ray-i hatman kety makeresi vra
@@ -57,13 +62,13 @@
 
 // // Վերջնական արդյունքը (i) տվյալ կետում լուսավորության ինտենսիվությունն է
 
-// float	compute_light(float dot, t_scene *scene, t_figure *tmp)
+// double	compute_light(double dot, t_scene *scene, t_figure *tmp)
 // {
 // 	t_vector		p;
 // 	t_vector		light;
 // 	t_figure	*shadow;
-// 	float		n_dot_l;
-// 	float		i;
+// 	double		n_dot_l;
+// 	double		i;
 
 // 	i = scene->ambient->ratio_lighting;
 // 	p = sum_vect(scene->camera->center, num_product_vect(scene->ray, dot));
@@ -103,26 +108,8 @@ void	ray_norm(t_figure *fig, t_vector p)
 		fig->ray_norm = fig->cylinder->ray_norm;
 }
 
-// float	compute_spec(t_scene *scene, t_vector light, float n_dot_l, t_figure *fig)
-// {
-// 	t_vector	v;
-// 	t_vector	r;
-// 	float	i;
-// 	float	r_dot_v;
 
-// 	i = 0.0;
-// 	v = num_product_vect(scene->ray, -1);
-// 	r = num_product_vect(num_product_vect(fig->ray_norm, 2), n_dot_l);
-// 	r = vec_subtract(r, light);
-// 	r_dot_v = vec_dot_product(r, v);
-// 	if (r_dot_v > 0)
-// 		i += scene->light->brightness * \
-// 			pow(r_dot_v / (vec_length(r) * vec_length(v)), fig->specular);
-// 	return (i);
-// }
-
-
-t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular, float closest_dot)
+t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular, double closest_dot)
 {
 	t_color		light_in_vec;
 	t_light		*light_tmp;
@@ -137,6 +124,9 @@ t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular, float cl
 		// {
 			light_in_vec = add_rgb_light(diffuse_light(scene, obj, light_tmp, closest_dot), light_in_vec);
 			*specular = specular_light(scene, light_tmp, obj, closest_dot);
+			// printf("specular->x->%d\n", specular->red);
+			// printf("specular->y->%d\n", specular->green);
+			// printf("specular->z->%d\n", specular->blue);
 		// }
 		light_tmp = light_tmp->next;
 	}
@@ -145,7 +135,7 @@ t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular, float cl
 
 
 
-t_color	diffuse_light(t_scene *scene, t_figure *obj, t_light *light_fig, float closest_dot)
+t_color	diffuse_light(t_scene *scene, t_figure *obj, t_light *light_fig, double closest_dot)
 {
 	double		intens;
 	double		n_dot_l;
@@ -163,7 +153,7 @@ t_color	diffuse_light(t_scene *scene, t_figure *obj, t_light *light_fig, float c
 	return (calc_rgb_light(light_fig->color, intens));
 }
 
-t_color	specular_light(t_scene *scene, t_light *light_fig, t_figure *obj, float closest_dot)
+t_color	specular_light(t_scene *scene, t_light *light_fig, t_figure *obj, double closest_dot)
 {
 	double		spec;
 	t_vector	light;
@@ -177,15 +167,28 @@ t_color	specular_light(t_scene *scene, t_light *light_fig, t_figure *obj, float 
 	vec_normalize(&light);
 	vec_V = vec_subtract(scene->camera->center, p);
 	vec_normalize(&vec_V);
-	ray_norm(obj, p);
-	reflected = reflect_ray(light, p);
+	// ray_norm(obj, p);
+	// vec_normalize(&p);
+	if (obj->type == SPHERE)
+		reflected = reflect_ray(light, calculate_sph_norm(p, obj));
 	vec_normalize(&reflected);
+	// printf("reflected->x%f reflected->y%f reflected->z%f\n", reflected.x , reflected.y, reflected.z);
+	// printf("vec_V->x%f vec_V->y%f vec_V->z%f\n", vec_V.x , vec_V.y, vec_V.z);
+		// printf("brightness = %f\n", light_fig->brightness);
+		// printf("obji specular = %f\n", obj->specular);
+	
 	if (vec_dot_product(reflected, vec_V) > 0)
+	{
+		// printf("chmtaaaaaaaaaaaaar\n");
 		spec = light_fig->brightness * pow(vec_dot_product(reflected, vec_V), \
 			obj->specular);
+		// printf("dasdsd %.200f\n",pow(vec_dot_product(reflected, vec_V), obj->specular));
+		// printf("spcualr = %.200f\n", spec);
+	}
+	// printf("obji type = %f\n", spec);
 	return (calc_rgb_light(light_fig->color, spec));
-}
 
+}
 
 t_vector	reflect_ray(t_vector light, t_vector p_normal)
 {
@@ -198,28 +201,28 @@ t_vector	reflect_ray(t_vector light, t_vector p_normal)
 // void	set_hit_normal(t_figure **obj, t_vector ray)
 // {
 // 	if ((*obj)->type == SPHERE)
-// 		(*obj)->point.hit_norm = calculate_sph_norm(*obj);
-// 	else if ((*obj)->type == PLANE)
-// 		(*obj)->point.hit_norm = calculate_pln_norm(*obj, ray);
-// 	else if ((*obj)->type == CYLINDER && (*obj)->cyl->cap == 0)
-// 		(*obj)->point.hit_norm = calculate_cyl_norm(*obj);
-// 	else if ((*obj)->type == CYLINDER && (*obj)->cyl->cap == 1)
-// 	{
-// 		if (vec_dot_product((*obj)->cyl->axis, ray) < 0)
-// 			(*obj)->point.hit_norm = (*obj)->cyl->axis;
-// 		else
-// 			(*obj)->point.hit_norm = vector_prod((*obj)->cyl->axis, -1);
-// 		(*obj)->cyl->cap = 0;
-// 	}
-// 	else if ((*obj)->type == CONE && (*obj)->cone->cap == 1)
-// 	{
-// 		if (vec_dot_product((*obj)->cone->axis, ray) < 0)
-// 			(*obj)->point.hit_norm = (*obj)->cone->axis;
-// 		else
-// 			(*obj)->point.hit_norm = vector_prod((*obj)->cone->axis, -1);
-// 		(*obj)->cone->cap = 0;
-// 	}
-// 	else if ((*obj)->type == CONE && (*obj)->cone->cap == 0)
-// 		(*obj)->point.hit_norm = calculate_cone_norm(*obj);
-// 	vec_normalize(&(*obj)->point.hit_norm);
-// }        PETQ KGA!!!!
+// 		 = calculate_sph_norm(*obj);
+	// else if ((*obj)->type == PLANE)
+	// 	(*obj)->point.hit_norm = calculate_pln_norm(*obj, ray);
+	// else if ((*obj)->type == CYLINDER && (*obj)->cyl->cap == 0)
+	// 	(*obj)->point.hit_norm = calculate_cyl_norm(*obj);
+	// else if ((*obj)->type == CYLINDER && (*obj)->cyl->cap == 1)
+	// {
+	// 	if (vec_dot_product((*obj)->cyl->axis, ray) < 0)
+	// 		(*obj)->point.hit_norm = (*obj)->cyl->axis;
+	// 	else
+	// 		(*obj)->point.hit_norm = vector_prod((*obj)->cyl->axis, -1);
+	// 	(*obj)->cyl->cap = 0;
+	// }
+	// else if ((*obj)->type == CONE && (*obj)->cone->cap == 1)
+	// {
+	// 	if (vec_dot_product((*obj)->cone->axis, ray) < 0)
+	// 		(*obj)->point.hit_norm = (*obj)->cone->axis;
+	// 	else
+	// 		(*obj)->point.hit_norm = vector_prod((*obj)->cone->axis, -1);
+	// 	(*obj)->cone->cap = 0;
+	// }
+	// else if ((*obj)->type == CONE && (*obj)->cone->cap == 0)
+	// (*obj)->point.hit_norm = calculate_cone_norm(*obj);
+	// vec_normalize(&(*obj)->point.hit_norm);
+// }  /     PETQ KGA!!!!

@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:08:21 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/23 17:47:13 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/24 18:11:43 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	found_what_scene_is_it(char **matrix, t_scene *scene)
 	{
 		// scene->light = parse_light(matrix, scene);//sarqel list esi 
 		
-		ft_lstadd_back_figure(&scene->figure, lst_create_figure(scene, matrix, LIGHT));
+		ft_lstadd_back_light(&scene->light, lst_create_light(scene, matrix));
 		
 		// ft_lstadd_back_l(&scene->light, obj);
 		

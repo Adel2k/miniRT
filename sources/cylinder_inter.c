@@ -6,22 +6,22 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 18:25:01 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/21 18:45:38 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:51:50 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
 
-float	calcul_dist(t_cylinder *cyl, float t, t_vector ray, t_vector pos)
+double	calcul_dist(t_cylinder *cyl, double t, t_vector ray, t_vector pos)
 {
-	float	dist;
+	double	dist;
 
 	dist = vec_dot_product(cyl->orient, vec_subtract(num_product_vect(ray, t), \
 			vec_subtract(cyl->center, pos)));
 	return (dist);
 }
 
-float	vect_proj(t_vector pos, t_vector ray, t_cylinder *cyl, t_math *math)
+double	vect_proj(t_vector pos, t_vector ray, t_cylinder *cyl, t_math *math)
 {
 	t_vector	ray_p;
 	t_vector	oc_p;
@@ -46,7 +46,7 @@ float	vect_proj(t_vector pos, t_vector ray, t_cylinder *cyl, t_math *math)
 	return (__FLT_MAX__);
 }
 
-float	side_inter(t_vector pos, t_vector ray, t_cylinder *cyl)
+double	side_inter(t_vector pos, t_vector ray, t_cylinder *cyl)
 {
 	t_math	math;
 
@@ -62,9 +62,9 @@ float	side_inter(t_vector pos, t_vector ray, t_cylinder *cyl)
 	return (math.x1);
 }
 
-float	caps_inter(t_vector pos, t_vector ray, t_cylinder *cyl)
+double	caps_inter(t_vector pos, t_vector ray, t_cylinder *cyl)
 {
-	float	inter[2];
+	double	inter[2];
 	t_vector	v[2];
 	t_vector	centerer;
 
@@ -90,10 +90,10 @@ float	caps_inter(t_vector pos, t_vector ray, t_cylinder *cyl)
 	return (__FLT_MAX__);
 }
 
-float	cylinder_intersect(t_vector pos, t_vector ray, t_cylinder *cyl)
+double	cylinder_intersect(t_vector pos, t_vector ray, t_cylinder *cyl)
 {
-	float	side_point;
-	float	caps_point;
+	double	side_point;
+	double	caps_point;
 
 	side_point = side_inter(pos, ray, cyl);
 	caps_point = caps_inter(pos, ray, cyl);
@@ -114,7 +114,7 @@ float	cylinder_intersect(t_vector pos, t_vector ray, t_cylinder *cyl)
 
 t_vector	cylray_norm(t_math *math, t_vector ray, t_vector pos, t_cylinder *cyl)
 {
-	float	dist;
+	double	dist;
 
 	dist = closest_dist(cyl, math);
 	t_vector foo;
@@ -126,9 +126,9 @@ t_vector	cylray_norm(t_math *math, t_vector ray, t_vector pos, t_cylinder *cyl)
 	return (foo);
 }
 
-float	closest_dist(t_cylinder *cyl, t_math *m)
+double	closest_dist(t_cylinder *cyl, t_math *m)
 {
-	float	dist;
+	double	dist;
 
 	if (cyl->dist[0] >= 0 && cyl->dist[0] <= cyl->height && m->x1 > 0.001 && \
 		cyl->dist[1] >= 0 && cyl->dist[1] <= cyl->height && m->x2 > 0.001)
@@ -155,10 +155,10 @@ float	closest_dist(t_cylinder *cyl, t_math *m)
 	}
 }
 
-float	plane_inter(t_vector pos, t_vector ray, t_vector orient, t_vector coord)
+double	plane_inter(t_vector pos, t_vector ray, t_vector orient, t_vector coord)
 {
-	float	dot;
-	float	t;
+	double	dot;
+	double	t;
 
 	dot = vec_dot_product(orient, ray);
 	if (dot)

@@ -6,13 +6,13 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 19:35:32 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/21 18:44:00 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:51:50 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
 
-t_vector	new_vector(float x, float y, float z)
+t_vector	new_vector(double x, double y, double z)
 {
 	t_vector	vec;
 
@@ -31,9 +31,9 @@ t_vector	vec_subtract(t_vector vec1, t_vector vec2)
 	return (result);
 }
 
-float	vec_length(t_vector vec)
+double	vec_length(t_vector vec)
 {
-	float	res;
+	double	res;
 	
 	res = sqrt((vec.x * vec.x) + (vec.y * vec.y) + (vec.z * vec.z));
 	return (res);
@@ -41,7 +41,7 @@ float	vec_length(t_vector vec)
 
 void	vec_normalize(t_vector *vec)
 {
-	float	length;
+	double	length;
 	
 	length = vec_length(*vec);
 	vec->x /= length;
@@ -49,7 +49,7 @@ void	vec_normalize(t_vector *vec)
 	vec->z /= length;
 }
 
-t_vector	num_product_vect(t_vector vec, float num)
+t_vector	num_product_vect(t_vector vec, double num)
 {
 	t_vector	new;
 
@@ -57,11 +57,12 @@ t_vector	num_product_vect(t_vector vec, float num)
 	return (new);
 }
 
-float	vec_dot_product(t_vector vec1, t_vector vec2)
+double	vec_dot_product(t_vector vec1, t_vector vec2)
 {
-	float	result;
+	double	result;
 
 	result = ((vec1.x * vec2.x) + (vec1.y * vec2.y) + (vec1.z * vec2.z));
+	
 	return (result);
 }
 
@@ -75,9 +76,9 @@ t_vector	sum_vect(t_vector v1, t_vector v2)
 
 
 
-float	dist_vect(t_vector v1, t_vector v2)
+double	dist_vect(t_vector v1, t_vector v2)
 {
-	float	dist;
+	double	dist;
 
 	dist = sqrt(powf(v1.x - v2.x, 2) + powf(v1.y - v2.y, 2) \
 			+ powf(v1.z - v2.z, 2));

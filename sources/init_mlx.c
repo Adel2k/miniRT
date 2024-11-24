@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:31:32 by aeminian          #+#    #+#             */
-/*   Updated: 2024/09/18 16:20:59 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/24 18:13:09 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	draw(t_scene *scene)
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
-
+	// printf("color = %d\n", color);
 	char	*addr_end = img->img_pixels_ptr + (HEIGHT * img->line_len);
 	dst = img->img_pixels_ptr + (y * img->line_len + x * (img->bits_per_pixel / 8));
 	if (dst >= img->img_pixels_ptr && dst < addr_end)

@@ -6,16 +6,16 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 18:09:09 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/09/09 18:57:28 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:51:50 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
 
-// float	plane_intersect(t_vector pos, t_vector ray, t_plane *plane)
+// double	plane_intersect(t_vector pos, t_vector ray, t_plane *plane)
 // {
-// 	float	dot;
-// 	float	t;
+// 	double	dot;
+// 	double	t;
 
 // 	dot = vec_dot_product(plane->orient, ray);
 // 	if (dot)

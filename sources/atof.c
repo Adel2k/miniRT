@@ -6,16 +6,16 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 23:42:27 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/19 13:17:00 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:51:50 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
 #include <ctype.h>
 
-// double to_num(char c, int is_float, double num, double *fraction)
+// double to_num(char c, int is_double, double num, double *fraction)
 // {
-// 	if (is_float)
+// 	if (is_double)
 // 	{
 // 		num += (c - '0') * (*fraction);
 // 		*fraction *= 0.1;
@@ -45,7 +45,7 @@
 // 	double	num;
 // 	int		sign;
 // 	double 	fraction;
-// 	int		is_float = 0;
+// 	int		is_double = 0;
 	
 // 	sign = 1;
 // 	i = 0;
@@ -57,12 +57,12 @@
 // 	while (str[i])
 // 	{
 // 		if (str[i] >= '0' && str[i] <= '9')
-// 			num = to_num(str[i], is_float, num, &fraction);
+// 			num = to_num(str[i], is_double, num, &fraction);
 // 		else if (str[i++] == '.')
 // 		{
-// 			if (is_float)
+// 			if (is_double)
 // 				break;
-// 			is_float = 1;
+// 			is_double = 1;
 // 		}
 // 		else
 // 			break;
@@ -79,7 +79,7 @@ double	ft_atof(char *str)
 	double	num;
 	int		sign;
 	double 	fraction;
-	int		is_float = 0;
+	int		is_double = 0;
 
 	sign = 1;
 	i = 0;
@@ -98,7 +98,7 @@ double	ft_atof(char *str)
 	{
 		if (str[i] >= '0' && str[i] <= '9')
 		{
-			if (is_float)
+			if (is_double)
 			{
 				num += (str[i] - '0') * fraction;
 				fraction *= 0.1;
@@ -108,9 +108,9 @@ double	ft_atof(char *str)
 		}
 		else if(str[i] == '.')
 		{
-			if (is_float)
+			if (is_double)
 				break ;
-			is_float = 1;
+			is_double = 1;
 		}
 		else
 			break ;

@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/24 17:16:34 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/24 22:41:54 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	ray_tracing(t_scene *scene)
 	double		ray_x;
 	double		ray_y;
 	// t_vector	ray;
-    printf("ee->%f\n", scene->height);
+    // printf("ee->%f\n", scene->height);
     scene->vplane = get_view_plane(scene);
 	scene->vplane->y_angle = scene->height / 2;
 	while (scene->vplane->y_angle >= (scene->height / 2) * (-1))
@@ -106,26 +106,28 @@ int	color_in_current_pixel(t_scene *scene)
 {
 	int			color;
 	t_figure	*obj;
-	float		closest_dot;
+	double		closest_dot;
 
 	closest_dot = __FLT_MAX__;
 	obj = scene->figure;
 	closest_dot = closest_inter(scene->camera->center, scene->ray, scene->figure, &obj);
-	// if (closest_dot == __FLT_MAX__)
-	// {
-	// 	color = 0;
-	// }
-	// else
-	// {
-	// 	// printf("ray->x=%f  ", scene->ray.x);
-	// 	color = get_color(obj, scene, closest_dot);
-	// }
-	color = 0;
+	if (closest_dot == __FLT_MAX__)
+	{
+		color = 0;
+	}
+	else
+	{
+		// printf("ray->x=%f  ", scene->ray.x);
+		// color = get_color(obj, scene, closest_dot);
 	get_pixel_color(&color, obj, scene, closest_dot);
+
+	}
+	// color = 0;
+	// get_pixel_color(&color, obj, scene, closest_dot);
 	return (color);
 }
 
-void	get_pixel_color(int *color, t_figure *obj, t_scene *scene, float closest_dot)
+void	get_pixel_color(int *color, t_figure *obj, t_scene *scene, double closest_dot)
 {
 	t_color specular;
 	t_color	light_in_vec;
@@ -133,19 +135,21 @@ void	get_pixel_color(int *color, t_figure *obj, t_scene *scene, float closest_do
 	*color = rgb_color_to_hex(obj->color);
 	// printf("hres->%d\n", *color);
 	specular = new_color(0, 0, 0);
-	if (obj && obj->type == LIGHT)
-		return ;
+	// if (obj && obj->type == LIGHT)
+	// 	return ;
 	light_in_vec = compute_light(scene, obj, &specular, closest_dot);
+	// printf("col->%d\n", light_in_vec.red);
+	
 	*color = rgb_color_to_hex(add_rgb_light(multiply_rgbs(light_in_vec, \
 		(obj->color)), specular));
 }
 
 
 
-float	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp)
+double	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp)
 {
-	float		dot;
-	float		closest_dot;
+	double		dot;
+	double		closest_dot;
 
 	dot = __FLT_MAX__;
 	closest_dot = __FLT_MAX__;
@@ -171,12 +175,12 @@ float	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp
 
 
 
-// int	get_color(t_figure *figure, t_scene *scene, float closest_dot)
+// int	get_color(t_figure *figure, t_scene *scene, double closest_dot)
 // {
 // 	int	r;
 // 	int	g;
 // 	int	b;
-// 	float	bright;
+// 	double	bright;
 
 // 	c
 // //  Если bright меньше 1, цвета будут затемнены, если больше 1 — осветлены.

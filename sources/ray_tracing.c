@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/21 18:24:42 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/24 21:51:50 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 // struct s_vector
 // {
-// 	float	x;
-// 	float	y;
-// 	float	z;
+// 	double	x;
+// 	double	y;
+// 	double	z;
 // };
 
 
@@ -27,14 +27,14 @@
 // 	int	mlx_x;
 // 	int	mlx_y;//ay erkusy mlx_put_piexl()funklciayi hamar en,ev dranc arjeqnery popoxvelu en 0-800 ev 0-600,qani vor //mlx_put_pixel()-@ stanuma miayn drakan tver
 
-// 	float	x_ankyan_value;//ugl iqsa s kotoriy mi nachinayem   TES NKARY
-// 	float	y_ankyan_value;//y_angle
+// 	double	x_ankyan_value;//ugl iqsa s kotoriy mi nachinayem   TES NKARY
+// 	double	y_ankyan_value;//y_angle
 // 	int	color;//es pahin guyneri het chenq ashxatum,zut ete luchy hatec obyekty nerkum enq spitakov,ete chhatec sevov
-// 	float	x_ray;
-// 	float	y_ray;//sranq koordinatner mer charagayti
+// 	double	x_ray;
+// 	double	y_ray;//sranq koordinatner mer charagayti
 // 	t_vector	*ray;//vory menq uxarkelu enq kamerayic.դիտման պատուհանների միջով կա մի տարածություն, որտեղ գտնվում են պատկերները
 // 	t_vplane	*vplane;//i vot sama akno prasmotra
-// 	float		dot;
+// 	double		dot;
 // 	t_hatum		hatum;
 	
 // 	printf("fov=%f\n",scene->camera->fov);
@@ -158,7 +158,7 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 // {
 // 	int			color;
 // 	t_figure	*tmp;
-// 	float		closest_dot;
+// 	double		closest_dot;
 
 // 	closest_dot = __FLT_MAX__;
 // 	tmp = scene->figure;
@@ -175,10 +175,10 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 // 	return (color);
 // }
 
-// float	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp)
+// double	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp)
 // {
-// 	float		dot;
-// 	float		closest_dot;
+// 	double		dot;
+// 	double		closest_dot;
 
 // 	dot = __FLT_MAX__;
 // 	closest_dot = __FLT_MAX__;
@@ -204,7 +204,7 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 
 
 
-// t_vector	vector(float x, float y, float z)
+// t_vector	vector(double x, double y, double z)
 // {
 // 	t_vector	v;
 
@@ -214,10 +214,10 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 // 	return (v);
 // }
 
-// t_vplane	*get_view_plane(t_camera *camera, float width, float hight, float fov)
+// t_vplane	*get_view_plane(t_camera *camera, double width, double hight, double fov)
 // {
 // 	t_vplane	*vplane;
-// 	float		aspect_ratio;
+// 	double		aspect_ratio;
 
 
 // 	aspect_ratio = width / hight;
@@ -287,14 +287,14 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 // }
 
 
-// // float	sphere_intersect(t_camera *cam, t_vector ray, t_sphere *sphere)
-// float	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere)
+// // double	sphere_intersect(t_camera *cam, t_vector ray, t_sphere *sphere)
+// double	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere)
 // {
 // 	t_vector	cam_sphere;
-// 	// float		b;
-// 	// float		c;
-// 	// float		d;
-// 	// float		a;////
+// 	// double		b;
+// 	// double		c;
+// 	// double		d;
+// 	// double		a;////
 // 	t_math		math;
 
 // 	math.a = vec_dot_product(ray, ray);/////ray=ray_direction 
@@ -312,12 +312,12 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 // 	return (0);
 // }
 
-// int	get_color(t_figure *figure, t_scene *scene, float closest_dot)
+// int	get_color(t_figure *figure, t_scene *scene, double closest_dot)
 // {
 // 	int	r;
 // 	int	g;
 // 	int	b;
-// 	float	bright;
+// 	double	bright;
 // //  Если bright меньше 1, цвета будут затемнены, если больше 1 — осветлены.
 // 	bright = compute_light(closest_dot, scene, figure);
 // 	r = figure->color->red * bright;
@@ -332,10 +332,10 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 // 	return (r << 16 | g << 8 | b);//mekel es masy harcnel
 // }
 
-// t_vplane	*get_view_plane(float width, float hight, float fov)
+// t_vplane	*get_view_plane(double width, double hight, double fov)
 // {
 // 	t_vplane	*vplane;
-// 	float	aspect_ratio = 0.0;
+// 	double	aspect_ratio = 0.0;
 
 // 	// printf("stex=%f\n",fov);
 // 	vplane = malloc(sizeof(t_vplane));
@@ -343,7 +343,7 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 // 		exit(7777777); // ErRRRRRRRRRrrOR
 // 	//sovorabar nenca linumm,vor aknoi erkarutyuny aveli meca kinum qan laynutyuny,fdra hamar petqa unenanq mihat popoxakan vori mej kunenanq te erkariutyuny qani angama mec 
 // 	// printf("WIDTH=%f: HEIGHT: %f\n", width, hight);
-// 	aspect_ratio = (float)(width / hight);
+// 	aspect_ratio = (double)(width / hight);
 // 	vplane->width = 2.0 * tan((fov / 2.0) * (M_PI / 180));//skzbi hamar chenq ogtagorcum fov-@ dra hamar 1 enq veragrum,heto yst fov-i veragrummy kanenq
 // 	// vplane->width *= 2.0;
 // 	vplane->hight = vplane->width / aspect_ratio;
@@ -358,14 +358,14 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 // 	return (vplane);
 // }
 
-// float	sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere)
+// double	sphere_intersect(t_camera *cam, t_vector *ray, t_sphere *sphere)
 // {
 // 	//a-n misht = 1 vortev nashi rastayanii do akna prasmotra edinica(erachap hartutyan mej)
-// 	float	b;
-// 	float	c;
-// 	float	discr;
-// 	float	dist_1;//arajin hatumna charagayti u gndi,aveli mota sa=>erevacoxna
-// 	float	dist_2;//sa ayn distancian e vortex charagayty durs kga gndic=>sa heru distancian e vory menq chenq tesnelu
+// 	double	b;
+// 	double	c;
+// 	double	discr;
+// 	double	dist_1;//arajin hatumna charagayti u gndi,aveli mota sa=>erevacoxna
+// 	double	dist_2;//sa ayn distancian e vortex charagayty durs kga gndic=>sa heru distancian e vory menq chenq tesnelu
 // 	t_vector	*cam_sphere;//sphere-to_ray
 // 	// printf("diametr=%f\n",sphere->diameter);
 // 	dist_1 = 0;//TES_NKARY2 
@@ -399,7 +399,7 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 // 	dist_1 = ((b * (-1)) - sqrt(discr)) / (2 * 1);//a=1
 // 	dist_2 = ((b * (-1)) + sqrt(discr)) / (2 * 1);//a=1
 // 	if (dist_1 > 0)//ete gundy gtnvuma kamerayi hetevy,apa distancian klini bacasakan,isk et depqum bnakanabar gundy chi ereva dra hamar en taki if-@ grum enq > 0 
-// 		return (dist_1);//menq heto pti 1i texy veradardznenq et distancian,tipne poxelu enq float funkciayi,heto et sax distancianery hamematelu enq u vory amena moty exav dra guynov nerkenq
+// 		return (dist_1);//menq heto pti 1i texy veradardznenq et distancian,tipne poxelu enq double funkciayi,heto et sax distancianery hamematelu enq u vory amena moty exav dra guynov nerkenq
 // 	// printf("hmm\n");
 // 	return (dist_2);
 // 	//karoxa mez funkciaye petq ga vor vectory kbajani inchvor trvac tvi vra
