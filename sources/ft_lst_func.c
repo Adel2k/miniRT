@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 16:27:57 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/26 14:39:21 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/24 17:02:32 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ t_figure	*lst_create_figure(t_scene *scene, char **matrix, int type)
 	{
 		figure->cylinder = parse_cylinder(matrix, scene);
 		figure->color = &figure->cylinder->color;
+	}
+	else if (type == LIGHT)
+	{
+		figure->light = parse_light(matrix, scene);
+		figure->color = &figure->light->color;
 	}
 	figure->type = type; 
 	figure->next = NULL;

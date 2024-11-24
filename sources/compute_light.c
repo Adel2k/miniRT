@@ -93,7 +93,7 @@ void	ray_norm(t_figure *fig, t_vector p)
 {
 	if (fig->type == SPHERE)
 	{
-		printf("haaaaaa\n");
+		// printf("haaaaaa\n");
 		fig->ray_norm = vec_subtract(p, fig->sphere->center);
 		vec_normalize(&fig->ray_norm);
 	}
@@ -178,7 +178,7 @@ t_color	specular_light(t_scene *scene, t_light *light_fig, t_figure *obj, float 
 	vec_V = vec_subtract(scene->camera->center, p);
 	vec_normalize(&vec_V);
 	ray_norm(obj, p);
-	reflected = reflect_ray(light, p);//chunenq tmp-n
+	reflected = reflect_ray(light, p);
 	vec_normalize(&reflected);
 	if (vec_dot_product(reflected, vec_V) > 0)
 		spec = light_fig->brightness * pow(vec_dot_product(reflected, vec_V), \
@@ -187,12 +187,12 @@ t_color	specular_light(t_scene *scene, t_light *light_fig, t_figure *obj, float 
 }
 
 
-t_vector	reflect_ray(t_vector ray, t_vector p_normal)
+t_vector	reflect_ray(t_vector light, t_vector p_normal)
 {
 	t_vector	reflected;
 
-	reflected = num_product_vect(p_normal, 2 * vec_dot_product(ray, p_normal));
-	reflected = vec_subtract(reflected, ray);
+	reflected = num_product_vect(p_normal, 2 * vec_dot_product(light, p_normal));
+	reflected = vec_subtract(reflected, light);
 	return (reflected);
 }
 // void	set_hit_normal(t_figure **obj, t_vector ray)

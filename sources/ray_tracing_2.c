@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/23 21:25:12 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/24 17:16:34 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,23 +120,24 @@ int	color_in_current_pixel(t_scene *scene)
 	// 	// printf("ray->x=%f  ", scene->ray.x);
 	// 	color = get_color(obj, scene, closest_dot);
 	// }
+	color = 0;
 	get_pixel_color(&color, obj, scene, closest_dot);
 	return (color);
 }
 
 void	get_pixel_color(int *color, t_figure *obj, t_scene *scene, float closest_dot)
 {
-	(void)closest_dot;
-
 	t_color specular;
-
+	t_color	light_in_vec;
+	// printf("exxx->%p\n", obj->color);
 	*color = rgb_color_to_hex(obj->color);
-	printf("hres->%d\n", *color);
+	// printf("hres->%d\n", *color);
 	specular = new_color(0, 0, 0);
 	if (obj && obj->type == LIGHT)
 		return ;
-	t_color	light_in_vec = compute_light(scene, obj, &specular, closest_dot);
-	(void)light_in_vec;
+	light_in_vec = compute_light(scene, obj, &specular, closest_dot);
+	*color = rgb_color_to_hex(add_rgb_light(multiply_rgbs(light_in_vec, \
+		(obj->color)), specular));
 }
 
 

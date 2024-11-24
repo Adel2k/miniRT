@@ -6,7 +6,7 @@
 /*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/23 21:54:09 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/24 17:16:49 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -357,6 +357,7 @@ t_color	calc_rgb_light(t_color col, double ratio);
 int	rgb_color_to_hex(t_color *rgb);
 t_color	add_rgb_light(t_color a, t_color b);
 t_color	new_color(int r, int g, int b);
+t_color	multiply_rgbs(t_color a, t_color b);
 /////////////////ray_tracing.c////////////////////////////
 void	ray_tracing(t_scene *scene);
 void	get_pixel_color(int *color, t_figure *obj, t_scene *scene, float closest_dot);
