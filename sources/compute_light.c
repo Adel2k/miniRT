@@ -192,7 +192,7 @@ t_color	specular_light(t_scene *scene, t_light *light_fig, t_figure *obj, double
 		spec = light_fig->brightness * pow(vec_dot_product(reflected, vec_V), \
 			obj->specular);
 		// printf("dasdsd %.200f\n",pow(vec_dot_product(reflected, vec_V), obj->specular));
-		printf("dasdsddddddddddddddddddddddddddddddddddddddddddd %.f\n",vec_dot_product(reflected, vec_V));
+		// printf("dasdsddddddddddddddddddddddddddddddddddddddddddd %.f\n",vec_dot_product(reflected, vec_V));
 
 		// printf("spcualr = %.200f\n", spec);
 	}
