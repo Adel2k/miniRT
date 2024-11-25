@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lst_func.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 16:27:57 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/24 18:06:37 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:52:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_figure	*lst_create_figure(t_scene *scene, char **matrix, int type)
 	figure->sphere = NULL;
 	figure->plane = NULL;
 	figure->cylinder = NULL;
-	figure->specular = 30.0;
+	figure->specular = 100.0;
 	if (type == SPHERE)
 	{
 		figure->sphere = parse_sphere(matrix, scene);

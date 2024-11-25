@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:08:21 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/24 18:11:43 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:51:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	found_what_scene_is_it(char **matrix, t_scene *scene)
 		// printf("light=%f\n", scene->light->coords.z);
 		// printf("light=%f\n", scene->light->brightness);
 		// printf("light=%d\n", scene->light->color.red);
-		// printf("light=%d\n", scene->light->color.green);
+		// printf("light=%d\n", scene->light->color.green);```````
 		// printf("light=%d\n", scene->light->color.blue);
 	}
 	else if (!ft_strcmp(matrix[0], "sp"))

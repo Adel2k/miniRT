@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracing_2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/24 22:41:54 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/25 18:20:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	ray_tracing(t_scene *scene)
 			ray_x = scene->vplane->pixel_x * scene->vplane->x_angle;
 			scene->ray = look_at(scene, ray_x, ray_y);
 			// object_intersection(scene, ray, &color);
-			// my_mlx_pixel_put(scene, scene->vplane->mlx_x, \
+			// my_mlx_pixel_put(scene, scene->vplane->mlx_x, 
 			// 	scene->vplane->mlx_y, color);
             my_mlx_pixel_put(scene->img, scene->vplane->mlx_x, scene->vplane->mlx_y, color_in_current_pixel(scene));
 			scene->vplane->mlx_x++;
@@ -138,8 +138,8 @@ void	get_pixel_color(int *color, t_figure *obj, t_scene *scene, double closest_d
 	// if (obj && obj->type == LIGHT)
 	// 	return ;
 	light_in_vec = compute_light(scene, obj, &specular, closest_dot);
-	// printf("col->%d\n", light_in_vec.red);
-	
+	// printf("col.x = %d col.y = %d col.z = %d\n", obj->color.red, obj->color.green, obj->color.blue);
+	printf ("specular.x = %d specular.y = %d specular.z = %d\n", specular.red, specular.green, specular.blue);
 	*color = rgb_color_to_hex(add_rgb_light(multiply_rgbs(light_in_vec, \
 		(obj->color)), specular));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane_inter.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 18:09:09 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/24 21:51:50 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:48:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 // 	dot = vec_dot_product(plane->orient, ray);
 // 	if (dot)
 // 	{
-// 		t = vec_dot_product(plane->orient, \
+// 		t = vec_dot_product(plane->orient, 
 // 			vec_subtract(plane->coords, pos)) / dot;
 // 		if (t > 0.001)
 // 			return (t);

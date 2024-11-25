@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hooks.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:13:51 by aeminian          #+#    #+#             */
-/*   Updated: 2024/09/18 16:13:55 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:48:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	handler(int keypress, t_scene *scene)
 	{
 		if (keypress == A || keypress == S || keypress == D || keypress == W)
 			_rotate_(keypress, scene);
-		// else if (keypress == LEFT || keypress == RIGHT || \
+		// else if (keypress == LEFT || keypress == RIGHT || 
 		// 						keypress == DECREASE || keypress == INCREASE)
 		// 	_move_(keypress, thr->scene);
 		if (keypress == ESC)

@@ -15,7 +15,11 @@
 
 t_vector	calculate_sph_norm(t_vector p, t_figure *obj)
 {
-	return (vec_subtract(p, obj->sphere->center));
+	t_vector vvvv = vec_subtract(p, obj->sphere->center);
+	vec_normalize(&vvvv);
+	// printf("Normal length: %f\n", sqrt(vec_dot_product(vvvv, vvvv)));
+	// return (vec_subtract(p, obj->sphere->center));
+	return (vvvv);
 }
 // double	compute_light(double dot, t_scene *scene, t_vector ray, t_figure *figure)
 // {
@@ -83,7 +87,7 @@ t_vector	calculate_sph_norm(t_vector p, t_figure *obj)
 // 		return (i);
 // 	}
 // 	if (n_dot_l > 0)
-// 		i += scene->light->brightness * n_dot_l / \
+// 		i += scene->light->brightness * n_dot_l / 
 // 			(vec_length(tmp->ray_norm) * vec_length(light));//scene->light->brightness * cos(ø),nuynn esa eli
 // 	// if (tmp->specular > 0)
 // 	// {
@@ -165,13 +169,18 @@ t_color	specular_light(t_scene *scene, t_light *light_fig, t_figure *obj, double
 	p = sum_vect(scene->camera->center, num_product_vect(scene->ray, closest_dot));
 	light = vec_subtract(light_fig->coords, p);
 	vec_normalize(&light);
+	// printf("Normal length: %f\n", sqrt(vec_dot_product(light, light)));
+
 	vec_V = vec_subtract(scene->camera->center, p);
 	vec_normalize(&vec_V);
+	// printf("Normal length: %f\n", sqrt(vec_dot_product(vec_V, vec_V)));
+
 	// ray_norm(obj, p);
 	// vec_normalize(&p);
 	if (obj->type == SPHERE)
-		reflected = reflect_ray(light, calculate_sph_norm(p, obj));
+		reflected = reflect_ray(light, calculate_sph_norm(p, obj));//teria es masy menak spheri hamara arac,avelacnel myus figurneri hamar(cylinder, plane)
 	vec_normalize(&reflected);
+	// printf("Normal length: %f\n", sqrt(vec_dot_product(reflected, reflected)));
 	// printf("reflected->x%f reflected->y%f reflected->z%f\n", reflected.x , reflected.y, reflected.z);
 	// printf("vec_V->x%f vec_V->y%f vec_V->z%f\n", vec_V.x , vec_V.y, vec_V.z);
 		// printf("brightness = %f\n", light_fig->brightness);
@@ -183,6 +192,8 @@ t_color	specular_light(t_scene *scene, t_light *light_fig, t_figure *obj, double
 		spec = light_fig->brightness * pow(vec_dot_product(reflected, vec_V), \
 			obj->specular);
 		// printf("dasdsd %.200f\n",pow(vec_dot_product(reflected, vec_V), obj->specular));
+		printf("dasdsddddddddddddddddddddddddddddddddddddddddddd %.f\n",vec_dot_product(reflected, vec_V));
+
 		// printf("spcualr = %.200f\n", spec);
 	}
 	// printf("obji type = %f\n", spec);
