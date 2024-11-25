@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:08:21 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/25 11:51:52 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/25 22:22:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	found_what_scene_is_it(char **matrix, t_scene *scene)
 		
 		// ft_lstadd_back_l(&scene->light, obj);
 		
-		// printf("light=%f\n", scene->light->coords.x);
+		printf("light=%f\n", scene->light->coords.x);
 		// printf("light=%f\n", scene->light->coords.y);
 		// printf("light=%f\n", scene->light->coords.z);
 		// printf("light=%f\n", scene->light->brightness);
@@ -63,6 +63,7 @@ void	found_what_scene_is_it(char **matrix, t_scene *scene)
 		// obj = parse_sphere(matrix, scene);
 		// ft_lstadd_back_sp(&scene->sphere, obj);
 		ft_lstadd_back_figure(&scene->figure, lst_create_figure(scene, matrix, SPHERE));
+		printf("ba xi?\n");
 	}
 	else if (!ft_strcmp(matrix[0], "pl"))
 	{

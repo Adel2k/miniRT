@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/25 18:20:22 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/25 21:59:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,10 @@ int	color_in_current_pixel(t_scene *scene)
 	t_figure	*obj;
 	double		closest_dot;
 
-	closest_dot = __FLT_MAX__;
+	closest_dot = INFINITY;
 	obj = scene->figure;
 	closest_dot = closest_inter(scene->camera->center, scene->ray, scene->figure, &obj);
-	if (closest_dot == __FLT_MAX__)
+	if (closest_dot == INFINITY)
 	{
 		color = 0;
 	}
@@ -151,8 +151,8 @@ double	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tm
 	double		dot;
 	double		closest_dot;
 
-	dot = __FLT_MAX__;
-	closest_dot = __FLT_MAX__;
+	dot = INFINITY;
+	closest_dot = INFINITY;
 	while (figure)
 	{
 		// printf("Vrdoi type=%d\n",tmp->type);

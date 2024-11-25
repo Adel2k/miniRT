@@ -30,7 +30,7 @@ SRCS_NAME = minirt.c \
 			scene.c vector.c ray_tracing_2.c init_mlx.c \
 			compute_light.c plane_inter.c cylinder_inter.c matrix.c \
 			move_and_rottate.c figure_rotate.c sphere_intersect.c \
-			color_functions.c
+			color_functions.c shadow.c
 
 OBJS = $(addprefix $(OBJS_DIR), $(OBJS_NAME))
 OBJS_NAME = $(SRCS_NAME:.c=.o)

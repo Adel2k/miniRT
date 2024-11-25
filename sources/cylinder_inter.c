@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder_inter.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 18:25:01 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/24 21:51:50 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/25 21:59:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,24 @@ double	vect_proj(t_vector pos, t_vector ray, t_cylinder *cyl, t_math *math)
 		math->x1 = (-math->b - sqrt(math->disc)) / (2 * math->a);
 		math->x2 = (-math->b + sqrt(math->disc)) / (2 * math->a);
 		if (math->x1 < 0.001 && math->x2 < 0.001)
-			return (__FLT_MAX__);
+			return (INFINITY);
 		return (1);
 	}
-	return (__FLT_MAX__);
+	return (INFINITY);
 }
 
 double	side_inter(t_vector pos, t_vector ray, t_cylinder *cyl)
 {
 	t_math	math;
 
-	if (vect_proj(pos, ray, cyl, &math) == __FLT_MAX__)
-		return (__FLT_MAX__);
+	if (vect_proj(pos, ray, cyl, &math) == INFINITY)
+		return (INFINITY);
 	cyl->dist[0] = calcul_dist(cyl, math.x1, ray, pos);
 	cyl->dist[1] = calcul_dist(cyl, math.x2, ray, pos);
 	if (!((cyl->dist[0] >= 0 && cyl->dist[0] <= cyl->height && math.x1 > 0.001) \
 		|| (cyl->dist[1] >= 0 && cyl->dist[1] <= cyl->height \
 			&& math.x2 > 0.001)))
-		return (__FLT_MAX__);
+		return (INFINITY);
 	cyl->ray_norm = cylray_norm(&math, ray, pos, cyl);
 	return (math.x1);
 }
@@ -71,23 +71,23 @@ double	caps_inter(t_vector pos, t_vector ray, t_cylinder *cyl)
 	centerer = sum_vect(cyl->center, num_product_vect(cyl->orient, cyl->height));
 	inter[0] = plane_inter(pos, ray, cyl->orient, centerer);
 	inter[1] = plane_inter(pos, ray, cyl->orient, cyl->center);
-	if (inter[0] < __FLT_MAX__ || inter[1] < __FLT_MAX__)
+	if (inter[0] < INFINITY || inter[1] < INFINITY)
 	{
 		v[0] = sum_vect(pos, num_product_vect(ray, inter[0]));
 		v[1] = sum_vect(pos, num_product_vect(ray, inter[1]));
-		if ((inter[0] < __FLT_MAX__ && dist_vect(v[0], cyl->center) <= cyl->radius) && \
-			(inter[1] < __FLT_MAX__ && dist_vect(v[1], cyl->center) <= cyl->radius))
+		if ((inter[0] < INFINITY && dist_vect(v[0], cyl->center) <= cyl->radius) && \
+			(inter[1] < INFINITY && dist_vect(v[1], cyl->center) <= cyl->radius))
 		{
 			if (inter[0] > inter[1])
 				return (inter[1]);
 			return (inter[0]);
 		}
-		if (inter[0] < __FLT_MAX__ && dist_vect(v[0], cyl->center) <= cyl->radius)
+		if (inter[0] < INFINITY && dist_vect(v[0], cyl->center) <= cyl->radius)
 			return (inter[0]);
-		if (inter[1] < __FLT_MAX__ && dist_vect(v[1], cyl->center) <= cyl->radius)
+		if (inter[1] < INFINITY && dist_vect(v[1], cyl->center) <= cyl->radius)
 			return (inter[1]);
 	}
-	return (__FLT_MAX__);
+	return (INFINITY);
 }
 
 double	cylinder_intersect(t_vector pos, t_vector ray, t_cylinder *cyl)
@@ -97,11 +97,11 @@ double	cylinder_intersect(t_vector pos, t_vector ray, t_cylinder *cyl)
 
 	side_point = side_inter(pos, ray, cyl);
 	caps_point = caps_inter(pos, ray, cyl);
-	if (side_point != __FLT_MAX__ || caps_point != __FLT_MAX__)
+	if (side_point != INFINITY || caps_point != INFINITY)
 	{
 		if (side_point < caps_point)
 			return (side_point);
-		if (caps_point < __FLT_MAX__ && caps_point > 0.001)
+		if (caps_point < INFINITY && caps_point > 0.001)
 		{
 			cyl->ray_norm = cyl->orient;
 			if (cyl->orient.z <= 0)
@@ -109,7 +109,7 @@ double	cylinder_intersect(t_vector pos, t_vector ray, t_cylinder *cyl)
 			return (caps_point);
 		}
 	}
-	return (__FLT_MAX__);
+	return (INFINITY);
 }
 
 t_vector	cylray_norm(t_math *math, t_vector ray, t_vector pos, t_cylinder *cyl)
@@ -168,5 +168,5 @@ double	plane_inter(t_vector pos, t_vector ray, t_vector orient, t_vector coord)
 		if (t >= 0.001)
 			return (t);
 	}
-	return (__FLT_MAX__);
+	return (INFINITY);
 }

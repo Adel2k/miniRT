@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:30:00 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/19 15:05:03 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/25 23:44:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,23 @@ int	is_white_space(char c)
 	return (0);
 }
 
+int	only_trim_simbols(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if ((str[i] != '\n' && str[i] != '\v' 
+		&& str[i] != '\f' && str[i] != '\r'
+		&& str[i] != '\t') && ((str[i] < 9 || str[i] > 13) 
+		&& str[i] != 32))
+		return (-1);
+		else
+			i++;
+	}
+	return (1);
+}
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;

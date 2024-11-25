@@ -80,7 +80,7 @@ t_vector	calculate_sph_norm(t_vector p, t_figure *obj)
 // 	light = vec_subtract(scene->light->coords, p);
 // 	n_dot_l = vec_dot_product(tmp->ray_norm, light);
 // 	shadow = NULL;//Կոդի այս հատվածը պատասխանատու է ստուգելու համար, թե արդյոք օբյեկտի մակերևույթի կետը գտնվում է ստվերում:
-// 	if (closest_inter(p, light, scene->figure, &shadow) != __FLT_MAX__)// проверяет, есть ли объекты между точкой p и источником света, которые могут создать тень.
+// 	if (closest_inter(p, light, scene->figure, &shadow) != INFINITY)// проверяет, есть ли объекты между точкой p и источником света, которые могут создать тень.
 // 	{
 // 		// usleep(200);
 // 		// printf("mmmmmmmmmmm\n");
@@ -124,14 +124,14 @@ t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular, double c
 	light_tmp = scene->light;
 	while (light_tmp)
 	{
-		// if (compute_shadow(scene, &obj, light_tmp))
-		// {
+		if (compute_shadow(scene, &obj, light_tmp, closest_dot))
+		{
 			light_in_vec = add_rgb_light(diffuse_light(scene, obj, light_tmp, closest_dot), light_in_vec);
 			*specular = specular_light(scene, light_tmp, obj, closest_dot);
 			// printf("specular->x->%d\n", specular->red);
 			// printf("specular->y->%d\n", specular->green);
 			// printf("specular->z->%d\n", specular->blue);
-		// }
+		}
 		light_tmp = light_tmp->next;
 	}
 	return (light_in_vec);

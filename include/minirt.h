@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/24 21:51:50 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/25 23:19:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,7 +276,7 @@ int		check1(char c, char const *set);
 int		is_white_space(char c);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strstr_alt(char *str, char *to_find);
-
+int	only_trim_simbols(char *str);
 /////////////////utils2/////////////////////////////
 int		ft_atoi(const char *str);
 int 	if_char_and_digit(char *line, char c);
@@ -418,5 +418,9 @@ t_vector	calculate_sph_norm(t_vector p, t_figure *obj);
 t_color	diffuse_light(t_scene *scene, t_figure *obj, t_light *light, double closest_dot);
 t_color	specular_light(t_scene *scene, t_light *light, t_figure *obj, double closest_dot);
 t_vector	reflect_ray(t_vector ray, t_vector p_normal);
+/////////////////////shadow.c/////////////////
+int	compute_shadow(t_scene *scene, t_figure **obj, t_light *light, double closest_dot);
+int	in_shadow(t_scene *scene, t_vector ray, t_light	*light, \
+	t_figure **obj);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_char.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 17:26:30 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/06 19:53:53 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/25 22:46:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ char	**split_char(char const *s, char c)
 	int		count_word;
 	char	**arr;
 
+
 	if (s == NULL)
 		return (NULL);
 	count_word = func_count_word_(s, c);
@@ -114,5 +115,10 @@ char	**split_char(char const *s, char c)
 	arr[count_word] = NULL;
 	if (check2(arr, s, c, count_word))
 		return (NULL);
+	int i = 0;
+	while(arr[i])
+	{
+		printf("toxery->%s\n", arr[i++]);
+	}
 	return (arr);
 }

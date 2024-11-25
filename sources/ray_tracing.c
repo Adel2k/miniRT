@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/24 21:51:50 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/25 21:59:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 	
 // 	printf("fov=%f\n",scene->camera->fov);
 	
-// 	hatum.dot = __FLT_MAX__;
+// 	hatum.dot = INFINITY;
 // 	//mez ayjm petqa stananq akno prasmotra-n,vor mez shat kogni,aranc dra menq vochmi dzev chenq kara ispravitsya
 // 	vplane = get_view_plane(scene->width, scene->height, scene->camera->fov);//minch es sheshtvela vor vorpisi kap hastatvi pikselya akno prasmotra s pikselyam akno katorim mi risuyem ,petqa shirinu akno prasmotran bajanel shirinu u okna ,dra hamar es funkcian kstana scenai erk. u lenqy 
 // 	//ays funckain kveradardzni այն ամենը, ինչ ձեզ անհրաժեշտ է charagayty uxarkelu(krakelu,bac toxelu) hamar
@@ -83,7 +83,7 @@
 // 				}
 // 				tmp = tmp->next;
 // 			}
-// 			if (hatum.dot == __FLT_MAX__)
+// 			if (hatum.dot == INFINITY)
 // 				color = 0;
 // 			else
 // 				color = get_color(hatum.sphere->color.red, hatum.sphere->color.green, hatum.sphere->color.blue,\
@@ -135,7 +135,7 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 // {
 
 // 	scene->i = 0;     
-// 	scene->hatum.dot = __FLT_MAX__;
+// 	scene->hatum.dot = INFINITY;
 // 	scene->vplane = get_view_plane(scene->camera, scene->width, scene->height, scene->camera->fov);
 // 	// printf("right-> %f %f %f",  scene->camera->direction.x, scene->camera->direction.y,  scene->camera->direction.z);
 	
@@ -160,10 +160,10 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 // 	t_figure	*tmp;
 // 	double		closest_dot;
 
-// 	closest_dot = __FLT_MAX__;
+// 	closest_dot = INFINITY;
 // 	tmp = scene->figure;
 // 	closest_dot = closest_inter(scene->camera->center, scene->ray, scene->figure, &tmp);
-// 	if (closest_dot == __FLT_MAX__)
+// 	if (closest_dot == INFINITY)
 // 	{
 // 		color = 0;
 // 	}
@@ -180,8 +180,8 @@ t_vector	get_ray(t_vplane *vplane, int i, int j)
 // 	double		dot;
 // 	double		closest_dot;
 
-// 	dot = __FLT_MAX__;
-// 	closest_dot = __FLT_MAX__;
+// 	dot = INFINITY;
+// 	closest_dot = INFINITY;
 // 	while (figure)
 // 	{
 // 		// printf("Vrdoi type=%d\n",tmp->type);

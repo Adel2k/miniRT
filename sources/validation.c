@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:15:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/20 13:05:49 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/25 23:33:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,33 @@ char **get_end_trim_map(char **map, t_scene *scene)
 	int		i;
 	int		row;
 	char	**trim_map;
+	int j = 0;
 
 	row = 0;
 	while (map[row])
 		row++;
+	printf("row = %d\n", row);
 	trim_map = malloc(sizeof(char *) * (row + 1));
 	if (!trim_map)
 		exit_and_free_matrix(map, "cannot do split", scene);
 	i = 0;
 	while (map[i])
 	{
-		trim_map[i] =  ft_strtrim(map[i], " \n\v\f\r\t");
-		if(!trim_map[i])
+	printf("hasnum enq ste\n");
+		if (!(only_trim_simbols(map[i]) == 1))
+			trim_map[j] =  ft_strtrim(map[i], " \n\v\f\r\t");
+		else
+		{
+			i++;
+			continue;
+		}
+		if(!trim_map[j])
 			exit_and_free_matrix(map, "cannot do split", scene);
 		i++;
+		j++;
 	}
-	trim_map[i] = NULL;
+	printf("i= ===============================%d\n",i);
+	trim_map[j] = NULL;
 	free_matrix(map);////////////////
 	return(trim_map);
 }
@@ -77,10 +88,11 @@ char **spliting(char *read_line, t_scene *scene)
 	if (!trim_line)
 		exit_and_free_str(read_line, "cannot do trim", scene);
 	free(read_line);
-	map = split_char(trim_line, '\n');
+	map = split_char(trim_line, '\n');//esi vaaaapshe lav chi
 	if (!map)
 		exit_and_free_str(trim_line, "malloc error", scene);
 	free(trim_line);
+	printf("axxxxxxx\n");
 	return (get_end_trim_map(map, scene));
 }
 
@@ -98,16 +110,16 @@ int	validation(int ac, char **av, t_scene *scene)
 		if (is_rt(av[1]))
 			return(err("Error: Wrong argument: Try this way: ./rt filename.rt"));
 		read_line = get_line(av[1]);
-		printf("asenq te\n");
 		printf("read_line=%s\n",read_line);
 		if (!read_line)
 			return (1);
+		printf("asenq te\n");
 		map = spliting(read_line, scene);//minchev ste leak chka
 		parsing(map, scene);
 		int i = 0;
 		while (**map && map[i])
 		{
-			printf("%s\n", map[i]);
+			printf("boo:%s\n", map[i]);
 			i++;
 		}
 		free_matrix(map);//////

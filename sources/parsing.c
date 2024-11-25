@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/31 18:26:52 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/25 23:30:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,16 @@ void	parsing(char **map, t_scene *scene)
 	int	i;
 	char	**matrix;
 	i = 0;
+	// int k = 0;
+	// while (map[k])
+	// {
+		printf("map[%p] \n",  &map[6]);
+	// 	k++;
+	// }
 	while (map[i])
 	{
+	printf("i = %d\n", i);
+		printf("matrix[%d] = %s\n", i, map[i]);
 		matrix = split(map[i]);
 		printf("a\n");
 		found_what_scene_is_it(matrix, scene);
