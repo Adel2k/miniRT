@@ -18,7 +18,7 @@ t_vector	calculate_sph_norm(t_vector p, t_figure *obj)
 	t_vector vvvv = vec_subtract(p, obj->sphere->center);
 	vec_normalize(&vvvv);
 	// printf("Normal length: %f\n", sqrt(vec_dot_product(vvvv, vvvv)));
-	// return (vec_subtract(p, obj->sphere->center));
+	// return (vec_subtract(p, obj->sphere->center));dfdffff
 	return (vvvv);
 }
 // double	compute_light(double dot, t_scene *scene, t_vector ray, t_figure *figure)
