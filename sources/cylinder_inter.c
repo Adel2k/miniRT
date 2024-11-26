@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 18:25:01 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/25 21:59:48 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/26 23:57:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,18 +155,12 @@ double	closest_dist(t_cylinder *cyl, t_math *m)
 	}
 }
 
-double	plane_inter(t_vector pos, t_vector ray, t_vector orient, t_vector coord)
+double	plane_inter(t_vector pos, t_vector ray, t_vector pl_orient, t_vector pl_coord)
 {
-	double	dot;
 	double	t;
+	double	norm_dot_dir;
 
-	dot = vec_dot_product(orient, ray);
-	if (dot)
-	{
-		t = vec_dot_product(orient, \
-			vec_subtract(coord, pos)) / dot;
-		if (t >= 0.001)
-			return (t);
-	}
-	return (INFINITY);
+	pl_orient = calculate_plane_norm(, ray);
+	norm_dot_dir = vec_dot_product()
+	
 }

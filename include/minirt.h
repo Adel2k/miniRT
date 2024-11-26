@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/25 23:19:38 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/26 23:47:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,9 @@ typedef struct s_sphere
 typedef struct s_plane
 {
 	// t_obj_id	id;
-	t_vector	coords;
+	t_vector	coords;//center
 	t_color		color;
-	t_vector	orient;//uxxutyun
+	t_vector	orient;//uxxutyun,planei hamar ira uxxutyuny u normal@ hamynknum en kam -uxxutyuna normaly
 	// int			count;
 	// struct s_plane	*next;
 }	t_plane;
@@ -414,12 +414,14 @@ t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular, double c
 double	compute_spec(t_scene *scene, t_vector light, double n_dot_l, t_figure *fig);
 void	ray_norm(t_figure *fig, t_vector p);
 t_vector	calculate_sph_norm(t_vector p, t_figure *obj);
+t_vector	calculate_plane_norm(t_figure *obj, t_vector ray);
+
 // double	compute_spec(t_scene *scene, t_vector light, double n_dot_l, t_figure *fig);
 t_color	diffuse_light(t_scene *scene, t_figure *obj, t_light *light, double closest_dot);
 t_color	specular_light(t_scene *scene, t_light *light, t_figure *obj, double closest_dot);
 t_vector	reflect_ray(t_vector ray, t_vector p_normal);
 /////////////////////shadow.c/////////////////
-int	compute_shadow(t_scene *scene, t_figure **obj, t_light *light, double closest_dot);
+int	compute_shadow(t_scene *scene, t_figure *obj, t_light *light, double closest_dot);
 int	in_shadow(t_scene *scene, t_vector ray, t_light	*light, \
 	t_figure **obj);
 

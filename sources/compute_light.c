@@ -21,6 +21,16 @@ t_vector	calculate_sph_norm(t_vector p, t_figure *obj)
 	// return (vec_subtract(p, obj->sphere->center));dfdffff
 	return (vvvv);
 }
+
+t_vector	calculate_plane_norm(t_figure *obj, t_vector ray)
+{
+	t_vector	vvvv;
+	if (vec_dot_product(obj->plane->orient, ray) < 0)
+		vvvv = obj->plane->orient;
+	else
+		vvvv = num_product_vect(obj->plane->orient, -1);
+	return (vvvv);
+}
 // double	compute_light(double dot, t_scene *scene, t_vector ray, t_figure *figure)
 // {
 // 	t_vector	prod;
@@ -104,7 +114,7 @@ void	ray_norm(t_figure *fig, t_vector p)
 	{
 		// printf("haaaaaa\n");
 		fig->ray_norm = vec_subtract(p, fig->sphere->center);
-		vec_normalize(&fig->ray_norm);
+		vec_normalize(&fig->ray_norm);//gndi hamar normal vektory da gndi kentrony ev hatman p kety miacnox vektorn e
 	}
 	else if (fig->type == PLANE)
 		fig->ray_norm = fig->plane->orient;
@@ -124,7 +134,7 @@ t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular, double c
 	light_tmp = scene->light;
 	while (light_tmp)
 	{
-		if (compute_shadow(scene, &obj, light_tmp, closest_dot))
+		if (compute_shadow(scene, obj, light_tmp, closest_dot))
 		{
 			light_in_vec = add_rgb_light(diffuse_light(scene, obj, light_tmp, closest_dot), light_in_vec);
 			*specular = specular_light(scene, light_tmp, obj, closest_dot);
@@ -179,6 +189,9 @@ t_color	specular_light(t_scene *scene, t_light *light_fig, t_figure *obj, double
 	// vec_normalize(&p);
 	if (obj->type == SPHERE)
 		reflected = reflect_ray(light, calculate_sph_norm(p, obj));//teria es masy menak spheri hamara arac,avelacnel myus figurneri hamar(cylinder, plane)
+	if (obj->type == PLANE)
+		reflected = reflect_ray(light, calculate_plane_norm(obj, scene->ray));//teria es masy menak spheri hamara arac,avelacnel myus figurneri hamar(cylinder, plane)
+
 	vec_normalize(&reflected);
 	// printf("Normal length: %f\n", sqrt(vec_dot_product(reflected, reflected)));
 	// printf("reflected->x%f reflected->y%f reflected->z%f\n", reflected.x , reflected.y, reflected.z);
