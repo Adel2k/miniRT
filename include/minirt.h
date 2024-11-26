@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/26 23:47:17 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/27 00:32:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -368,7 +368,7 @@ t_vplane	*get_view_plane(t_scene *scene);////ray_tracing_2.c
 double	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere);
 // void	closest_inter(t_figure *figure, t_scene *scene, t_hatum *hatum, t_vector ray, t_figure *tmp);
 // void	closest_inter(t_vector pos, t_vector ray, t_figure *tmp, t_scene *scene);
-double	plane_inter(t_vector pos, t_vector ray, t_vector orient, t_vector coord);
+double	plane_inter(t_vector pos, t_vector ray, t_figure *obj);
 double	cylinder_intersect(t_vector pos, t_vector ray, t_cylinder *cyl);
 double	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp);
 int	color_in_current_pixel(t_scene *scene);
@@ -380,7 +380,7 @@ double	caps_inter(t_vector pos, t_vector ray, t_cylinder *cyl);
 // double	cyl_inter(t_vector pos, t_vector ray, t_cylinder *cyl);
 t_vector	cylray_norm(t_math *math, t_vector ray, t_vector pos, t_cylinder *cyl);
 double	closest_dist(t_cylinder *cyl, t_math *m);
-double	plane_inter(t_vector pos, t_vector ray, t_vector orient, t_vector coord);
+
 
 void	_rotate_(int keypress, t_scene *scene);
 void		_move_(int keypress, t_scene *scene);

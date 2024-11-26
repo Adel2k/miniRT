@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/26 23:53:47 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/27 00:37:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,9 +161,9 @@ double	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tm
 		if (figure->type == SPHERE)
 			dot = sphere_intersect(pos, ray, figure->sphere);
 		else if (figure->type == PLANE)
-			dot = plane_inter(pos, ray, figure->plane->orient, figure->plane->coords);
-		else if (figure->type == CYLINDER)
-			dot = cylinder_intersect(pos, ray, figure->cylinder);
+			dot = plane_inter(pos, ray, figure);
+		// else if (figure->type == CYLINDER)
+		// 	dot = cylinder_intersect(pos, ray, figure->cylinder);
 		if (dot > __FLT_EPSILON__ && dot < closest_dot)
 		{
 			closest_dot = dot;
