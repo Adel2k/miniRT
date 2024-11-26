@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/25 21:59:48 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/26 19:28:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ t_vplane	*get_view_plane(t_scene *scene)
 	vplane->mlx_x = 0;
 	vplane->mlx_y = 0;
 	vplane->width = 2 * tan(scene->camera->fov / 2 * (M_PI / 180));
-    printf("xooii\n");
+    // printf("xooii\n");
 	vplane->height = vplane->width / aspect_ratio;
 	vplane->pixel_x = vplane->width / WIDTH;
 	vplane->pixel_y = vplane->height / scene->height;
-    printf("bafrev\n");
+    // printf("bafrev\n");
 	return (vplane);
 }
 
@@ -139,7 +139,7 @@ void	get_pixel_color(int *color, t_figure *obj, t_scene *scene, double closest_d
 	// 	return ;
 	light_in_vec = compute_light(scene, obj, &specular, closest_dot);
 	// printf("col.x = %d col.y = %d col.z = %d\n", obj->color.red, obj->color.green, obj->color.blue);
-	printf ("specular.x = %d specular.y = %d specular.z = %d\n", specular.red, specular.green, specular.blue);
+	// printf ("specular.x = %d specular.y = %d specular.z = %d\n", specular.red, specular.green, specular.blue);
 	*color = rgb_color_to_hex(add_rgb_light(multiply_rgbs(light_in_vec, \
 		(obj->color)), specular));
 }
