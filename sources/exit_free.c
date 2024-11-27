@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 20:56:26 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/20 13:27:16 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/27 22:46:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	exit_and_free_str(char *str_free, char *str_err ,t_scene *scene)
 {
 	err(str_err);
 	free (str_free);
-	free(scene);
-	// system("leaks miniRT");
+	free_scene_members(scene);
+	system("leaks miniRT");
 	exit (1);
 }
 
@@ -40,8 +40,8 @@ void	exit_and_free_matrix(char **map, char *str_err, t_scene *scene)
 	// 	free(tmp);
 	// }
 	// free(rt->light);
-	free(scene);
-	// system("leaks miniRT");
+	free_scene_members(scene);
+	system("leaks miniRT");
 	exit(1);
 }
 
@@ -65,15 +65,32 @@ void	free_matrix(char **matrix)
 	free(matrix);
 }
 
-// void	free_vars(t_mlx_vars *vars)
-// {
-// 	int	i;
+void	free_list_of_light(t_light *light)//check Nar
+{
+	t_light	*tmp;
 
-// 	i = 0;
-// 	while (i < vars->height_size)
-// 	{
-// 		free(vars->coordinates[i]);
-// 		i++;
-// 	}
-// 	free(vars->coordinates);
-// }
+	while (light)
+	{
+		tmp = light;
+		light = light->next;
+		free(tmp);
+	}
+}
+
+void	free_list_of_figure(t_figure *figure)//check Nar
+{
+	t_figure	*tmp;
+
+	while (figure)
+	{
+		tmp = figure;
+		if (tmp->sphere)
+			free(tmp->sphere);
+		if (tmp->plane)
+			free(tmp->plane);
+		if (tmp->cylinder)
+			free(tmp->cylinder);
+		figure = figure->next;
+		free(tmp);
+	}
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_func.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:22:00 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/30 12:51:43 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/27 22:55:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	init_coords(t_vector *coords, char **matrix, t_scene *scene, int i)
 	coords->z = ft_atof(split_2_line[2]);
 	coords->w = 1.0;//whyy
 	free_matrix(split_2_line);
+	system("leaks miniRT");
+
 }
 
 void	init_orient(t_vector *orient, char **matrix, t_scene *scene, int i)
@@ -69,7 +71,9 @@ void	init_orient(t_vector *orient, char **matrix, t_scene *scene, int i)
 		|| !(orient->y >= -1.0 && orient->y <= 1.0)
 		|| !(orient->z >= -1.0 && orient->z <= 1.0))
 		exit_and_free(matrix, "Error: bad value", scene, split_2_line);
-	free_matrix(split_2_line);//erevi	
+	free_matrix(split_2_line);//erevi
+	system("leaks miniRT");
+
 }
 
 void	init_color(t_color *color, char **matrix, t_scene *scene, int i)
@@ -90,6 +94,8 @@ void	init_color(t_color *color, char **matrix, t_scene *scene, int i)
 		|| !(color->green >= 0 && color->green <= 255)
 		|| !(color->blue >= 0 && color->blue <= 255))
 		exit_and_free(matrix, "Error: value of color out is range", scene, split_2_line);
-	free_matrix(split_2_line);//erevi
+	free_matrix(split_2_line);
+	system("leaks miniRT");
+
 }
 

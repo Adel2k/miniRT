@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:15:48 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/25 23:33:28 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/27 23:41:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char **get_end_trim_map(char **map, t_scene *scene)
 	while (map[i])
 	{
 	printf("hasnum enq ste\n");
-		if (!(only_trim_simbols(map[i]) == 1))
+		if (!(only_trim_simbols(map[i]) == 1) && !(cur_line_is_com(map[i]) == 1))
 			trim_map[j] =  ft_strtrim(map[i], " \n\v\f\r\t");
 		else
 		{
@@ -112,17 +112,20 @@ int	validation(int ac, char **av, t_scene *scene)
 		read_line = get_line(av[1]);
 		printf("read_line=%s\n",read_line);
 		if (!read_line)
-			return (1);
-		printf("asenq te\n");
+			return (1);//minchev ste leak chka
 		map = spliting(read_line, scene);//minchev ste leak chka
+		printf("asenq te\n");
 		parsing(map, scene);
-		int i = 0;
-		while (**map && map[i])
-		{
-			printf("boo:%s\n", map[i]);
-			i++;
-		}
+		// printf("badaxrichneri qanaky sxala\n");
+		// int i = 0;
+		// while (**map && map[i])
+		// {
+		// 	printf("boo:%s\n", map[i]);
+		// 	i++;
+		// }
 		free_matrix(map);//////
+	// system("leaks miniRT");
+	// 	exit(1);
 	}
 		// system("leaks miniRT");
 	return (0);

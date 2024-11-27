@@ -6,11 +6,44 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/26 20:12:49 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/27 22:40:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
+
+
+void	ft_check_minimum_requirements(t_scene *scene, char **map)
+{
+	if (!scene->camera || scene->count.count_camera != 1)
+	{
+		free_matrix(map);
+		free_scene_members(scene);
+		system("leaks miniRT");
+
+		write (1, "Requirement: non existing camera or count is not 1\n", 51);
+		exit(11);
+	}
+	if (!scene->ambient || scene->count.count_ambient != 1)
+	{
+		free_matrix(map);
+		free_scene_members(scene);
+		system("leaks miniRT");
+
+		write (1, "Requirement: non existing ambient light or count is not 1\n", 58);
+		exit(11);
+	}
+	if (!scene->light)
+	{
+		free_matrix(map);
+		free_scene_members(scene);
+		system("leaks miniRT");
+
+		write (1, "Requirement: non existing light\n", 32);
+		exit(11);
+	}
+}
+
 
 void	parsing(char **map, t_scene *scene)
 {
@@ -25,33 +58,49 @@ void	parsing(char **map, t_scene *scene)
 	// }
 	while (map[i])
 	{
-	printf("i = %d\n", i);
+		printf("i = %d\n", i);
 		printf("matrix[%d] = %s\n", i, map[i]);
 		matrix = split(map[i]);
 		printf("a\n");
 		found_what_scene_is_it(matrix, scene);
 		free_matrix(matrix);//
+		matrix = NULL;
+		// exit(1);
 		i++;
 	}
+	ft_check_minimum_requirements(scene, map);
+	printf("axperrrrrrrrrrrrr\n");
+		system("leaks miniRT");
+	// free_matrix(map);
+	// t_light *tmp = scene->light;
+	// int count = 0;
+	// while (tmp)
+	// {
+	// 	count++;
+	// 	tmp = tmp->next;
+	// }
+	// printf("couuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuunt = %d\n", count);
+	
 	// count_check(scene, map);
-	t_figure *temp = scene->figure;
-	printf("::::%f\n",temp->next->sphere->radius);
-	while (temp)
-	{
-		printf("type=%d\n",temp->type);
-		if (temp->type == SPHERE)
-		{
-	printf("pahooo\n");
-			printf("sphere=%f\n", temp->sphere->center.x);
-			printf("sphere=%f\n", temp->sphere->center.y);
-			printf("sphere=%f\n", temp->sphere->center.z);
-			printf("sphere=%f\n", temp->sphere->radius * 2);
-			printf("sphere=%d\n", temp->sphere->color.red);
-			printf("sphere=%d\n", temp->sphere->color.green);
-			printf("sphere=%d\n", temp->sphere->color.blue);
-		}
-		temp = temp->next;
-	}
+
+	// t_figure *temp = scene->figure;
+	// printf("::::%f\n",temp->next->sphere->radius);
+	// while (temp)
+	// {
+	// 	printf("type=%d\n",temp->type);
+	// 	if (temp->type == SPHERE)
+	// 	{
+	// printf("pahooo\n");
+	// 		printf("sphere=%f\n", temp->sphere->center.x);
+	// 		printf("sphere=%f\n", temp->sphere->center.y);
+	// 		printf("sphere=%f\n", temp->sphere->center.z);
+	// 		printf("sphere=%f\n", temp->sphere->radius * 2);
+	// 		printf("sphere=%d\n", temp->sphere->color.red);
+	// 		printf("sphere=%d\n", temp->sphere->color.green);
+	// 		printf("sphere=%d\n", temp->sphere->color.blue);
+	// 	}
+	// 	temp = temp->next;
+	// }
 }
 
 t_cylinder	*parse_cylinder(char **matrix, t_scene *scene)

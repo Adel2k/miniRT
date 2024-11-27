@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_mlx.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:31:32 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/24 18:13:09 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/11/27 23:27:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,14 @@ void	init_mlx(t_scene *scene)
 	mlx_hook(scene->mlx->win, 2, 0, &handler, scene);
 	mlx_hook(scene->mlx->win, 17, 0, &mouse_close, scene);
 	mlx_loop_hook(scene->mlx->mlx, &draw, scene);
-	// system("leaks miniRT");	
-	mlx_loop(scene->mlx->mlx);
+	// // system("leaks miniRT");	
+	mlx_loop(scene->mlx->mlx);//sranic gesh liqera tali
+	system("leaks miniRT");
+	printf("hresic->\n");
+	// exit(111111);
+	// mlx_destroy_image(scene->mlx->mlx, scene->img->img_ptr);
+	// mlx_clear_window(scene->mlx->mlx, scene->mlx->win);
+	// mlx_destroy_window(scene->mlx->mlx, scene->mlx->win);
 }
 
 

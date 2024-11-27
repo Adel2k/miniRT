@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/27 00:32:11 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/27 23:45:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ typedef struct s_sphere
 	// t_obj_id	id;
 	t_vector	center;
 	// double		diameter;
-	double		radius;;
+	double		radius;
 	// double		r2;
 	t_color		color;
 	// int			count;
@@ -177,7 +177,6 @@ typedef struct s_figure
 	t_sphere		*sphere;
 	t_plane			*plane;
 	t_cylinder		*cylinder;
-	// t_light			*light;//norem avelacre
 	t_type			type;
 	t_color			color;
 	double			specular;
@@ -222,9 +221,14 @@ typedef struct s_vplane
 }	t_vplane;
 
 
+typedef struct s_count
+{
+	int	count_ambient;
+	int	count_camera;
+} t_count;
+
 typedef struct s_scene
 {
-	t_color		color;
 	t_camera	*camera;
 	t_ambient	*ambient;
 	t_light		*light;
@@ -235,10 +239,9 @@ typedef struct s_scene
 	t_mlx_vars	*mlx;
 	t_img		*img;//data
 	t_vector	ray;
-	t_vector	vector;
 	double		width;
 	double		height;
-	t_hatum		hatum;
+	t_count		count;
 }	t_scene;
 
 
@@ -252,7 +255,9 @@ void	exit_and_free_matrix(char **map, char *str_err, t_scene *scene);
 void	exit_and_free(char **map, char *str_err, t_scene *scene, char **matrix);
 void	free_matrix(char **matrix);
 void	free_vars(t_mlx_vars *vars);
-
+void	free_scene_members(t_scene *scene);
+void	free_list_of_light(t_light *light);
+void	free_list_of_figure(t_figure *figure);
 /////////////////parsing//////////////////////////////
 void	parsing(char **map, t_scene *scene);
 t_light	*parse_light(char **matrix, t_scene *scene);
@@ -277,6 +282,7 @@ int		is_white_space(char c);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strstr_alt(char *str, char *to_find);
 int	only_trim_simbols(char *str);
+int	cur_line_is_com(char *str);
 /////////////////utils2/////////////////////////////
 int		ft_atoi(const char *str);
 int 	if_char_and_digit(char *line, char c);

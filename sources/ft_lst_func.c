@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 16:27:57 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/25 11:52:06 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/27 20:32:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,6 @@ t_figure	*lst_create_figure(t_scene *scene, char **matrix, int type)
 		figure->cylinder = parse_cylinder(matrix, scene);
 		figure->color = figure->cylinder->color;
 	}
-	// else if (type == LIGHT)
-	// {
-	// 	scene->light = parse_light(matrix, scene);
-	// 	scene->light->color = light->color;
-	// }
 	figure->type = type; 
 	figure->next = NULL;
 	return (figure);
@@ -74,9 +69,9 @@ t_light	*lst_create_light(t_scene *scene, char **matrix)
 {
 	t_light	*light;
 
-	light = malloc(sizeof(light));
-	if (!light)
-		exit(EXIT_FAILURE);
+	// light = malloc(sizeof(light));
+	// if (!light)
+	// 	exit(EXIT_FAILURE);
 	
 	light = parse_light(matrix, scene);
 	light->next = NULL;

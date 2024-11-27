@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 13:30:00 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/25 23:44:41 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/27 23:45:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,21 @@ int	only_trim_simbols(char *str)
 	}
 	return (1);
 }
+
+int	cur_line_is_com(char *str)
+{
+	int i;
+
+	i = 0;
+	while ((str[i] && (str[i] >= 9 && str[i] <= 13)) || str[i] == 32)
+	{
+		i++;
+	}
+	if (str[i] == '#')
+		return (1);
+	return (-1);
+}
+
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 18:08:21 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/25 22:22:05 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/27 22:39:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	found_what_scene_is_it(char **matrix, t_scene *scene)
 	if (!ft_strcmp(matrix[0], "A"))
 	{
 		scene->ambient = parse_ambient(matrix, scene);
+		scene->count.count_ambient++;
 		// obj = parse_ambient(matrix, scene);
 		// ft_lstadd_back_amb(&scene->ambient, obj);
 		
@@ -30,6 +31,7 @@ void	found_what_scene_is_it(char **matrix, t_scene *scene)
 	else if (!ft_strcmp(matrix[0], "C"))
 	{
 		scene->camera = parse_camera(matrix, scene);
+		scene->count.count_camera++;
 		// printf("Agvan=%f\n",scene->)
 		// obj = parse_camera(matrix, scene);
 		// ft_lstadd_back_ca(&scene->camera, obj);
@@ -47,7 +49,6 @@ void	found_what_scene_is_it(char **matrix, t_scene *scene)
 		// scene->light = parse_light(matrix, scene);//sarqel list esi 
 		
 		ft_lstadd_back_light(&scene->light, lst_create_light(scene, matrix));
-		
 		// ft_lstadd_back_l(&scene->light, obj);
 		
 		printf("light=%f\n", scene->light->coords.x);
@@ -103,9 +104,11 @@ void	found_what_scene_is_it(char **matrix, t_scene *scene)
 
 void	*parse_camera(char **matrix, t_scene *scene)
 {
-	char	**split_2_line = NULL;
+	// char	**split_2_line = NULL;
 	int		i;
 	t_camera	*camera;
+	if (scene->camera)
+		free(scene->camera);
 	camera = malloc(sizeof(t_camera));
 	i = 0;
 	if (matrix_row(matrix) != 4)
@@ -125,7 +128,9 @@ void	*parse_camera(char **matrix, t_scene *scene)
 		exit_and_free_matrix(matrix,"Error: bad arguments for camera", scene);
 	camera->fov = atof(matrix[3]);
 	if (!(camera->fov >= 0 && camera->fov <= 180))
-		exit_and_free(matrix, "Error: bad value fov", scene, split_2_line);
+		exit_and_free_matrix(matrix, "Error: bad value fov", scene);
+	
+		// exit_and_free(matrix, "Error: bad value fov", scene, split_2_line);
 	// scene->camera.count++;
 	// count_check(scene, 'C', matrix, split_2_line);
 	// camera->next = NULL;
@@ -140,6 +145,8 @@ void	*parse_ambient(char **matrix, t_scene *scene)
 	t_ambient	*ambient;
 
 	i = -1;
+	if (scene->ambient)
+		free(scene->ambient);
 	ambient = malloc(sizeof (t_ambient));
 	if (matrix_row(matrix) != 3)
 		exit_and_free_matrix(matrix, "Error: wrong qanaki arguments for ambient", scene);
@@ -157,10 +164,7 @@ void	*parse_ambient(char **matrix, t_scene *scene)
 
 	printf("hres=%f\n",ambient->ratio_lighting);
 	init_color(&ambient->light, matrix, scene, 2);
-	// ambient->next = NULL;
 	return (ambient);
-	// count_check(scene, 'a', matrix, NULL);
-	// scene->ambient.count++;
 }
 
 
