@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/27 00:37:13 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/28 20:25:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	get_pixel_color(int *color, t_figure *obj, t_scene *scene, double closest_d
 	specular = new_color(0, 0, 0);
 	// if (obj && obj->type == LIGHT)
 	// 	return ;
-	// set_hit_normal(&obj, scene->ray);
+	// ray_norm(obj, p);
 	light_in_vec = compute_light(scene, obj, &specular, closest_dot);
 	// printf("col.x = %d col.y = %d col.z = %d\n", obj->color.red, obj->color.green, obj->color.blue);
 	// printf ("specular.x = %d specular.y = %d specular.z = %d\n", specular.red, specular.green, specular.blue);

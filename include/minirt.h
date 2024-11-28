@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/27 23:45:01 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/28 20:41:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -418,9 +418,9 @@ void	init_scene(t_scene *scene);
 /////////////////compute_light.c/////////////////
 t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular, double closest_dot);
 double	compute_spec(t_scene *scene, t_vector light, double n_dot_l, t_figure *fig);
-void	ray_norm(t_figure *fig, t_vector p);
-t_vector	calculate_sph_norm(t_vector p, t_figure *obj);
-t_vector	calculate_plane_norm(t_figure *obj, t_vector ray);
+void	ray_norm(t_scene *scene, t_figure *fig, t_vector p);
+void	calculate_sph_norm(t_vector p, t_figure *obj);
+void	calculate_plane_norm(t_figure *obj, t_vector ray);
 
 // double	compute_spec(t_scene *scene, t_vector light, double n_dot_l, t_figure *fig);
 t_color	diffuse_light(t_scene *scene, t_figure *obj, t_light *light, double closest_dot);

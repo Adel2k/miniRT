@@ -13,113 +13,40 @@
 #include "../include/minirt.h"
 
 
-t_vector	calculate_sph_norm(t_vector p, t_figure *obj)
+void	calculate_sph_norm(t_vector p, t_figure *obj)
 {
-	t_vector vvvv = vec_subtract(p, obj->sphere->center);
-	vec_normalize(&vvvv);
-	// printf("Normal length: %f\n", sqrt(vec_dot_product(vvvv, vvvv)));
-	// return (vec_subtract(p, obj->sphere->center));dfdffff
-	return (vvvv);
+	// t_vector vvvv = vec_subtract(p, obj->sphere->center);
+	// vec_normalize(&vvvv);
+	// // printf("Normal length: %f\n", sqrt(vec_dot_product(vvvv, vvvv)));
+	// // return (vec_subtract(p, obj->sphere->center));dfdffff
+	// return (vvvv);
+	obj->ray_norm = vec_subtract(p, obj->sphere->center);
+	vec_normalize(&obj->ray_norm);
 }
 
-t_vector	calculate_plane_norm(t_figure *obj, t_vector ray)
+void	calculate_plane_norm(t_figure *obj, t_vector ray)
 {
-	t_vector	vvvv;
+	// t_vector	vvvv;
+	// if (vec_dot_product(obj->plane->orient, ray) < 0)
+	// 	vvvv = obj->plane->orient;
+	// else
+	// 	vvvv = num_product_vect(obj->plane->orient, -1);
+	// return (vvvv);
 	if (vec_dot_product(obj->plane->orient, ray) < 0)
-		vvvv = obj->plane->orient;
+		obj->ray_norm = obj->plane->orient;
 	else
-		vvvv = num_product_vect(obj->plane->orient, -1);
-	return (vvvv);
+		obj->ray_norm = num_product_vect(obj->plane->orient, -1);
 }
-// double	compute_light(double dot, t_scene *scene, t_vector ray, t_figure *figure)
-// {
-// 	t_vector	prod;
-// 	t_vector	p;
-// 	t_vector	norm;
-// 	t_vector	light;
-// 	t_vector	v;
-// 	t_vector	r;
-// 	// t_sphere	*sph;
-// 	double	n_dot_l;
-// 	double	r_dot_v;
-// 	double	i;
-
-// 	prod = num_product_vect(ray, dot);//ray-i x,y,z-@ *um enq dot-i chapov
-// 	p = sum_vect(scene->camera->center, prod);//sranov stanum enq gndi ev ray-i hatman kety makeresi vra
-// 	norm = vec_subtract(p, figure->center);//gndi kentronic minchev et hatman(p)kety vektor enq stanumx//հաշվել վեկտորը ոլորտի կենտրոնից մինչև p կետը,
-// 	vec_normalize(norm);
-// 	light = vec_subtract(scene->light->coords, p);//հաշվարկել վեկտորը p կետից մինչև լույսի աղբյուր:
-// 	i = scene->ambient->ratio_lighting;//սահմանում ենք լուսավորության սկզբնական ինտենսիվությունը՝ հիմնվելով շրջակա միջավայրի լույսի վրա (շրջակա լուսավորություն, որը միշտ առկա է):
-// 	//Ցրված լուսավորության հաշվարկ
-// 	n_dot_l = vec_dot_product(norm, light);//մենք հաշվում ենք նորմալի և լուսային վեկտորի սկալյար արտադրյալը՝ նրանց միջև եղած անկյունը գտնելու համար։
-// 	// sph = NULL;
-// 	// if (closest_inter(p, light, scene->sphere, &sph) != INFINITY)
-// 	// 		return (i);
-// 	if (n_dot_l > 0)//ապա լույսի աղբյուրը լուսավորում է այդ կետը
-// 		i += scene->light->brightness * n_dot_l / (vec_length(norm) * vec_length(light));
-// 	if (figure->specular > 0)
-// 	{
-// 		v = num_product_vect(ray, -1);//փոխում ենք ճառագայթի ուղղությունը՝ p կետից դեպի դիտող վեկտոր ստանալու համար։
-// 		r = num_product_vect(num_product_vect(norm, 2), n_dot_l);//արտացոլված վեկտորը՝
-// 		r = vec_subtract(r, light);//մենք այն ուղղում ենք լույսի վեկտորի համեմատ:
-// 		r_dot_v = vec_dot_product(r, v);//մենք գտնում ենք արտացոլված վեկտորի և դիտորդի վեկտորի սկալյար արտադրյալը:
-// 		if (r_dot_v > 0)//ապա վերջնական լուսավորությանը ավելացնում ենք սպեկուլյար բաղադրիչ.
-// 			i += scene->light->brightness * pow(r_dot_v/(vec_length(r) * vec_length(v)), sphere->specular);
-// 	}
-// 	return(i);
-// }
-// // Compute_light ֆունկցիան հաշվարկում է ստացված լուսավորությունը գնդի մակերևույթի tvyal կետում(dot)՝ հաշվի առնելով մի քանի գործոններ.
-
-// // Ցրված լույս (ցրված լուսավորություն):
-// // Տեսակետային արտացոլում (տեսակային լուսավորություն):
-// // Լույսի հիմնական պարամետրերը (նրա պայծառությունը, ինտենսիվությունը, դիրքը և անկման անկյունը):
-
-// // Վերջնական արդյունքը (i) տվյալ կետում լուսավորության ինտենսիվությունն է
-
-// double	compute_light(double dot, t_scene *scene, t_figure *tmp)
-// {
-// 	t_vector		p;
-// 	t_vector		light;
-// 	t_figure	*shadow;
-// 	double		n_dot_l;
-// 	double		i;
-
-// 	i = scene->ambient->ratio_lighting;
-// 	p = sum_vect(scene->camera->center, num_product_vect(scene->ray, dot));
-// 	ray_norm(tmp, p);
-// 	light = vec_subtract(scene->light->coords, p);
-// 	n_dot_l = vec_dot_product(tmp->ray_norm, light);
-// 	shadow = NULL;//Կոդի այս հատվածը պատասխանատու է ստուգելու համար, թե արդյոք օբյեկտի մակերևույթի կետը գտնվում է ստվերում:
-// 	if (closest_inter(p, light, scene->figure, &shadow) != INFINITY)// проверяет, есть ли объекты между точкой p и источником света, которые могут создать тень.
-// 	{
-// 		// usleep(200);
-// 		// printf("mmmmmmmmmmm\n");
-// 		return (i);
-// 	}
-// 	if (n_dot_l > 0)
-// 		i += scene->light->brightness * n_dot_l / 
-// 			(vec_length(tmp->ray_norm) * vec_length(light));//scene->light->brightness * cos(ø),nuynn esa eli
-// 	// if (tmp->specular > 0)
-// 	// {
-// 	// 	i += compute_spec(scene, light, n_dot_l, tmp);
-// 	// 	printf("puf\n");
-// 	// }
-// 	return (i);
-// }
 	
 
-void	ray_norm(t_figure *fig, t_vector p)
+void	ray_norm(t_scene *scene, t_figure *obj, t_vector p)
 {
-	if (fig->type == SPHERE)
-	{
-		// printf("haaaaaa\n");
-		fig->ray_norm = vec_subtract(p, fig->sphere->center);
-		vec_normalize(&fig->ray_norm);//gndi hamar normal vektory da gndi kentrony ev hatman p kety miacnox vektorn e
-	}
-	else if (fig->type == PLANE)
-		fig->ray_norm = fig->plane->orient;
-	else if (fig->type == CYLINDER)
-		fig->ray_norm = fig->cylinder->ray_norm;
+	if (obj->type == SPHERE)
+		calculate_sph_norm(p, obj);
+	else if (obj->type == PLANE)
+		calculate_plane_norm(obj, scene->ray);
+	// else if (fig->type == CYLINDER)
+	// 	fig->ray_norm = ;
 }
 
 
@@ -158,9 +85,9 @@ t_color	diffuse_light(t_scene *scene, t_figure *obj, t_light *light_fig, double 
 
 	intens = 0;
 	p = sum_vect(scene->camera->center, num_product_vect(scene->ray, closest_dot));
-	ray_norm(obj, p);//p-n spherayi ketna,aveli konkret charagayti u spherayi hatman ketna
 	light = vec_subtract(light_fig->coords, p);
 	vec_normalize(&light);
+	ray_norm(scene, obj, p);//p-n spherayi ketna,aveli konkret charagayti u spherayi hatman ketna
 	n_dot_l = vec_dot_product(obj->ray_norm, light);
 	if (n_dot_l > 0)
 		intens = light_fig->brightness * n_dot_l;
@@ -185,12 +112,13 @@ t_color	specular_light(t_scene *scene, t_light *light_fig, t_figure *obj, double
 	vec_normalize(&vec_V);
 	// printf("Normal length: %f\n", sqrt(vec_dot_product(vec_V, vec_V)));
 
-	// ray_norm(obj, p);
+	ray_norm(scene, obj, p);
+	reflected = reflect_ray(light, obj->ray_norm);
 	// vec_normalize(&p);
-	if (obj->type == SPHERE)
-		reflected = reflect_ray(light, calculate_sph_norm(p, obj));//teria es masy menak spheri hamara arac,avelacnel myus figurneri hamar(cylinder, plane)
-	if (obj->type == PLANE)
-		reflected = reflect_ray(light, calculate_plane_norm(obj, scene->ray));//teria es masy menak spheri hamara arac,avelacnel myus figurneri hamar(cylinder, plane)
+	// if (obj->type == SPHERE)
+	// 	reflected = reflect_ray(light, calculate_sph_norm(p, obj));//teria es masy menak spheri hamara arac,avelacnel myus figurneri hamar(cylinder, plane)
+	// if (obj->type == PLANE)
+	// 	reflected = reflect_ray(light, calculate_plane_norm(obj, scene->ray));//teria es masy menak spheri hamara arac,avelacnel myus figurneri hamar(cylinder, plane)
 
 	vec_normalize(&reflected);
 	// printf("Normal length: %f\n", sqrt(vec_dot_product(reflected, reflected)));

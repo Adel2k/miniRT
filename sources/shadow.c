@@ -45,7 +45,7 @@ int	compute_shadow(t_scene *scene, t_figure *obj, t_light *light, double closest
 	// normalize_vector(&light_ray);
 	
     p = sum_vect(scene->camera->center, num_product_vect(scene->ray, closest_dot));
-	ray_norm(obj, p);//p-n spherayi ketna,aveli konkret charagayti u spherayi hatman ketna
+	ray_norm(scene, obj, p);//p-n spherayi ketna,aveli konkret charagayti u spherayi hatman ketna
 	light_ray = vec_subtract(p, light->coords);//ketic depi luysi axbyur
 	vec_normalize(&light_ray);
     

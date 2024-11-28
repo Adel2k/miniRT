@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 18:25:01 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/27 00:42:32 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/28 20:44:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,8 @@ double	plane_inter(t_vector pos, t_vector ray, t_figure *obj)
 	t_vector	p_in_cam_center;
 
 	t = 0;
-	obj->plane->orient = calculate_plane_norm(obj, ray);
+	calculate_plane_norm(obj, ray);
+	obj->plane->orient = obj->ray_norm;
 	norm_dot_dir = vec_dot_product(obj->plane->orient, ray);//N . D
 	if (fabs(norm_dot_dir) < __FLT_EPSILON__)// значит, луч параллелен плоскости, и пересечения нет.
 		return (INFINITY);
