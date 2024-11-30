@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 15:22:00 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/27 22:55:29 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/01 01:00:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	init_coords(t_vector *coords, char **matrix, t_scene *scene, int i)
 	coords->w = 1.0;//whyy
 	free_matrix(split_2_line);
 	system("leaks miniRT");
-
+	
 }
 
 void	init_orient(t_vector *orient, char **matrix, t_scene *scene, int i)
@@ -73,6 +73,7 @@ void	init_orient(t_vector *orient, char **matrix, t_scene *scene, int i)
 		exit_and_free(matrix, "Error: bad value", scene, split_2_line);
 	free_matrix(split_2_line);//erevi
 	system("leaks miniRT");
+	vec_normalize(orient);////////////////
 
 }
 

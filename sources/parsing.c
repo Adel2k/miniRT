@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/29 00:16:35 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/01 00:59:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	ft_check_minimum_requirements(t_scene *scene, char **map)
 		free_matrix(map);
 		free_scene_members(scene);
 		system("leaks miniRT");
-
 		write (1, "Requirement: non existing light\n", 32);
 		exit(11);
 	}
@@ -121,7 +120,7 @@ t_cylinder	*parse_cylinder(char **matrix, t_scene *scene)
 	init_coords(&cylinder->center, matrix, scene, 1);
 
 	init_orient(&cylinder->orient, matrix, scene, 2);
-
+	// vec_normalize(&cylinder->orient);//ayyyy duuuuu,3jamum nir palit ari qezzzz,pastoren cylinderi jmk petqa ira directiony(orient),normalacnenq nor ogtagorvenq!
 	if (if_char_and_digit(matrix[3], '.') == -1)
 		exit_and_free_matrix(matrix, "Error: bad simbols for cylinder diametr", scene);
 	cylinder->radius = ft_atof(matrix[3]) / 2;
@@ -129,10 +128,17 @@ t_cylinder	*parse_cylinder(char **matrix, t_scene *scene)
 	if (if_char_and_digit(matrix[4], '.') == -1)
 		exit_and_free_matrix(matrix, "Error: bad simbols for cylinder height", scene);
 	cylinder->height = ft_atof(matrix[4]);
+	printf("height = %f\n", cylinder->height);
 
 	init_color(&cylinder->color, matrix, scene, 5);
 	cylinder->flag = 0;
 	cylinder->cap = 0;
+    printf("orient.x = %f orient.y = %f orient.z = %f\n", cylinder->orient.x, cylinder->orient.y ,cylinder->orient.z);
+	
+	cylinder->center1 = sum_vect(cylinder->center, \
+		num_product_vect(cylinder->orient, cylinder->height));
+    printf("center.x = %f center.y = %f center.z = %f\n", cylinder->center1.x, cylinder->center1.y ,cylinder->center1.z);
+	
 	// cylinder->next = NULL;
 	// scene->cylinder->count++;
 	// count_check(scene, 'c', matrix, NULL);

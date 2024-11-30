@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/30 20:17:53 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/30 23:34:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ void	get_pixel_color(int *color, t_figure *obj, t_scene *scene)
 	t_color specular;
 	t_color	light_in_vec;
 
+	if (!obj)
+		return ;
 	obj->point.inter_pos = sum_vect(scene->camera->center, num_product_vect(scene->ray,
 		obj->point.dist));
 	set_inter_normal_vec(scene, obj);
@@ -161,8 +163,8 @@ double	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tm
 			dot = sphere_intersect(pos, ray, figure);
 		else if (figure->type == PLANE)
 			dot = plane_inter(pos, ray, figure);
-		// else if (figure->type == CYLINDER)
-		// 	dot = cylinder_intersect(pos, ray, figure->cylinder);
+		else if (figure->type == CYLINDER)
+			dot = cylinder_intersection(pos, ray, figure);
 		if (dot > __FLT_EPSILON__ && dot < closest_dot)
 		{
 			closest_dot = dot;

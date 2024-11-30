@@ -27,7 +27,20 @@ void	calculate_plane_norm(t_figure *obj, t_vector ray)
 		obj->point.inter_normal_vec = num_product_vect(obj->plane->orient, -1);
 	vec_normalize(&obj->point.inter_normal_vec);
 }
-	
+
+void	calculate_cyl_norm(t_figure *obj)
+{
+	double		proj_len;
+	t_vector	proj;
+	t_vector	vec;
+
+	vec = vec_subtract(obj->point.inter_pos, obj->cylinder->center);
+	proj_len = vec_dot_product(vec, obj->cylinder->orient);
+	proj = sum_vect(obj->cylinder->center, num_product_vect(obj->cylinder->orient, proj_len));
+	obj->point.inter_normal_vec = vec_subtract(obj->point.inter_pos, proj);
+	vec_normalize(&obj->point.inter_normal_vec);
+}
+
 
 void	set_inter_normal_vec(t_scene *scene, t_figure *obj)
 {
@@ -35,8 +48,19 @@ void	set_inter_normal_vec(t_scene *scene, t_figure *obj)
 		calculate_sph_norm(obj);
 	else if (obj->type == PLANE)
 		calculate_plane_norm(obj, scene->ray);
-	// else if (fig->type == CYLINDER)
-	// 	fig->ray_norm = ;
+	else if (obj->type == CYLINDER && obj->cylinder->cap == 0)
+		calculate_cyl_norm(obj);
+	else if (obj->type == CYLINDER && obj->cylinder->cap == 1)
+	{
+		if (vec_dot_product(obj->cylinder->orient, scene->ray) < 0)
+			obj->point.inter_normal_vec = obj->cylinder->orient;
+		else
+			obj->point.inter_normal_vec = num_product_vect(obj->cylinder->orient, -1);
+		vec_normalize(&obj->point.inter_normal_vec);
+		obj->cylinder->cap = 0;
+	}
+	// printf("Normal length: %f\n", sqrt(vec_dot_product(obj->point.inter_normal_vec, obj->point.inter_normal_vec)));
+
 }
 
 
@@ -138,8 +162,8 @@ t_vector	reflect_ray(t_vector light, t_vector p_normal)
 }
 // void	set_hit_normal(t_figure **obj, t_vector ray)
 // {
-// 	if ((*obj)->type == SPHERE)
-// 		 = calculate_sph_norm(*obj);
+// 	if (obj->type == SPHERE)
+// 		 = calculate_sph_normobj;
 	// else if ((*obj)->type == PLANE)
 	// 	(*obj)->point.hit_norm = calculate_pln_norm(*obj, ray);
 	// else if ((*obj)->type == CYLINDER && (*obj)->cyl->cap == 0)
@@ -162,5 +186,5 @@ t_vector	reflect_ray(t_vector light, t_vector p_normal)
 	// }
 	// else if ((*obj)->type == CONE && (*obj)->cone->cap == 0)
 	// (*obj)->point.hit_norm = calculate_cone_norm(*obj);
-	// vec_normalize(&(*obj)->point.hit_norm);
+	// vec_normalize(&obj->point.hit_norm);
 // }  /     PETQ KGA!!!!

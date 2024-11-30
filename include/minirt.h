@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/30 20:14:39 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/01 00:29:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,13 @@ typedef struct s_plane
 
 typedef struct s_cylinder
 {
-	t_vector	ray_norm;//
-	double		dist[2];//
+	// t_vector	ray_norm;//
+	// double		dist[2];//
 	t_vector	center;
 	t_vector	orient;//n_coord
+	t_vector	center1;
 	double		radius;
+	
 	double		height;
 	int			cap;
 	int			flag;
@@ -369,9 +371,14 @@ double	sphere_intersect(t_vector center, t_vector ray, t_figure *obj);
 // void	closest_inter(t_figure *figure, t_scene *scene, t_hatum *hatum, t_vector ray, t_figure *tmp);
 // void	closest_inter(t_vector pos, t_vector ray, t_figure *tmp, t_scene *scene);
 double	plane_inter(t_vector pos, t_vector ray, t_figure *obj);
-double	cylinder_intersect(t_vector pos, t_vector ray, t_cylinder *cyl);
 double	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp);
 int	color_in_current_pixel(t_scene *scene);
+
+//////////////cylinder.c//////////////
+double	cylinder_intersection(t_vector pos, t_vector ray, t_figure *obj);
+double	caps_intersection(t_vector pos, t_vector ray, t_vector norm, 
+	t_vector center);
+
 //////qqqq////
 double	calcul_dist(t_cylinder *cyl, double t, t_vector ray, t_vector pos);
 double	vect_proj(t_vector pos, t_vector ray, t_cylinder *cyl, t_math *math);
