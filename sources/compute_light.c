@@ -13,36 +13,26 @@
 #include "../include/minirt.h"
 
 
-void	calculate_sph_norm(t_vector p, t_figure *obj)
+void	calculate_sph_norm(t_figure *obj)
 {
-	// t_vector vvvv = vec_subtract(p, obj->sphere->center);
-	// vec_normalize(&vvvv);
-	// // printf("Normal length: %f\n", sqrt(vec_dot_product(vvvv, vvvv)));
-	// // return (vec_subtract(p, obj->sphere->center));dfdffff
-	// return (vvvv);
-	obj->ray_norm = vec_subtract(p, obj->sphere->center);
-	vec_normalize(&obj->ray_norm);
+	obj->point.inter_normal_vec = vec_subtract(obj->point.inter_pos, obj->sphere->center);
+	vec_normalize(&obj->point.inter_normal_vec);
 }
 
 void	calculate_plane_norm(t_figure *obj, t_vector ray)
 {
-	// t_vector	vvvv;
-	// if (vec_dot_product(obj->plane->orient, ray) < 0)
-	// 	vvvv = obj->plane->orient;
-	// else
-	// 	vvvv = num_product_vect(obj->plane->orient, -1);
-	// return (vvvv);
 	if (vec_dot_product(obj->plane->orient, ray) < 0)
-		obj->ray_norm = obj->plane->orient;
+		obj->point.inter_normal_vec = obj->plane->orient;
 	else
-		obj->ray_norm = num_product_vect(obj->plane->orient, -1);
+		obj->point.inter_normal_vec = num_product_vect(obj->plane->orient, -1);
+	vec_normalize(&obj->point.inter_normal_vec);
 }
 	
 
-void	ray_norm(t_scene *scene, t_figure *obj, t_vector p)
+void	set_inter_normal_vec(t_scene *scene, t_figure *obj)
 {
 	if (obj->type == SPHERE)
-		calculate_sph_norm(p, obj);
+		calculate_sph_norm(obj);
 	else if (obj->type == PLANE)
 		calculate_plane_norm(obj, scene->ray);
 	// else if (fig->type == CYLINDER)
@@ -50,7 +40,7 @@ void	ray_norm(t_scene *scene, t_figure *obj, t_vector p)
 }
 
 
-t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular, double closest_dot)
+t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular)
 {
 	t_color		light_in_vec;
 	t_light		*light_tmp;
@@ -61,10 +51,10 @@ t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular, double c
 	light_tmp = scene->light;
 	while (light_tmp)
 	{
-		if (compute_shadow(scene, obj, light_tmp, closest_dot))
+		if (compute_shadow(scene, obj, light_tmp))
 		{
-			light_in_vec = add_rgb_light(diffuse_light(scene, obj, light_tmp, closest_dot), light_in_vec);
-			*specular = specular_light(scene, light_tmp, obj, closest_dot);
+			light_in_vec = add_rgb_light(diffuse_light(obj, light_tmp), light_in_vec);
+			*specular = specular_light(scene, light_tmp, obj);
 			// printf("specular->x->%d\n", specular->red);
 			// printf("specular->y->%d\n", specular->green);
 			// printf("specular->z->%d\n", specular->blue);
@@ -76,50 +66,46 @@ t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular, double c
 
 
 
-t_color	diffuse_light(t_scene *scene, t_figure *obj, t_light *light_fig, double closest_dot)
+t_color	diffuse_light(t_figure *obj, t_light *light_fig)
 {
 	double		intens;
 	double		n_dot_l;
 	t_vector	light;
-	t_vector	p;
+	// t_vector	p;
 
 	intens = 0;
-	p = sum_vect(scene->camera->center, num_product_vect(scene->ray, closest_dot));
-	light = vec_subtract(light_fig->coords, p);
+	// p = sum_vect(scene->camera->center, num_product_vect(scene->ray, closest_dot));
+	light = vec_subtract(light_fig->coords, obj->point.inter_pos);
 	vec_normalize(&light);
-	ray_norm(scene, obj, p);//p-n spherayi ketna,aveli konkret charagayti u spherayi hatman ketna
-	n_dot_l = vec_dot_product(obj->ray_norm, light);
+	// ray_norm(scene, obj, p);//p-n spherayi ketna,aveli konkret charagayti u spherayi hatman ketna
+	// n_dot_l = vec_dot_product(obj->ray_norm, light);
+	n_dot_l = vec_dot_product(obj->point.inter_normal_vec, light);
 	if (n_dot_l > 0)
 		intens = light_fig->brightness * n_dot_l;
 	return (calc_rgb_light(light_fig->color, intens));
 }
 
-t_color	specular_light(t_scene *scene, t_light *light_fig, t_figure *obj, double closest_dot)
+t_color	specular_light(t_scene *scene, t_light *light_fig, t_figure *obj)
 {
 	double		spec;
 	t_vector	light;
 	t_vector	vec_V;
 	t_vector	reflected;
-	t_vector	p;
+	// t_vector	p;
 
 	spec = 0;
-	p = sum_vect(scene->camera->center, num_product_vect(scene->ray, closest_dot));
-	light = vec_subtract(light_fig->coords, p);
+	// p = sum_vect(scene->camera->center, num_product_vect(scene->ray, closest_dot));
+	light = vec_subtract(light_fig->coords,  obj->point.inter_pos);
 	vec_normalize(&light);
 	// printf("Normal length: %f\n", sqrt(vec_dot_product(light, light)));
 
-	vec_V = vec_subtract(scene->camera->center, p);
+	vec_V = vec_subtract(scene->camera->center,  obj->point.inter_pos);
 	vec_normalize(&vec_V);
 	// printf("Normal length: %f\n", sqrt(vec_dot_product(vec_V, vec_V)));
 
-	ray_norm(scene, obj, p);
-	reflected = reflect_ray(light, obj->ray_norm);
-	// vec_normalize(&p);
-	// if (obj->type == SPHERE)
-	// 	reflected = reflect_ray(light, calculate_sph_norm(p, obj));//teria es masy menak spheri hamara arac,avelacnel myus figurneri hamar(cylinder, plane)
-	// if (obj->type == PLANE)
-	// 	reflected = reflect_ray(light, calculate_plane_norm(obj, scene->ray));//teria es masy menak spheri hamara arac,avelacnel myus figurneri hamar(cylinder, plane)
-
+	// ray_norm(scene, obj, p);
+	// reflected = reflect_ray(light, obj->ray_norm);
+	reflected = reflect_ray(light, obj->point.inter_normal_vec);
 	vec_normalize(&reflected);
 	// printf("Normal length: %f\n", sqrt(vec_dot_product(reflected, reflected)));
 	// printf("reflected->x%f reflected->y%f reflected->z%f\n", reflected.x , reflected.y, reflected.z);

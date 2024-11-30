@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/28 20:25:11 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/30 20:17:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,6 @@ void	ray_tracing(t_scene *scene)
 	}
 }
 
-
-
-
-
-
 int	color_in_current_pixel(t_scene *scene)
 {
 	int			color;
@@ -119,7 +114,7 @@ int	color_in_current_pixel(t_scene *scene)
 	{
 		// printf("ray->x=%f  ", scene->ray.x);
 		// color = get_color(obj, scene, closest_dot);
-	get_pixel_color(&color, obj, scene, closest_dot);
+	get_pixel_color(&color, obj, scene);
 
 	}
 	// color = 0;
@@ -127,10 +122,14 @@ int	color_in_current_pixel(t_scene *scene)
 	return (color);
 }
 
-void	get_pixel_color(int *color, t_figure *obj, t_scene *scene, double closest_dot)
+void	get_pixel_color(int *color, t_figure *obj, t_scene *scene)
 {
 	t_color specular;
 	t_color	light_in_vec;
+
+	obj->point.inter_pos = sum_vect(scene->camera->center, num_product_vect(scene->ray,
+		obj->point.dist));
+	set_inter_normal_vec(scene, obj);
 	// printf("exxx->%p\n", obj->color);
 	*color = rgb_color_to_hex(obj->color);
 	// printf("hres->%d\n", *color);
@@ -138,7 +137,7 @@ void	get_pixel_color(int *color, t_figure *obj, t_scene *scene, double closest_d
 	// if (obj && obj->type == LIGHT)
 	// 	return ;
 	// ray_norm(obj, p);
-	light_in_vec = compute_light(scene, obj, &specular, closest_dot);
+	light_in_vec = compute_light(scene, obj, &specular);
 	// printf("col.x = %d col.y = %d col.z = %d\n", obj->color.red, obj->color.green, obj->color.blue);
 	// printf ("specular.x = %d specular.y = %d specular.z = %d\n", specular.red, specular.green, specular.blue);
 	*color = rgb_color_to_hex(add_rgb_light(multiply_rgbs(light_in_vec, \
@@ -159,7 +158,7 @@ double	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tm
 		// printf("Vrdoi type=%d\n",tmp->type);
 		// usleep(100);
 		if (figure->type == SPHERE)
-			dot = sphere_intersect(pos, ray, figure->sphere);
+			dot = sphere_intersect(pos, ray, figure);
 		else if (figure->type == PLANE)
 			dot = plane_inter(pos, ray, figure);
 		// else if (figure->type == CYLINDER)

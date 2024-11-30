@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:22:05 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/28 20:41:59 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/30 20:14:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ typedef struct s_mlx_vars
 {
 	void			*mlx;
 	void			*win;
-	// t_img			img;
 }	t_mlx_vars;
 
 typedef struct s_color
@@ -80,7 +79,6 @@ typedef struct s_ambient
 	double   ratio_lighting;
     t_color light;
 	int		count;
-	// struct s_ambient	*next;
 }	t_ambient;
 //////
 
@@ -98,62 +96,46 @@ typedef struct s_camera
 	t_vector    center;
     double		fov;//size_t,կհաշվարկի տեսադաշտի լայնությունը
 	t_vector	direction;//uxxutyun
-	int		count;
-	// struct s_camera	*next;
+	int		count;//petqa?
 }	t_camera;
 /// //////
 
 
 typedef struct s_light
 {
-	// t_obj_id		id;
 	t_vector		coords;
 	double			brightness;
 	t_color			color;
-	// int				count;
 	struct s_light	*next;
 }	t_light;
 
 
 typedef struct s_sphere
 {
-	// t_obj_id	id;
 	t_vector	center;
-	// double		diameter;
 	double		radius;
-	// double		r2;
 	t_color		color;
-	// int			count;
-	// struct s_sphere	*next;
 }	t_sphere;
 
 
 typedef struct s_plane
 {
-	// t_obj_id	id;
 	t_vector	coords;//center
 	t_color		color;
 	t_vector	orient;//uxxutyun,planei hamar ira uxxutyuny u normal@ hamynknum en kam -uxxutyuna normaly
-	// int			count;
-	// struct s_plane	*next;
 }	t_plane;
 
 typedef struct s_cylinder
 {
-	// t_obj_id	id;
 	t_vector	ray_norm;//
-	double		dist[2];
+	double		dist[2];//
 	t_vector	center;
 	t_vector	orient;//n_coord
 	double		radius;
 	double		height;
-	// double		r2;
-	// t_vect		p1;
-	// t_vect		p2;
-	// t_vect		delta_p;
+	int			cap;
+	int			flag;
 	t_color		color;
-	// int			count;
-	// struct s_cylinder	*next;
 }	t_cylinder;
 
 
@@ -165,6 +147,8 @@ typedef struct s_math
 	double	disc;
 	double	x1;
 	double	x2;
+	double	m1;
+	double	m2;
 }				t_math;
 
 typedef struct s_matrix
@@ -172,15 +156,25 @@ typedef struct s_matrix
 	double	m[4][4];
 }	t_matrix;
 
+typedef struct s_crossing
+{
+	// int			is_inside;//harcnel MAriin inchi hamara
+	double		dist;
+	t_vector	inter_pos;//hit_pos
+	t_vector	inter_normal_vec;//verevini normal@
+}				t_crossing;
+
+
 typedef struct s_figure
 {
 	t_sphere		*sphere;
 	t_plane			*plane;
 	t_cylinder		*cylinder;
-	t_type			type;
+	// t_vector		ray_norm; //esorem pake 30.11
 	t_color			color;
+	t_type			type;
+	t_crossing		point;//hatum(crossing)
 	double			specular;
-	t_vector		ray_norm;
 	struct s_figure	*next;
 }				t_figure;
 
@@ -366,12 +360,12 @@ t_color	new_color(int r, int g, int b);
 t_color	multiply_rgbs(t_color a, t_color b);
 /////////////////ray_tracing.c////////////////////////////
 void	ray_tracing(t_scene *scene);
-void	get_pixel_color(int *color, t_figure *obj, t_scene *scene, double closest_dot);
+void	get_pixel_color(int *color, t_figure *obj, t_scene *scene);
 // t_vplane	*get_view_plane(t_camera *camera, double width, double hight, double fov);//ray_tracing.c
 t_vplane	*get_view_plane(t_scene *scene);////ray_tracing_2.c
 
 // double		sphere_intersect(t_camera *cam, t_vector ray, t_sphere *sphere);
-double	sphere_intersect(t_vector center, t_vector ray, t_sphere *sphere);
+double	sphere_intersect(t_vector center, t_vector ray, t_figure *obj);
 // void	closest_inter(t_figure *figure, t_scene *scene, t_hatum *hatum, t_vector ray, t_figure *tmp);
 // void	closest_inter(t_vector pos, t_vector ray, t_figure *tmp, t_scene *scene);
 double	plane_inter(t_vector pos, t_vector ray, t_figure *obj);
@@ -416,18 +410,18 @@ void	check_ambient_count(t_ambient *ambient, char **map, t_scene *scene);
 void	free_scene(t_scene *scene);
 void	init_scene(t_scene *scene);
 /////////////////compute_light.c/////////////////
-t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular, double closest_dot);
+t_color	compute_light(t_scene *scene, t_figure *obj, t_color *specular);
 double	compute_spec(t_scene *scene, t_vector light, double n_dot_l, t_figure *fig);
-void	ray_norm(t_scene *scene, t_figure *fig, t_vector p);
-void	calculate_sph_norm(t_vector p, t_figure *obj);
+void	set_inter_normal_vec(t_scene *scene, t_figure *obj);
+void	calculate_sph_norm(t_figure *obj);
 void	calculate_plane_norm(t_figure *obj, t_vector ray);
 
 // double	compute_spec(t_scene *scene, t_vector light, double n_dot_l, t_figure *fig);
-t_color	diffuse_light(t_scene *scene, t_figure *obj, t_light *light, double closest_dot);
-t_color	specular_light(t_scene *scene, t_light *light, t_figure *obj, double closest_dot);
+t_color	diffuse_light(t_figure *obj, t_light *light);
+t_color	specular_light(t_scene *scene, t_light *light, t_figure *obj);
 t_vector	reflect_ray(t_vector ray, t_vector p_normal);
 /////////////////////shadow.c/////////////////
-int	compute_shadow(t_scene *scene, t_figure *obj, t_light *light, double closest_dot);
+int	compute_shadow(t_scene *scene, t_figure *obj, t_light *light);
 int	in_shadow(t_scene *scene, t_vector ray, t_light	*light, \
 	t_figure **obj);
 

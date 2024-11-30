@@ -6,179 +6,136 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 18:25:01 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/28 20:44:55 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/30 20:11:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
 
-// double	calcul_dist(t_cylinder *cyl, double t, t_vector ray, t_vector pos)
+
+//t^2(D . D - (D . A)^2) + 2t((D . OC) - (D . A)(OC . A)) + (OC . OC - (OC . A)^2 - r^2) = 0
+// Центр основания цилиндра C,
+// Направление оси цилиндра A (нормализованный вектор),//cyl->orient
+//OC eto vec!!!!(OC=O−C — вектор от центра основания цилиндра до начала луча,)
+// vec — это векторное представление начального смещения между лучом и цилиндром.
+// Он определяет, насколько далеко камера (или начальная точка луча) находится от центра цилиндра, что критически важно для правильного вычисления точек пересечения.
+
+
+// double	solve_cylinder(t_vector pos, t_vector ray, t_figure **obj, 
+// 	t_math *dot)
+// {
+// 	t_vector	v;
+// 	t_vector	u;
+// 	t_vector	vec;
+
+// 	// (*obj)->point.dist = 0;
+// 	vec = vec_subtract(pos, (*obj)->cylinder->center);
+// 	v = vec_subtract(ray, num_product_vect((*obj)->cylinder->orient, 
+// 		vec_dot_product((*obj)->cylinder->orient, ray)));
+// 	u = vec_subtract(vec, num_product_vect((*obj)->cylinder->orient, 
+// 		vec_dot_product((*obj)->cylinder->orient, vec)));
+// 	dot->a = vec_dot_product(v, v);
+// 	dot->b = 2 * vec_dot_product(v, u);
+// 	dot->c = vec_dot_product(u, u) - pow((*obj)->cyl->radius, 2);
+// 	dot->discr = pow(dot->b, 2) - 4 * dot->a * dot->c;
+// 	if (dot->discr < 0)
+// 		return ;
+// 	dot->x1 = ((dot->b * (-1)) - sqrt(dot->discr)) / (2 * dot->a);
+// 	dot->x2 = ((dot->b * (-1)) + sqrt(dot->discr)) / (2 * dot->a);
+// 	fmin(dot.x1, dot.x2);
+// }
+
+// double	check_caps(t_vector pos, t_vector ray, t_figure **obj, 
+// 	t_math *dot)
 // {
 // 	double	dist;
+// 	t_vector	p;
 
-// 	dist = vec_dot_product(cyl->orient, vec_subtract(num_product_vect(ray, t), 
-// 			vec_subtract(cyl->center, pos)));
+// 	dist = 0;
+	
+// 	p = sum_vect(scene->camera->center, num_product_vect(scene->ray, closest_dot));
+// 	dot->m1 = vec_dot_product((*obj)->cylinder->orient, 
+// 		vec_subtract(p, (*obj)->cylinder->center));
+// 	dot->m2 = vec_dot_product((*obj)->cylinder->orient, 
+// 		vec_subtract(p, (*obj)->cyl->center1));//center1=@ chshtel incha vor sarqenq mer mot
+// 	if (dot->m1 > 0 && dot->m2 < 0)//es ify anhaskanalia,kisat chi?urish depq petq chi stugel?
+// 		dist = (*obj)->point.dist;//esi en mer closest_dotna?
 // 	return (dist);
 // }
 
-// double	vect_proj(t_vector pos, t_vector ray, t_cylinder *cyl, t_math *math)
+// int	solve_caps(t_vector pos, t_vector ray, t_figure **obj)
 // {
-// 	t_vector	ray_p;
-// 	t_vector	oc_p;
+// 	t_vector	surf;
+// 	t_equation	p;
 
-// 	ray_p = num_product_vect(cyl->orient, vec_dot_product(ray, cyl->orient));
-// 	ray_p = vec_subtract(ray, ray_p);
-// 	oc_p = num_product_vect(cyl->orient, 
-// 			vec_dot_product(vec_subtract(pos, cyl->center), cyl->orient));
-// 	oc_p = vec_subtract(vec_subtract(pos, cyl->center), oc_p);
-// 	math->a = vec_dot_product(ray_p, ray_p);
-// 	math->b = 2 * vec_dot_product(ray_p, oc_p);
-// 	math->c = vec_dot_product(oc_p, oc_p) - powf(cyl->radius, 2);
-// 	math->disc = math->b * math->b - (4 * math->a * math->c);
-// 	if (math->disc > 0)
+// 	p.x1 = caps_intersection(pos, ray, (*obj)->cylinder->orient, (*obj)->cyl->center);
+// 	p.x2 = caps_intersection(pos, ray, (*obj)->cylinder->orient, (*obj)->cyl->center1);
+// 	if (p.x1 == INFINITY && p.x2 == INFINITY)
+// 		return (0);
+// 	(*obj)->point.dist = p.x1;
+// 	if (p.x1 > p.x2)
 // 	{
-// 		math->x1 = (-math->b - sqrt(math->disc)) / (2 * math->a);
-// 		math->x2 = (-math->b + sqrt(math->disc)) / (2 * math->a);
-// 		if (math->x1 < 0.001 && math->x2 < 0.001)
-// 			return (INFINITY);
+// 		(*obj)->cylinder->flag = 1;//ete 1 a uremn taki krujoki heta hatumy,ete 0 uremn vervini heta hatumy
+// 		(*obj)->point.dist = p.x2;
+// 	}
+// 	(*obj)->point.hit_pos = vector_sum(pos, num_product_vect(ray, 
+// 		(*obj)->point.dist));
+// 	if ((*obj)->cylinder->flag)
+// 		surf = vec_subtract((*obj)->point.hit_pos, (*obj)->cyl->center1);
+// 	else
+// 		surf = vec_subtract((*obj)->point.hit_pos, (*obj)->cyl->center);
+		
+// 	if (vec_dot_product(surf, surf) < pow((*obj)->cyl->radius, 2))
+// 	{
+// 		(*obj)->cylinder->cap = 1;//ete 1 a uremn verevi kam nerqevi krujok hatela,ete 0a uremn chi hate
 // 		return (1);
 // 	}
-// 	return (INFINITY);
+// 	return (0);
 // }
 
-// double	side_inter(t_vector pos, t_vector ray, t_cylinder *cyl)
-// {
-// 	t_math	math;
-
-// 	if (vect_proj(pos, ray, cyl, &math) == INFINITY)
-// 		return (INFINITY);
-// 	cyl->dist[0] = calcul_dist(cyl, math.x1, ray, pos);
-// 	cyl->dist[1] = calcul_dist(cyl, math.x2, ray, pos);
-// 	if (!((cyl->dist[0] >= 0 && cyl->dist[0] <= cyl->height && math.x1 > 0.001) 
-// 		|| (cyl->dist[1] >= 0 && cyl->dist[1] <= cyl->height 
-// 			&& math.x2 > 0.001)))
-// 		return (INFINITY);
-// 	cyl->ray_norm = cylray_norm(&math, ray, pos, cyl);
-// 	return (math.x1);
-// }
-
-// double	caps_inter(t_vector pos, t_vector ray, t_cylinder *cyl)
-// {
-// 	double	inter[2];
-// 	t_vector	v[2];
-// 	t_vector	centerer;
-
-// 	centerer = sum_vect(cyl->center, num_product_vect(cyl->orient, cyl->height));
-// 	inter[0] = plane_inter(pos, ray, cyl->orient, centerer);
-// 	inter[1] = plane_inter(pos, ray, cyl->orient, cyl->center);
-// 	if (inter[0] < INFINITY || inter[1] < INFINITY)
-// 	{
-// 		v[0] = sum_vect(pos, num_product_vect(ray, inter[0]));
-// 		v[1] = sum_vect(pos, num_product_vect(ray, inter[1]));
-// 		if ((inter[0] < INFINITY && dist_vect(v[0], cyl->center) <= cyl->radius) && 
-// 			(inter[1] < INFINITY && dist_vect(v[1], cyl->center) <= cyl->radius))
-// 		{
-// 			if (inter[0] > inter[1])
-// 				return (inter[1]);
-// 			return (inter[0]);
-// 		}
-// 		if (inter[0] < INFINITY && dist_vect(v[0], cyl->center) <= cyl->radius)
-// 			return (inter[0]);
-// 		if (inter[1] < INFINITY && dist_vect(v[1], cyl->center) <= cyl->radius)
-// 			return (inter[1]);
-// 	}
-// 	return (INFINITY);
-// }
-
-// double	cylinder_intersect(t_vector pos, t_vector ray, t_cylinder *cyl)
-// {
-// 	double	side_point;
-// 	double	caps_point;
-
-// 	side_point = side_inter(pos, ray, cyl);
-// 	caps_point = caps_inter(pos, ray, cyl);
-// 	if (side_point != INFINITY || caps_point != INFINITY)
-// 	{
-// 		if (side_point < caps_point)
-// 			return (side_point);
-// 		if (caps_point < INFINITY && caps_point > 0.001)
-// 		{
-// 			cyl->ray_norm = cyl->orient;
-// 			if (cyl->orient.z <= 0)
-// 				cyl->ray_norm = num_product_vect(cyl->orient, -1);
-// 			return (caps_point);
-// 		}
-// 	}
-// 	return (INFINITY);
-// }
-
-// t_vector	cylray_norm(t_math *math, t_vector ray, t_vector pos, t_cylinder *cyl)
+// double	cylinder_intersection(t_vector pos, t_vector ray, t_figure **obj)
 // {
 // 	double	dist;
-
-// 	dist = closest_dist(cyl, math);
-// 	t_vector foo;
-
-// 	foo = vec_subtract(vec_subtract(num_product_vect(ray, math->x1), 
-// 			num_product_vect(cyl->orient, dist)), 
-// 			vec_subtract(cyl->center, pos));
-// 	vec_normalize(&foo);
-// 	return (foo);
-// }
-
-// double	closest_dist(t_cylinder *cyl, t_math *m)
-// {
-// 	double	dist;
-
-// 	if (cyl->dist[0] >= 0 && cyl->dist[0] <= cyl->height && m->x1 > 0.001 && 
-// 		cyl->dist[1] >= 0 && cyl->dist[1] <= cyl->height && m->x2 > 0.001)
+// 	t_math	dot;
+// 	//pos=> camera center
+// 	(*obj)->cylinder->cap = 0;
+// 	(*obj)->cylinder->flag = 0;
+// 	solve_cylinder(pos, ray, obj, &dot);
+// 	dist = check_caps(pos, ray, obj, &dot);
+// 	if (solve_caps(pos, ray, obj))
 // 	{
-// 		if (m->x1 < m->x2)
+// 		if (dist && dist < (*obj)->point.dist && dot.m1 > 0 && dot.m2 < 0)
 // 		{
-// 			dist = cyl->dist[0];
-// 			return (dist);
+// 			(*obj)->point.dist = dist;
+// 			(*obj)->cylinder->cap = 0;
 // 		}
-// 		dist = cyl->dist[1];
-// 		m->x1 = m->x2;
-// 		return (dist);
+// 		return ((*obj)->point.dist);
 // 	}
-// 	else if (cyl->dist[0] >= 0 && cyl->dist[0] <= cyl->height && m->x1 > 0.001)
+// 	if (dot.m1 > 0 && dot.m2 < 0)
 // 	{
-// 		dist = cyl->dist[0];
-// 		return (dist);
+// 		(*obj)->point.dist = dist;
+// 		(*obj)->point.hit_pos = sum_vect(pos, num_product_vect(ray, 
+// 			(*obj)->point.dist));
+// 		return ((*obj)->point.dist);
 // 	}
-// 	else
-// 	{
-// 		dist = cyl->dist[1];
-// 		m->x1 = m->x2;
-// 		return (dist);
-// 	}
+// 	return (INFINITY);
 // }
 
-double	plane_inter(t_vector pos, t_vector ray, t_figure *obj)
-{
-	//pos->camera->center
-	//t = (N . (P - O) / N . D)
-	//O->camera->center
-	//P hatman ket
-	//N normal vektor in(on) plane
-	double		t;
-	double		norm_dot_dir;
-	t_vector	p_in_cam_center;
 
-	t = 0;
-	calculate_plane_norm(obj, ray);
-	obj->plane->orient = obj->ray_norm;
-	norm_dot_dir = vec_dot_product(obj->plane->orient, ray);//N . D
-	if (fabs(norm_dot_dir) < __FLT_EPSILON__)// значит, луч параллелен плоскости, и пересечения нет.
-		return (INFINITY);
-	p_in_cam_center = vec_subtract(obj->plane->coords, pos);//// P0 - O
-	t = vec_dot_product(p_in_cam_center, obj->plane->orient) / norm_dot_dir;//(N . (P - O) / N . D)
-    
-    if (t < __FLT_EPSILON__) // Пересечение позади луча
-	{
-		// t=0;asuma sra kariqy chka gpt-n
-        return (INFINITY);
-	}
-	return (t);
-}
+// double	caps_intersection(t_vector pos, t_vector ray, t_vector norm, 
+// 	t_vector center)
+// {
+// 	double		dist;
+// 	double		dot;
+// 	t_vector	vec;
+
+// 	dist = 0;
+// 	dot = vec_dot_product(norm, ray);
+// 	if (fabs(dot) < __FLT_EPSILON__)
+// 		return (INFINITY);
+// 	vec = vec_subtract(center, pos);
+// 	dist = vec_dot_product(norm, vec) / dot;
+// 	if (dist < __FLT_EPSILON__)
+// 		return (INFINITY);
+// 	return (dist);
+// }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 14:53:05 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/27 22:40:59 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/29 00:16:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,8 @@ t_cylinder	*parse_cylinder(char **matrix, t_scene *scene)
 	cylinder->height = ft_atof(matrix[4]);
 
 	init_color(&cylinder->color, matrix, scene, 5);
+	cylinder->flag = 0;
+	cylinder->cap = 0;
 	// cylinder->next = NULL;
 	// scene->cylinder->count++;
 	// count_check(scene, 'c', matrix, NULL);
