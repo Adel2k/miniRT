@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 19:40:50 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/11/30 23:34:50 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/01 16:59:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,6 @@ void	ray_tracing(t_scene *scene)
 		{
 			ray_x = scene->vplane->pixel_x * scene->vplane->x_angle;
 			scene->ray = look_at(scene, ray_x, ray_y);
-			// object_intersection(scene, ray, &color);
-			// my_mlx_pixel_put(scene, scene->vplane->mlx_x, 
-			// 	scene->vplane->mlx_y, color);
             my_mlx_pixel_put(scene->img, scene->vplane->mlx_x, scene->vplane->mlx_y, color_in_current_pixel(scene));
 			scene->vplane->mlx_x++;
 			scene->vplane->x_angle++;
@@ -97,30 +94,6 @@ void	ray_tracing(t_scene *scene)
 	}
 }
 
-int	color_in_current_pixel(t_scene *scene)
-{
-	int			color;
-	t_figure	*obj;
-	double		closest_dot;
-
-	closest_dot = INFINITY;
-	obj = scene->figure;
-	closest_dot = closest_inter(scene->camera->center, scene->ray, scene->figure, &obj);
-	if (closest_dot == INFINITY)
-	{
-		color = 0;
-	}
-	else
-	{
-		// printf("ray->x=%f  ", scene->ray.x);
-		// color = get_color(obj, scene, closest_dot);
-	get_pixel_color(&color, obj, scene);
-
-	}
-	// color = 0;
-	// get_pixel_color(&color, obj, scene, closest_dot);
-	return (color);
-}
 
 void	get_pixel_color(int *color, t_figure *obj, t_scene *scene)
 {
@@ -136,9 +109,6 @@ void	get_pixel_color(int *color, t_figure *obj, t_scene *scene)
 	*color = rgb_color_to_hex(obj->color);
 	// printf("hres->%d\n", *color);
 	specular = new_color(0, 0, 0);
-	// if (obj && obj->type == LIGHT)
-	// 	return ;
-	// ray_norm(obj, p);
 	light_in_vec = compute_light(scene, obj, &specular);
 	// printf("col.x = %d col.y = %d col.z = %d\n", obj->color.red, obj->color.green, obj->color.blue);
 	// printf ("specular.x = %d specular.y = %d specular.z = %d\n", specular.red, specular.green, specular.blue);
@@ -146,9 +116,29 @@ void	get_pixel_color(int *color, t_figure *obj, t_scene *scene)
 		(obj->color)), specular));
 }
 
+int	color_in_current_pixel(t_scene *scene)
+{
+	int			color;
+	t_figure	*obj;
+	double		closest_dot;
+
+	closest_dot = INFINITY;
+	// obj = scene->figure;//senca exe naxkinum
+	obj = NULL;//uzumem poxem senc
+	closest_dot = closest_inter(scene->camera->center, scene->ray, scene->figure, &obj);
+	if (closest_dot == INFINITY)
+	{
+		color = 0;
+	}
+	else
+	{
+		get_pixel_color(&color, obj, scene);
+	}
+	return (color);
+}
 
 
-double	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tmp)
+double	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **obj)
 {
 	double		dot;
 	double		closest_dot;
@@ -157,8 +147,6 @@ double	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tm
 	closest_dot = INFINITY;
 	while (figure)
 	{
-		// printf("Vrdoi type=%d\n",tmp->type);
-		// usleep(100);
 		if (figure->type == SPHERE)
 			dot = sphere_intersect(pos, ray, figure);
 		else if (figure->type == PLANE)
@@ -168,7 +156,7 @@ double	closest_inter(t_vector pos, t_vector ray, t_figure *figure, t_figure **tm
 		if (dot > __FLT_EPSILON__ && dot < closest_dot)
 		{
 			closest_dot = dot;
-			*tmp = figure;
+			*obj = figure;
 		}
 		figure = figure->next;
 	}

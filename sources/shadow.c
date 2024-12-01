@@ -13,11 +13,6 @@ int	in_shadow(t_scene *scene, t_vector ray, t_light	*light, \
 	// printf("skizbna?->%d\n", tmp->type);
 	while (tmp)
 	{
-		// if (tmp->type == LIGHT)
-		// {
-		// 	tmp = tmp->next;
-		// 	continue ;
-		// }
 		dot = closest_inter(light->coords, ray, tmp, obj);
 		if (dot > __FLT_EPSILON__ && dot < closest_dot)//dot > __FLT_EPSILON__ nayi tg um grvacy
 		{
@@ -29,9 +24,9 @@ int	in_shadow(t_scene *scene, t_vector ray, t_light	*light, \
 	if (closest_dot != INFINITY)
 	{
 		// printf("0 ov\n");
-		return (0);
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 int	compute_shadow(t_scene *scene, t_figure *obj, t_light *light)
@@ -46,10 +41,14 @@ int	compute_shadow(t_scene *scene, t_figure *obj, t_light *light)
 	
     // p = sum_vect(scene->camera->center, num_product_vect(scene->ray, closest_dot));
 	// ray_norm(scene, obj, p);//p-n spherayi ketna,aveli konkret charagayti u spherayi hatman ketna
+    
+	// printf("ligh coord.x = %f ligh coord.y = %f ligh coord.z = %f\n", obj->point.inter_pos.x, obj->point.inter_pos.y ,obj->point.inter_pos.z);
+	
+	
 	light_ray = vec_subtract(obj->point.inter_pos, light->coords);//ketic depi luysi axbyur
 	vec_normalize(&light_ray);
     
-    if (!in_shadow(scene, light_ray, light, &tmp) && tmp == obj)//indz tvuma es 2rdy petq chi vortev in shadow-i mej unenq ->dot > __FLT_EPSILON__
+    if (in_shadow(scene, light_ray, light, &tmp) && tmp == obj)//indz tvuma es 2rdy petq chi vortev in shadow-i mej unenq ->dot > __FLT_EPSILON__
 	{
 		// printf("stexic pti helni\n");
 		return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 19:35:32 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/24 21:51:50 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/12/01 16:19:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,4 @@ t_vector vec_cross_product(t_vector vec1, t_vector vec2)
         vec1.z * vec2.x - vec1.x * vec2.z,
         vec1.x * vec2.y - vec1.y * vec2.x
     );
-
-	// return new_vector(
-    //     -(vec1.y * vec2.z - vec1.z * vec2.y),
-    //     -(vec1.z * vec2.x - vec1.x * vec2.z),
-    //     -(vec1.x * vec2.y - vec1.y * vec2.x)
-    // );
 }
