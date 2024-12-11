@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adel <adel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 12:39:19 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/09/18 16:01:05 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/12/09 02:08:08 by adel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,69 +24,6 @@ t_matrix	new_zero_matrix(void)
 		out_m.m[i][1] = 0;
 		out_m.m[i][2] = 0;
 		out_m.m[i][3] = 0;
-		i++;
-	}
-	return (out_m);
-}
-
-t_matrix	matrix_sum(t_matrix m1, t_matrix m2)
-{
-	t_matrix	out_m;
-	int			i;
-
-	i = 0;
-	while (i < 4)
-	{
-		out_m.m[i][0] = m1.m[i][0] + m2.m[i][0];
-		out_m.m[i][1] = m1.m[i][1] + m2.m[i][1];
-		out_m.m[i][2] = m1.m[i][2] + m2.m[i][2];
-		out_m.m[i][3] = m1.m[i][3] + m2.m[i][3];
-		i++;
-	}
-	return (out_m);
-}
-
-t_matrix	matrix_sub(t_matrix m1, t_matrix m2)
-{
-	t_matrix	out_m;
-	int			i;
-
-	i = 0;
-	while (i < 4)
-	{
-		out_m.m[i][0] = m1.m[i][0] - m2.m[i][0];
-		out_m.m[i][1] = m1.m[i][1] - m2.m[i][1];
-		out_m.m[i][2] = m1.m[i][2] - m2.m[i][2];
-		out_m.m[i][3] = m1.m[i][3] - m2.m[i][3];
-		i++;
-	}
-	return (out_m);
-}
-
-t_matrix	matrix_mult(t_matrix m1, t_matrix m2)
-{
-	t_matrix	out_m;
-	int			i;
-
-	i = 0;
-	while (i < 4)
-	{
-		out_m.m[i][0] = m1.m[i][0] * m2.m[0][0] + \
-				m1.m[i][1] * m2.m[1][0] + \
-				m1.m[i][2] * m2.m[2][0] + \
-				m1.m[i][3] * m2.m[3][0];
-		out_m.m[i][1] = m1.m[i][0] * m2.m[0][1] + \
-				m1.m[i][1] * m2.m[1][1] + \
-				m1.m[i][2] * m2.m[2][1] + \
-				m1.m[i][3] * m2.m[3][1];
-		out_m.m[i][2] = m1.m[i][0] * m2.m[0][2] + \
-				m1.m[i][1] * m2.m[1][2] + \
-				m1.m[i][2] * m2.m[2][2] + \
-				m1.m[i][3] * m2.m[3][2];
-		out_m.m[i][3] = m1.m[i][0] * m2.m[0][3] + \
-				m1.m[i][1] * m2.m[1][3] + \
-				m1.m[i][2] * m2.m[2][3] + \
-				m1.m[i][3] * m2.m[3][3];
 		i++;
 	}
 	return (out_m);

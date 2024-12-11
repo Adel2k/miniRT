@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adel <adel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:03:40 by aeminian          #+#    #+#             */
-/*   Updated: 2024/08/19 15:08:12 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/12/06 22:58:09 by adel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/get_next_line.h"
 #include "../include/minirt.h"
-
 
 static void	*foo(char *copy_arr, char **arr)
 {
@@ -101,13 +100,7 @@ char	*get_next_line(int fd)
 	if (arr == NULL)
 		arr = ft_strdup("");
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	// if (!buffer || !arr)
-	// {
-	// 	free(arr);
-	// 	arr = NULL;
-	// 	return (NULL);
-	// }
-	if(!buffer)
-		return (NULL);//hamarjeq en irar
+	if (!buffer)
+		return (NULL);
 	return (check(fd, &arr, buffer));
 }

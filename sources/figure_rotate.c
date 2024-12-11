@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   figure_rotate.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adel <adel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:05:06 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/09/18 16:17:49 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/12/06 22:58:09 by adel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,7 @@ void	rotate_plane(t_plane *plane, t_matrix matrix)
 
 void	rotate_light(t_light *light, t_matrix matrix)
 {
-	// t_light	*tmp;
-
-	// tmp = (*light);
-	// while (tmp)
-	// {
 	(light)->coords = multi_mat_vect(matrix, (light)->coords);
-	// 	tmp = tmp->next;
-	// }
 }
 
 void	rotate_cylinder(t_cylinder *cylinder, t_matrix matrix)

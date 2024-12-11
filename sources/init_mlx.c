@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_mlx.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 15:31:32 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/27 23:27:03 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/10 19:15:16 by vbarsegh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,49 +19,89 @@ void	init_mlx(t_scene *scene)
 	scene->mlx->mlx = mlx_init();
 	if (scene->mlx->mlx == NULL)
 		err("MLX initialization failed!\n");
-	scene->mlx->win = mlx_new_window(scene->mlx->mlx, scene->width, scene->height, "miniRT");
+	scene->mlx->win = mlx_new_window(scene->mlx->mlx,
+			scene->width, scene->height, "miniRT");
 	if (scene->mlx->win == NULL)
 		err("MLX connection failed!\n");
-	// free_scene(scene);/////
 	scene->img->img_ptr = mlx_new_image(scene->mlx->mlx, WIDTH, HEIGHT);
 	scene->img->img_pixels_ptr = mlx_get_data_addr(scene->img->img_ptr, \
-		&scene->img->bits_per_pixel, &scene->img->line_len, &scene->img->endian);
+		&scene->img->bits_per_pixel,
+			&scene->img->line_len, &scene->img->endian);
 	scene->img->width = scene->width;
 	scene->img->height = scene->height;
+	geting_texture(scene);
 	ray_tracing(scene);
-	mlx_put_image_to_window(scene->mlx->mlx, scene->mlx->win, scene->img->img_ptr, 0, 0);
+	mlx_put_image_to_window(scene->mlx->mlx,
+		scene->mlx->win, scene->img->img_ptr, 0, 0);
 	mlx_hook(scene->mlx->win, 2, 0, &handler, scene);
 	mlx_hook(scene->mlx->win, 17, 0, &mouse_close, scene);
 	mlx_loop_hook(scene->mlx->mlx, &draw, scene);
-	// // system("leaks miniRT");	
-	mlx_loop(scene->mlx->mlx);//sranic gesh liqera tali
-	system("leaks miniRT");
-	printf("hresic->\n");
-	// exit(111111);
-	// mlx_destroy_image(scene->mlx->mlx, scene->img->img_ptr);
-	// mlx_clear_window(scene->mlx->mlx, scene->mlx->win);
-	// mlx_destroy_window(scene->mlx->mlx, scene->mlx->win);
+	//system("leaks miniRT");	
+	mlx_loop(scene->mlx->mlx);
+	////system("leaks miniRT");
 }
 
-
-int	draw(t_scene *scene)
+int	init_texture(char *xpm, t_sphere *sphere)
 {
-	// mlx_destroy_image(scene->mlx->mlx, scene->img->img_ptr);
-	scene->img->img_ptr = mlx_new_image(scene->mlx->mlx, WIDTH, HEIGHT);
-			scene->img->img_pixels_ptr = mlx_get_data_addr(scene->img->img_ptr, \
-	&scene->img->bits_per_pixel, &scene->img->line_len, &scene->img->endian);
-	ray_tracing(scene);
-	mlx_put_image_to_window(scene->mlx->mlx, scene->mlx->win, scene->img->img_ptr, 0, 0);
-	return (0);
+	char	**line;
+
+	line = split_char(xpm, ':');
+	if (!(ft_strcmp(line[0], "txm")))
+	{
+		sphere->has_texture = true;
+		if (open(line[1], O_RDONLY) <= 0)
+		{
+			free_matrix(line);//
+			return (1);
+		}
+		sphere->path = ft_strdup(line[1]);//
+		free_matrix(line);//
+		return (0);
+	}
+	free_matrix(line);//
+	line = split(xpm);
+	if (!(ft_strcmp(line[0], "check")))
+	{
+		free_matrix(line);//
+		sphere->has_check = true;
+		return (0);
+	}
+	else
+	{
+		free_matrix(line);//
+		return (1);
+	}
 }
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+int	init_bump(char *bmp, t_sphere *sphere)
 {
-	char	*dst;
-	// printf("color = %d\n", color);
-	char	*addr_end = img->img_pixels_ptr + (HEIGHT * img->line_len);
-	dst = img->img_pixels_ptr + (y * img->line_len + x * (img->bits_per_pixel / 8));
-	if (dst >= img->img_pixels_ptr && dst < addr_end)
-		*(unsigned int *)dst = color;//bacatrutyan kariq ka!
+	char	**line;
+
+	line = split_char(bmp, ':');
+	if (!(ft_strcmp(line[0], "bmp")))
+	{
+		sphere->has_bump = true;
+		if (open(line[1], O_RDONLY) <= 0)
+		{
+			free_matrix(line);//
+			return (1);
+		}
+		sphere->bmp_map = ft_strdup(line[1]);//
+		free_matrix(line);//
+		return (0);
+	}
+	else
+	{
+		free_matrix(line);//
+		return (1);
+	}
 }
 
+void	init_sphere(t_sphere *sphere)
+{
+	sphere->has_texture = false;
+	sphere->has_bump = false;
+	sphere->has_check = false;
+	sphere->path = NULL;
+	sphere->bmp_map = NULL;
+}

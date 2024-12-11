@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   trim.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: adel <adel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 16:38:53 by aeminian          #+#    #+#             */
-/*   Updated: 2024/11/25 23:10:56 by marvin           ###   ########.fr       */
+/*   Updated: 2024/12/10 00:57:12 by adel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
+
+int	symbol_check(char c, char const *set)
+{
+	if (!set)
+		return (0);
+	while (*set != '\0')
+	{
+		if (*set == c)
+			return (1);
+		set++;
+	}
+	return (0);
+}
 
 char	*strtrim_end(char *str)
 {
@@ -45,24 +58,18 @@ char	*ft_strtrim(char *s1, char *set)
 
 	if (!s1 || !set)
 		return (NULL);
-	
 	end = ft_strlen(s1);
-	printf("s1 = %s\n", s1);
-	printf("end = %d\n", end);
 	start = 0;
 	j = 0;
-	while (s1[start] != '\0' && check1(s1[start], set) == 1)
+	while (s1[start] != '\0' && symbol_check(s1[start], set) == 1)
 		start++;
-	while (end >= start && check1(s1[end - 1], set) == 1)
+	while (end >= start && symbol_check(s1[end - 1], set) == 1)
 		end--;
 	arr = malloc(sizeof(char) * (end - start + 1));
 	if (!arr)
-	{
 		return (NULL);
-	}
 	while (start < end)
 		arr[j++] = s1[start++];
 	arr[j] = '\0';
-		printf("du ashxatecir?\n");
 	return (arr);
 }

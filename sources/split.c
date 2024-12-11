@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbarsegh <vbarsegh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adel <adel@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 20:58:25 by vbarsegh          #+#    #+#             */
-/*   Updated: 2024/08/05 17:52:41 by vbarsegh         ###   ########.fr       */
+/*   Updated: 2024/12/06 22:58:09 by adel             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ int	foo_sum_tar(char const *s)
 	while (*s != '\0')
 	{
 		if (is_white_space(*s))
-		{
 			return (sum_tar);
-		}
 		else
 		{
 			s++;

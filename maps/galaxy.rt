@@ -1,0 +1,9 @@
+sp  0,0,1.1      3.0     100,0,105 txm:xpms/earth.xpm bmpp:xpms/bump.xpm
+
+sp  -1.7,-1,-1.3         0.8  100,0,105 txm::xpms/moonmap1k.xpm
+sp  9,6.5,9        6  100,0,105 txm:xpms/2k_sun.xpm
+
+C   0,0,-5      0,0.0,1     70 
+L   10.1,-1.0,1.0     1   255,170,51
+A   0.3     255,255,255
+
